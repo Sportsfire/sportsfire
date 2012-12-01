@@ -21,6 +21,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".InjuryForm"
+            android:screenOrientation="landscape">
+        </activity>
+        <activity
+            android:name=".ListPageActivity"
+            android:screenOrientation="landscape">
+        </activity>
+        <activity
+            android:name=".SquadListActivity"
+            android:screenOrientation="landscape">
+        </activity>
+        <activity
+            android:name=".PlayerListActivity"
+            android:screenOrientation="landscape">
+        </activity>
+         <activity
+            android:name=".PlayerInjuryActivity"
+            android:screenOrientation="landscape">
+        </activity>
     </application>
 
 </manifest>
