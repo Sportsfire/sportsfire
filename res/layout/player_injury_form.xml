@@ -33,8 +33,10 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="Date Of Injury:"
                 android:ems="10"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:inputType="date"
-                android:text="a" />
+                android:onClick="showDatePickerDialog" />
         </LinearLayout>
 
         <LinearLayout
@@ -231,25 +233,33 @@
             android:layout_row="5"
             android:text="TextView" />
 
-        <GridLayout
+        <RadioGroup
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_column="0"
             android:layout_columnSpan="3"
             android:layout_row="6"
-            android:columnCount="3"
-            android:useDefaultMargins="true" >
+            android:orientation="horizontal" >
 
-            <CheckBox
-                android:id="@+id/checkBox1444"
-                android:text="CheckBox" />
+                <RadioButton
+                    android:id="@+id/right_injury_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="right" />
 
-            <CheckBox
-                android:id="@+id/checkBox132"
-                android:text="CheckBox" />
+                <RadioButton
+                    android:id="@+id/left_injury_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="left" />
 
-            <CheckBox
-                android:id="@+id/checkBox123"
-                android:text="CheckBox" />
-        </GridLayout>
+                <RadioButton
+                    android:id="@+id/notApplicable_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="not applicable" />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/TextView03"
@@ -392,7 +402,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="Injury:"
-                android:ems="30" />
+                android:ems="30"
+                android:inputType="text"
+                android:imeOptions="actionDone" />
         </LinearLayout>
 
         <LinearLayout

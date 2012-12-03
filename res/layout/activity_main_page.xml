@@ -8,22 +8,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
+
         <Button
-        android:id="@+id/button1"
-        android:layout_width="match_parent"
-        android:layout_height="139dp"
-        android:text="Button"
-        android:onClick="ButtonOnClick" />
+            android:id="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="139dp"
+            android:onClick="ButtonOnClick"
+            android:text="Button" />
 
         <Button
             android:id="@+id/button2"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:text="Button"
-            android:onClick="ButtonOnClick" />
-
+            android:onClick="ButtonOnClick"
+            android:text="Button" />
     </LinearLayout>
-
-    
 
 </ScrollView>

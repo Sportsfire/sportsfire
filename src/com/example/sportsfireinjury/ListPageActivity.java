@@ -1,8 +1,11 @@
 package com.example.sportsfireinjury;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
 /**
  * An activity representing a list of Squads. This activity has different
@@ -20,12 +23,13 @@ import android.support.v4.app.FragmentActivity;
  * {@link SquadListFragment.Callbacks} interface to listen for item selections.
  */
 public class ListPageActivity extends FragmentActivity implements
-		SquadListFragment.Callbacks,PlayerListFragment.Callbacks {
+		SquadListFragment.Callbacks, PlayerListFragment.Callbacks {
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
 	 * device.
 	 */
+	PlayerInjuryFragment playerFragment = new PlayerInjuryFragment();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,32 +49,43 @@ public class ListPageActivity extends FragmentActivity implements
 	 * the item with the given ID was selected.
 	 */
 	public void onSquadSelected(String id) {
-			// adding or replacing the detail fragment using a
-			// fragment transaction.
-			Bundle arguments = new Bundle();
-			arguments.putString(PlayerListFragment.ARG_ITEM_ID, id);
-			PlayerListFragment fragment = new PlayerListFragment();
-			fragment.setArguments(arguments);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.player_list_container, fragment).commit();
-
-			
+		// adding or replacing the detail fragment using a
+		// fragment transaction.
+		Bundle arguments = new Bundle();
+		arguments.putString(PlayerListFragment.ARG_ITEM_ID, id);
+		PlayerListFragment fragment = new PlayerListFragment();
+		fragment.setArguments(arguments);
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.player_list_container, fragment).commit();
+		getSupportFragmentManager().beginTransaction().remove(playerFragment)
+				.commit();
 	}
-public void onItemSelected(String id) {
+
+	public void onItemSelected(String id) {
 		// In two-pane mode, show the detail view in this activity by
 		// adding or replacing the detail fragment using a
 		// fragment transaction.
-	if (findViewById(R.id.player_list_container) != null) {
-		// In two-pane mode, list items should be given the
-		// 'activated' state when touched.
-		((SquadListFragment) getSupportFragmentManager().findFragmentById(
-				R.id.squad_list)).setActivateOnItemClick(true);
-	}
+		if (findViewById(R.id.player_list_container) != null) {
+			// In two-pane mode, list items should be given the
+			// 'activated' state when touched.
+			((SquadListFragment) getSupportFragmentManager().findFragmentById(
+					R.id.squad_list)).setActivateOnItemClick(true);
+		}
 		Bundle arguments = new Bundle();
 		arguments.putString(PlayerInjuryFragment.ARG_ITEM_ID, id);
 		PlayerInjuryFragment fragment = new PlayerInjuryFragment();
 		fragment.setArguments(arguments);
+		playerFragment = fragment;
 		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.player_injury_detail_container, fragment).commit();
-}
+				.replace(R.id.player_injury_detail_container, fragment)
+				.commit();
+	}
+
+	public void GetInjuryData(View v) {
+		Intent intent = new Intent(this, InjuryForm.class);
+		ArrayList<String> details = new ArrayList<String>();
+		details.add((String) v.getTag());
+		intent.putExtra("LIST", details);
+		startActivity(intent);
+	}
 }
