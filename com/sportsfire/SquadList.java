@@ -1,5 +1,6 @@
 package com.sportsfire;
 import java.util.ArrayList;
+import java.util.ArrayListIterator;
 
 public class SquadList {
     private ArrayList<Squad> squadList;
@@ -12,5 +13,12 @@ public class SquadList {
     
     public ArrayList<Squad> getSquadList(){
         return squadList;
+    }
+    
+    public ArrayList<String> getSquadNameList(){
+        new ArrayList<String> nameList;
+        
+        ArrayListIterator<Squad> it = squadList.getIterator();
+        
     }
 }
