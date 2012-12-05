@@ -29,10 +29,12 @@
 //    }
 //}
 
-package com.example.sportsfireinjury;
+package com.sportsfire.sportsfireinjury;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sportsfire.SquadList;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -49,7 +51,8 @@ public class SquadListFragment extends ListFragment {
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
-    List<String> squadList = new ArrayList<String>();
+    SquadList squad = new SquadList();
+    List<String> squadList = squad.getSquadNameList();;
     
     public interface Callbacks {
 
@@ -71,9 +74,10 @@ public class SquadListFragment extends ListFragment {
                 //R.layout.simple_list_item_activated_1,
                 //R.id.text1,
                // DummyContent.ITEMS));
-        squadList.add("a");
-        squadList.add("b");
-        squadList.add("c");
+        //squadList.add("a");
+       // squadList.add("b");
+        //squadList.add("c");
+        
         setListAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1,android.R.id.text1, squadList));
         //setListAdapter(ArrayAdapter.createFromResource(getActivity().getApplicationContext(),
         		//R.array.tut_titles, android.R.id.text1));

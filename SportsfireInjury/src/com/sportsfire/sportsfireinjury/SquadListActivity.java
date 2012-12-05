@@ -1,4 +1,5 @@
-package com.example.sportsfireinjury;
+package com.sportsfire.sportsfireinjury;
+
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,7 +1,6 @@
-package com.example.sportsfireinjury;
+package com.sportsfire.sportsfireinjury;
 
 import java.util.ArrayList;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
