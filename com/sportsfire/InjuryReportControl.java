@@ -1,13 +1,14 @@
 package com.sportsfire;
 
 public class InjuryReportControl {
+    
     // creates a new injury report for Player p
     public InjuryReportControl(Player p){
         
     }
     
     // loads an injur report with ID == formID
-    public InjuryReportControl(int formID){
+    public InjuryReportControl(InjuryReportID formID){
         
     }
     
