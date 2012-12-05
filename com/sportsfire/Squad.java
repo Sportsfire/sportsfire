@@ -3,14 +3,22 @@ import java.util.ArrayList;
 
 public class Squad {
     private ArrayList<Player> playerList; // should be made final?
+    private ArrayList<String> playerNameList;
     public Squad(){
         playerList = new ArrayList<Player>();
+        playerNameList = new ArrayList<String>();
         
-        playerList.add(new Player());
+        Player pl = new Player();
+        playerList.add(pl);
+        playerNameList.add(pl.getName());
     }
     
     public ArrayList<Player> getPlayerList(){
         return playerList;
+    }
+    
+    public ArrayList<String> getPlayerNameList(){
+        return playerNamelist;
     }
     
     public String getSquadName(){

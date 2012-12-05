@@ -4,11 +4,15 @@ import java.util.ArrayListIterator;
 
 public class SquadList {
     private ArrayList<Squad> squadList;
+    private ArrayList<String> squadNameList;
     // loads the current SquadList from DB
     public SquadList(){
         squadList = new ArrayList<Squad>();
+        squadNameList = new ArrayList<String();
         
-        squadList.add(new Squad());
+        Squad sq = new Squad();
+        squadList.add(sq);
+        squadNameList.add(sq.getSquadName());
     }
     
     public ArrayList<Squad> getSquadList(){
@@ -16,9 +20,7 @@ public class SquadList {
     }
     
     public ArrayList<String> getSquadNameList(){
-        new ArrayList<String> nameList;
-        
-        ArrayListIterator<Squad> it = squadList.getIterator();
+        return squadNameList;
         
     }
 }
