@@ -1,27 +1,24 @@
 package com.sportsfire.sportsfireinjury;
 
-import java.util.ArrayList;
+import com.sportsfire.InjuryReportControl;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class InjuryForm extends Activity {
 
+public class InjuryForm extends Activity {
+	public static final String ARG_ITEM_ID = "player_injury";
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.player_injury_form);
-		ArrayList<String> details = getIntent().getStringArrayListExtra("LIST");
+		InjuryReportControl details = getIntent().getParcelableExtra(ARG_ITEM_ID);
 		if (details != null) {
-			((TextView) findViewById(R.id.EditText01)).setText(details.get(0));
+			((TextView) findViewById(R.id.EditText01)).setText("10/10/10");
 		}
 	}
 

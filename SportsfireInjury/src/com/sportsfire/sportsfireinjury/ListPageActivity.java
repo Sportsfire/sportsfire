@@ -1,6 +1,13 @@
 package com.sportsfire.sportsfireinjury;
 
 import java.util.ArrayList;
+
+import com.sportsfire.InjuryReportControl;
+import com.sportsfire.InjuryReportID;
+import com.sportsfire.InjuryReportValue;
+import com.sportsfire.Player;
+import com.sportsfire.Squad;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -47,11 +54,11 @@ public class ListPageActivity extends FragmentActivity implements
 	 * Callback method from {@link SquadListFragment.Callbacks} indicating that
 	 * the item with the given ID was selected.
 	 */
-	public void onSquadSelected(String id) {
+	public void onSquadSelected(Squad id) {
 		// adding or replacing the detail fragment using a
 		// fragment transaction.
 		Bundle arguments = new Bundle();
-		arguments.putString(PlayerListFragment.ARG_ITEM_ID, id);
+		arguments.putParcelable(PlayerListFragment.ARG_ITEM_ID, id);
 		PlayerListFragment fragment = new PlayerListFragment();
 		fragment.setArguments(arguments);
 		getSupportFragmentManager().beginTransaction()
@@ -60,7 +67,7 @@ public class ListPageActivity extends FragmentActivity implements
 				.commit();
 	}
 
-	public void onItemSelected(String id) {
+	public void onItemSelected(Player id) {
 		// In two-pane mode, show the detail view in this activity by
 		// adding or replacing the detail fragment using a
 		// fragment transaction.
@@ -71,7 +78,7 @@ public class ListPageActivity extends FragmentActivity implements
 					R.id.squad_list)).setActivateOnItemClick(true);
 		}
 		Bundle arguments = new Bundle();
-		arguments.putString(PlayerInjuryFragment.ARG_ITEM_ID, id);
+		arguments.putParcelable(PlayerInjuryFragment.ARG_ITEM_ID, id);
 		PlayerInjuryFragment fragment = new PlayerInjuryFragment();
 		fragment.setArguments(arguments);
 		playerFragment = fragment;
@@ -82,9 +89,8 @@ public class ListPageActivity extends FragmentActivity implements
 
 	public void GetInjuryData(View v) {
 		Intent intent = new Intent(this, InjuryForm.class);
-		ArrayList<String> details = new ArrayList<String>();
-		details.add((String) v.getTag());
-		intent.putExtra("LIST", details);
+		InjuryReportControl injury = new InjuryReportControl((InjuryReportID) v.getTag());
+		intent.putExtra(InjuryForm.ARG_ITEM_ID, injury);
 		startActivity(intent);
 	}
 }

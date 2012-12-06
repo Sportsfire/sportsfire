@@ -21,6 +21,9 @@ package com.sportsfire.sportsfireinjury;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sportsfire.Player;
+import com.sportsfire.Squad;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -35,14 +38,14 @@ public class PlayerListFragment extends ListFragment {
 	private Callbacks mCallbacks = sDummyCallbacks;
 	private int mActivatedPosition = ListView.INVALID_POSITION;
 	List<String> playersList = new ArrayList<String>();
-
+	Squad selectedSquad;
 	public interface Callbacks {
 
-		public void onItemSelected(String id);
+		public void onItemSelected(Player player);
 	}
 
 	private static Callbacks sDummyCallbacks = new Callbacks() {
-		public void onItemSelected(String id) {
+		public void onItemSelected(Player id) {
 		}
 	};
 
@@ -59,11 +62,11 @@ public class PlayerListFragment extends ListFragment {
 		// DummyContent.ITEMS));
 		if (getArguments() != null) {
 			if (getArguments().containsKey(ARG_ITEM_ID)) {
-				String name = getArguments().getString(ARG_ITEM_ID);
-					playersList.add("d");
-					playersList.add("e");
-					playersList.add("f");
-					playersList.add(name);
+				selectedSquad = getArguments().getParcelable(ARG_ITEM_ID);
+				playersList = selectedSquad.getPlayerNameList();
+				playersList.add("d");
+				playersList.add("e");
+				playersList.add("f");
 			}
 		}
 		playersList.add("g");
@@ -89,7 +92,7 @@ public class PlayerListFragment extends ListFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		if (!(activity instanceof Callbacks)) {
-			 //throw new IllegalStateException(
+			// throw new IllegalStateException(
 			// "Activity must implement fragment's callbacks.");
 		} else {
 			mCallbacks = (Callbacks) activity;
@@ -106,7 +109,7 @@ public class PlayerListFragment extends ListFragment {
 	public void onListItemClick(ListView listView, View view, int position,
 			long id) {
 		super.onListItemClick(listView, view, position, id);
-		mCallbacks.onItemSelected(playersList.get(position));
+		mCallbacks.onItemSelected(selectedSquad.getPlayerList().get(position));
 		// mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
 
 	}

@@ -1,5 +1,6 @@
 package com.sportsfire.sportsfireinjury;
 
+import com.sportsfire.Squad;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ import android.support.v4.app.FragmentActivity;
  * {@link SquadListFragment.Callbacks} interface to listen for item selections.
  */
 public class SquadListActivity extends FragmentActivity implements
-		SquadListFragment.Callbacks{
+		SquadListFragment.Callbacks {
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -39,11 +40,11 @@ public class SquadListActivity extends FragmentActivity implements
 	 * Callback method from {@link SquadListFragment.Callbacks} indicating that
 	 * the item with the given ID was selected.
 	 */
-	public void onSquadSelected(String id) {
-			// In single-pane mode, simply start the detail activity
-			// for the selected item ID.
-			Intent playerIntent = new Intent(this, PlayerListActivity.class);
-			playerIntent.putExtra(PlayerListFragment.ARG_ITEM_ID, id);
-			startActivity(playerIntent);
+	public void onSquadSelected(Squad id) {
+		// In single-pane mode, simply start the detail activity
+		// for the selected item ID.
+		Intent playerIntent = new Intent(this, PlayerListActivity.class);
+		playerIntent.putExtra(PlayerListFragment.ARG_ITEM_ID, id);
+		startActivity(playerIntent);
 	}
 }

@@ -2,20 +2,21 @@ package com.sportsfire;
 
 import java.util.ArrayList;
 
-public class Player {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Player implements Parcelable{
     private String firstName;
     private String lastName;
-    private ArrayList<InjuryReportID> injuryReportList;
-    private ArrayList<String> injuryReportNameList;
+    private ArrayList<InjuryReportID> injuryReportList = new ArrayList<InjuryReportID>() ;
+    private ArrayList<String> injuryReportNameList = new ArrayList<String>() ;
     public Player(){
         firstName = "Test";
         lastName = "Testman";
-        ArrayList<InjuryReportID> injuryReports = new ArrayList<InjuryReportID>();
-        injuryReportNameList = new ArrayList<String>();
         
         InjuryReportID in = new InjuryReportID(0,"Severe Injury");
         
-        injuryReports.add(in);
+        injuryReportList.add(in);
         injuryReportNameList.add(in.getName());
     }
     
@@ -37,5 +38,15 @@ public class Player {
     public String getName(){
         return lastName + ", " + firstName;
     }
+
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

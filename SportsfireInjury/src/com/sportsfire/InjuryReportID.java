@@ -1,6 +1,6 @@
 package com.sportsfire;
 
-public class InjuryReportID{
+public class InjuryReportID extends InjuryReportValue{
     int id;
     String name;
     

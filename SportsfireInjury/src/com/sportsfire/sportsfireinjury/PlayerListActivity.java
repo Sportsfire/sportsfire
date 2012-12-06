@@ -1,6 +1,8 @@
 package com.sportsfire.sportsfireinjury;
 
 
+import com.sportsfire.Player;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -37,13 +39,13 @@ public class PlayerListActivity extends FragmentActivity
 	 * the item with the given ID was selected.
 	 */
 	//@Override
-	public void onItemSelected(String id) {
+	public void onItemSelected(Player id) {
 		if (mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(PlayerInjuryFragment.ARG_ITEM_ID, id);
+			arguments.putParcelable(PlayerInjuryFragment.ARG_ITEM_ID, id);
 			PlayerInjuryFragment fragment = new PlayerInjuryFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()

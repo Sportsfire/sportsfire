@@ -1,13 +1,13 @@
 package com.sportsfire;
 import java.util.ArrayList;
 
-public class Squad {
-    private ArrayList<Player> playerList; // should be made final?
-    private ArrayList<String> playerNameList;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Squad implements Parcelable{
+    private ArrayList<Player> playerList = new ArrayList<Player>(); // should be made final?
+    private ArrayList<String> playerNameList = new ArrayList<String>();
     public Squad(){
-        playerList = new ArrayList<Player>();
-        playerNameList = new ArrayList<String>();
-        
         Player pl = new Player();
         playerList.add(pl);
         playerNameList.add(pl.getName());
@@ -24,4 +24,14 @@ public class Squad {
     public String getSquadName(){
         return "Super Squad";
     }
+
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		
+	}
 }

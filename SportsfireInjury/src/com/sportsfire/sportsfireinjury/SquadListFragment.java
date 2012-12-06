@@ -31,9 +31,9 @@
 
 package com.sportsfire.sportsfireinjury;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.sportsfire.Squad;
 import com.sportsfire.SquadList;
 
 import android.app.Activity;
@@ -56,11 +56,11 @@ public class SquadListFragment extends ListFragment {
     
     public interface Callbacks {
 
-        public void onSquadSelected(String id);
+        public void onSquadSelected(Squad squad);
     }
 
     private static Callbacks sDummyCallbacks = new Callbacks() {
-        public void onSquadSelected(String id) {
+        public void onSquadSelected(Squad id) {
         }
     };
 
@@ -113,7 +113,7 @@ public class SquadListFragment extends ListFragment {
         //String[] links = getResources().getStringArray(R.array.tut_links);
 	    //String content = links[position];
 	    //TODO: pass selected squad name
-        mCallbacks.onSquadSelected(squadList.get(position));
+        mCallbacks.onSquadSelected(squad.getSquadList().get(position));
   
     }
 
