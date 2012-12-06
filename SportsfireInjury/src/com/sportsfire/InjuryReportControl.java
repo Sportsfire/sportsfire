@@ -10,7 +10,7 @@ public class InjuryReportControl implements Parcelable{
         
     }
     
-    // loads an injur report with ID == formID
+    // loads an injury report with ID == formID
     public InjuryReportControl(InjuryReportID formID){
         
     }
@@ -34,7 +34,6 @@ public class InjuryReportControl implements Parcelable{
 	}
 
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.wr
 		
 	}
 	 public static final Parcelable.Creator CREATOR =

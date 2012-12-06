@@ -1,13 +1,6 @@
 package com.sportsfire.sportsfireinjury;
 
-import java.util.ArrayList;
-
-import com.sportsfire.InjuryReportControl;
-import com.sportsfire.InjuryReportID;
-import com.sportsfire.InjuryReportValue;
-import com.sportsfire.Player;
-import com.sportsfire.Squad;
-
+import com.sportsfire.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
