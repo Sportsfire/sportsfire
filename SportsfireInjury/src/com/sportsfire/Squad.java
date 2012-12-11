@@ -7,10 +7,13 @@ import android.os.Parcelable;
 public class Squad implements Parcelable{
     private ArrayList<Player> playerList = new ArrayList<Player>(); // should be made final?
     private ArrayList<String> playerNameList = new ArrayList<String>();
-    public Squad(){
+    private String name;
+    private int id;
+    public Squad(String _name, int _id){
         Player pl = new Player();
         playerList.add(pl);
         playerNameList.add(pl.getName());
+        _name = name;
     }
     
     public ArrayList<Player> getPlayerList(){
@@ -22,7 +25,7 @@ public class Squad implements Parcelable{
     }
     
     public String getSquadName(){
-        return "Super Squad";
+        return name;
     }
 
 	public int describeContents() {

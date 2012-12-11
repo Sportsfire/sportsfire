@@ -1,12 +1,7 @@
-package com.example.sportsfireinjury;
+package com.sportsfire.db;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.*;
+import android.util.Log;
 
 public class InjuryTable {
 	
@@ -15,43 +10,40 @@ public class InjuryTable {
  
 	// Injury Table Keys
     public static final String KEY_INJURY_ID = "_id"; // Primary key
-	public static final String KEY_1A = "1a"; 
-    public static final String KEY_1B = "1b";
-    public static final String KEY_2A = "2a";
-    public static final String KEY_2B = "2b";
-    public static final String KEY_3 = "3";
-    public static final String KEY_3_OTHER = "3other";
-    public static final String KEY_4 = "4";
-    public static final String KEY_5 = "5";
-    public static final String KEY_5_DATE = "5date";
-    public static final String KEY_6 = "6";
-    public static final String KEY_7 = "7";
-    public static final String KEY_8 = "8";
-    public static final String KEY_8_OTHER = "8other";
-    public static final String KEY_9 = "9";
+	public static final String KEY_1A = "input1a"; 
+    public static final String KEY_1B = "input1b";
+    public static final String KEY_2A = "input2a";
+    public static final String KEY_2B = "input2b";
+    public static final String KEY_3 = "input3";
+    public static final String KEY_3_OTHER = "input3other";
+    public static final String KEY_4 = "input4";
+    public static final String KEY_5 = "input5";
+    public static final String KEY_5_DATE = "input5date";
+    public static final String KEY_6 = "input6";
+    public static final String KEY_7 = "input7";
+    public static final String KEY_8 = "input8";
+    public static final String KEY_8_OTHER = "input8other";
+    public static final String KEY_9 = "input9";
 	public static final String KEY_PLAYER_ID = "playerID"; // Foreign key
-    
-	public DBHelper(Context context) {
-		super(context, DB_NAME, null, DB_VERSION);
-	}
 	
     public static void onCreate(SQLiteDatabase db) {
-		String createInjuryTable = "CREATE TABLE " + DB_NAME + "." + TABLE_INJURIES + "("
+		String createInjuryTable = "CREATE TABLE " + TABLE_NAME + "("
 				+ KEY_INJURY_ID + " INTEGER PRIMARY KEY,"
-                + KEY_1A + " INTEGER,"
+                + KEY_1A + " INTEGER NOT NULL,"
                 + KEY_1B + " INTEGER," 
-				+ KEY_2A + " INTEGER,"
-				+ KEY_2B + " INTEGER," 
-				+ KEY_3 + " TEXT,"
+				+ KEY_2A + " INTEGER NOT NULL,"
+				+ KEY_2B + " INTEGER NOT NULL," 
+				+ KEY_3 + " INTEGER NOT NULL,"
+				+ KEY_3_OTHER + " TEXT"
 				+ KEY_4 + " TEXT NOT NULL,"
-				+ KEY_5 + " INTEGER,"
+				+ KEY_5 + " INTEGER NOT NULL,"
 				+ KEY_5_DATE + " INTEGER,"
-				+ KEY_6 + " INTEGER,"
-				+ KEY_7 + " INTEGER,"
-				+ KEY_8 + " INTEGER,"
+				+ KEY_6 + " INTEGER NOT NULL,"
+				+ KEY_7 + " INTEGER NOT NULL,"
+				+ KEY_8 + " INTEGER NOT NULL,"
 				+ KEY_8_OTHER + " TEXT,"
 				+ KEY_9 + " INTEGER,"
-				+ KEY_PLAYER_ID_FK + " INTEGER," 
+				+ KEY_PLAYER_ID + " INTEGER NOT NULL,"
 				+ "FOREIGN KEY("+ KEY_PLAYER_ID +") REFERENCES " + PlayerTable.TABLE_NAME + "(" + PlayerTable.KEY_PLAYER_ID + ")"
 				+ ")";
         
@@ -64,7 +56,7 @@ public class InjuryTable {
                 + ", which will destroy all old data");
 		
 		// Drop older table if it exists
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_INJURIES);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
  
         // Create tables again
         onCreate(db);        

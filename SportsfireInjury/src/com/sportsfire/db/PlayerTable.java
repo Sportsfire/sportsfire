@@ -1,12 +1,7 @@
-package com.example.sportsfireinjury;
+package com.sportsfire.db;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.*;
+import android.util.Log;
 
 public class PlayerTable {
 	
@@ -19,19 +14,15 @@ public class PlayerTable {
     public static final String KEY_SURNAME = "surname";
     public static final String KEY_DOB = "dateOfBirth";
     public static final String KEY_SQUAD_ID = "squadID"; // Foreign key 
-    
-	public DBHelper(Context context) {
-		super(context, DB_NAME, null, DB_VERSION);
-	}
 	
     public static void onCreate(SQLiteDatabase db) {
 		String createPlayerTable = "CREATE TABLE " + TABLE_NAME + "("
                 + KEY_PLAYER_ID + " INTEGER PRIMARY KEY," 
 				+ KEY_FIRST_NAME + " TEXT,"
                 + KEY_SURNAME + " TEXT," 
-				+ KEY_DOB + " INTEGER," 
-                + KEY_SQUAD_ID + " INTEGER"
-				+ "FOREIGN KEY("+ KEY_SQUAD_ID +") REFERENCES " + SquadTable.TABLE_NAME + "(" + SquadTable.KEY_SQUAD_ID + ")"
+				+ KEY_DOB + " INTEGER NOT NULL," 
+                + KEY_SQUAD_ID + " INTEGER NOT NULL,"
+                + "FOREIGN KEY("+ KEY_SQUAD_ID +") REFERENCES " + SquadTable.TABLE_NAME + "(" + SquadTable.KEY_SQUAD_ID + ")"
 				+ ")";
         
 		db.execSQL(createPlayerTable);

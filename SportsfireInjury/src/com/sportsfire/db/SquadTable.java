@@ -1,12 +1,8 @@
-package com.example.sportsfireinjury;
+package com.sportsfire.db;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.*;
+import android.util.Log;
 
 public class SquadTable {
 	
@@ -16,15 +12,11 @@ public class SquadTable {
 	// Squad Table Keys
 	public static final String KEY_SQUAD_ID = "_id"; // Primary key
 	public static final String KEY_SQUAD_NAME = "squadName"; 
-    
-	public DBHelper(Context context) {
-		super(context, DB_NAME, null, DB_VERSION);
-	}
 	
     public static void onCreate(SQLiteDatabase db) {
 		String createSquadTable = "CREATE TABLE " + TABLE_NAME + "("
-                + KEY_SQUAD_ID + " INTEGER PRIMARY KEY," 
-				+ KEY_SQUAD_NAME + " TEXT" 
+                + KEY_SQUAD_ID + " INTEGER PRIMARY KEY NOT NULL," 
+				+ KEY_SQUAD_NAME + " TEXT UNIQUE NOT NULL" 
 				+ ")";
         
 		db.execSQL(createSquadTable);

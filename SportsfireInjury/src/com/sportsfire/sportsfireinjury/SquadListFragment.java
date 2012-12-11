@@ -51,7 +51,7 @@ public class SquadListFragment extends ListFragment {
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
-    SquadList squad = new SquadList();
+    SquadList squad = new SquadList(this.getActivity());
     List<String> squadList = squad.getSquadNameList();;
     
     public interface Callbacks {
