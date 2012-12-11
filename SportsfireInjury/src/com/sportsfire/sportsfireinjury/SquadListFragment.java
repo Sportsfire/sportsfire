@@ -37,6 +37,7 @@ import com.sportsfire.Squad;
 import com.sportsfire.SquadList;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
@@ -51,8 +52,8 @@ public class SquadListFragment extends ListFragment {
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
-    SquadList squad = new SquadList(this.getActivity());
-    List<String> squadList = squad.getSquadNameList();;
+    SquadList squad;
+    List<String> squadList;
     
     public interface Callbacks {
 
@@ -70,10 +71,13 @@ public class SquadListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                //R.layout.simple_list_item_activated_1,
-                //R.id.text1,
-               // DummyContent.ITEMS));
+    	squad = new SquadList(getActivity());
+    	squadList = squad.getSquadNameList();
+
+       // setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+         //       R.layout.simple_list_item_activated_1,
+           //     R.id.text1,
+             //   DummyContent.ITEMS));
         //squadList.add("a");
        // squadList.add("b");
         //squadList.add("c");

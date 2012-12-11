@@ -19,14 +19,16 @@ public class SquadList {
         Cursor cursor = db.rawQuery(selectSquadData, null);
         if (cursor.moveToFirst()) {
             do {
-            	Squad sq = new Squad(cursor.getString(1),cursor.getInt(0));
+            	Squad sq = new Squad(cursor.getString(1),cursor.getString(0),db);
                 squadList.add(sq);
                 squadNameList.add(sq.getSquadName());
             	
             } while (cursor.moveToNext());
         }
         dbHelp.close();
-        squadList.add(new Squad("test",0));
+//        squadList.add(new Squad("test",0));
+  //      squadNameList.add("test");
+
     }
     
     public ArrayList<Squad> getSquadList(){

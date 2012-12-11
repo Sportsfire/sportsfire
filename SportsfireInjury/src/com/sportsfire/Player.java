@@ -2,6 +2,7 @@ package com.sportsfire;
 
 import java.util.ArrayList;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -10,9 +11,9 @@ public class Player implements Parcelable{
     private String lastName;
     private ArrayList<InjuryReportID> injuryReportList = new ArrayList<InjuryReportID>() ;
     private ArrayList<String> injuryReportNameList = new ArrayList<String>() ;
-    public Player(){
-        firstName = "Test";
-        lastName = "Testman";
+    public Player(String _firstName,String _lastName, String _id, SQLiteDatabase db){
+        firstName = _firstName;
+        lastName = _lastName;
         
         InjuryReportID in = new InjuryReportID(0,"Severe Injury");
         
