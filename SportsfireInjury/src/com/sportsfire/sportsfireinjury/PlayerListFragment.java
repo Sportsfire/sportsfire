@@ -64,14 +64,14 @@ public class PlayerListFragment extends ListFragment {
 			if (getArguments().containsKey(ARG_ITEM_ID)) {
 				selectedSquad = getArguments().getParcelable(ARG_ITEM_ID);
 				playersList = selectedSquad.getPlayerNameList();
-				playersList.add("d");
-				playersList.add("e");
-				playersList.add("f");
+				//playersList.add("d");
+				//playersList.add("e");
+				//playersList.add("f");
 			}
 		}
-		playersList.add("g");
-		playersList.add("h");
-		playersList.add("i");
+		//playersList.add("g");
+		//playersList.add("h");
+		//playersList.add("i");
 		setListAdapter(new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, playersList));

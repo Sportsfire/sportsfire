@@ -1,8 +1,11 @@
 package com.sportsfire.db;
 
 
+import com.sportsfire.Player;
+
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.*;
 import android.util.Log;
 
@@ -17,7 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public DBHelper(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
 		
-		SQLiteDatabase db;
+		/*SQLiteDatabase db;
  
         
         // Open for Read/Write
@@ -26,25 +29,46 @@ public class DBHelper extends SQLiteOpenHelper {
         // Open for Read-Only
         //db = dBHelper.getReadableDatabase();
         
-        // Add a squad
+       // Add a squad
         ContentValues values = new ContentValues();
         // No need to include squad id, is automatically added
-        values.put(SquadTable.KEY_SQUAD_NAME, "First Team");
+        values.put(SquadTable.KEY_SQUAD_NAME, "Philipp Team");
         Log.e("### Adding a squad", "...");
         db.insert(SquadTable.TABLE_NAME, null, values);
-        
-        // Add a player
-        values.clear();
-        // No need to include player id, is automatically added
-        values.put(PlayerTable.KEY_FIRST_NAME, "Baron");
-        values.put(PlayerTable.KEY_SURNAME, "Baronson");
-        values.put(PlayerTable.KEY_DOB, 19991231);
-        values.put(PlayerTable.KEY_SQUAD_ID, 0);
-        Log.e("### Adding first player", "...");
-        db.insert(PlayerTable.TABLE_NAME, null, values);
+        String selectSquadData = "SELECT  * FROM " + SquadTable.TABLE_NAME + " WHERE "+SquadTable.KEY_SQUAD_NAME+" = 'Philipp Team';";
+        Cursor cursor = db.rawQuery(selectSquadData, null);
+        if (cursor.moveToFirst()) {
+            do {
+            	String id = cursor.getString(0);
+
+                // Add a player
+                values.clear();
+                // No need to include player id, is automatically added
+                values.put(PlayerTable.KEY_FIRST_NAME, "Baron");
+                values.put(PlayerTable.KEY_SURNAME, "Baronson");
+                values.put(PlayerTable.KEY_DOB, 19991231);
+                values.put(PlayerTable.KEY_SQUAD_ID, id);
+                Log.e("### Adding first player", "...");
+                db.insert(PlayerTable.TABLE_NAME, null, values);
+                
+
+                // Add a player
+                values.clear();
+                // No need to include player id, is automatically added
+                values.put(PlayerTable.KEY_FIRST_NAME, "Miroslav");
+                values.put(PlayerTable.KEY_SURNAME, "Klose");
+                values.put(PlayerTable.KEY_DOB, 19991231);
+                values.put(PlayerTable.KEY_SQUAD_ID, id);
+                Log.e("### Adding first player", "...");
+                db.insert(PlayerTable.TABLE_NAME, null, values);
+                
+                
+            	
+            } while (cursor.moveToNext());
+        }
         
         // close the connection
-        this.close();
+        this.close();*/
 	}
 	
     @Override

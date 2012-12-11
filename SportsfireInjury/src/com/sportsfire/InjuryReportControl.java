@@ -2,17 +2,20 @@ package com.sportsfire;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 public class InjuryReportControl implements Parcelable{
     
     // creates a new injury report for Player p
     public InjuryReportControl(Player p){
-        
+        Log.e("### Creating new Injury Report", "...");
+   
     }
     
     // loads an injury report with ID == formID
     public InjuryReportControl(InjuryReportID formID){
-        
+        Log.e("###  Loading existing injury report", "...");
+
     }
     
     public void saveForm(){
