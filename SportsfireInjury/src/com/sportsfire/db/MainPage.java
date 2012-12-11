@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.Menu;
-import android.R;
 
 public class MainPage extends Activity {
 	
@@ -17,7 +16,7 @@ public class MainPage extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-  //      setContentView(R.layout.activity_main_page);
+       // setContentView(R.layout.activity_main_page);
         
         // ### To test SQLiteDatabase functionality ###
       	   
@@ -95,7 +94,7 @@ public class MainPage extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-  //      getMenuInflater().inflate(R.menu.activity_main_page, menu);
+   //     getMenuInflater().inflate(R.menu.activity_main_page, menu);
         return true;
     }
 }
