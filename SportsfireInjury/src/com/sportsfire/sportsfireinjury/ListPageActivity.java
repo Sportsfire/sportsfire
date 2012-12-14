@@ -29,6 +29,8 @@ public class ListPageActivity extends FragmentActivity implements
 	 * device.
 	 */
 	PlayerInjuryFragment playerFragment = new PlayerInjuryFragment();
+	
+	private Player currentPlayer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class ListPageActivity extends FragmentActivity implements
 			((SquadListFragment) getSupportFragmentManager().findFragmentById(
 					R.id.squad_list)).setActivateOnItemClick(true);
 		}
+		currentPlayer = id;
 		Bundle arguments = new Bundle();
 		arguments.putParcelable(PlayerInjuryFragment.ARG_ITEM_ID, id);
 		PlayerInjuryFragment fragment = new PlayerInjuryFragment();
@@ -83,7 +86,14 @@ public class ListPageActivity extends FragmentActivity implements
 	public void GetInjuryData(View v) {
 		Intent intent = new Intent(this, InjuryForm.class);
 		InjuryReportControl injury = new InjuryReportControl((InjuryReportID) v.getTag());
-		intent.putExtra(InjuryForm.ARG_ITEM_ID, injury);
+		intent.putExtra(InjuryForm.ARG_ITEM_INJURY, injury);
+		startActivity(intent);
+	}
+	
+	public void GetNewInjuryReport(View v) {
+		Intent intent = new Intent(this, InjuryForm.class);
+		//InjuryReportControl injury = new InjuryReportControl(currentPlayer);
+		intent.putExtra(InjuryForm.ARG_ITEM_PLAYER, currentPlayer);
 		startActivity(intent);
 	}
 }

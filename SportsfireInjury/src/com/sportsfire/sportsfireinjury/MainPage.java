@@ -1,4 +1,6 @@
 package com.sportsfire.sportsfireinjury;
+import com.sportsfire.db.DBHelper;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,9 +24,12 @@ public class MainPage extends Activity{
     public void ButtonOnClick(View v) {
         switch (v.getId()) {
           case R.id.button1:
-        	  Intent intent = new Intent(this,InjuryForm.class);
+        	  //Intent intent = new Intent(this,InjuryForm.class);
         	  //setContentView(R.layout.player_injury_form);
-              startActivity(intent);
+              //startActivity(intent);
+        	  DBHelper db = new DBHelper(this);
+        	  db.initiateDatabaseWithStubValues();
+        	  
             break;
           case R.id.button2:
         	  Intent intent2 = new Intent(this,ListPageActivity.class);

@@ -19,8 +19,10 @@ public class DBHelper extends SQLiteOpenHelper {
     
 	public DBHelper(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
-		
-		/*SQLiteDatabase db;
+	}
+	
+	public void initiateDatabaseWithStubValues(){
+SQLiteDatabase db;
  
         
         // Open for Read/Write
@@ -29,13 +31,13 @@ public class DBHelper extends SQLiteOpenHelper {
         // Open for Read-Only
         //db = dBHelper.getReadableDatabase();
         
-       // Add a squad
+       // Add squad 1
         ContentValues values = new ContentValues();
         // No need to include squad id, is automatically added
-        values.put(SquadTable.KEY_SQUAD_NAME, "Philipp Team");
+        values.put(SquadTable.KEY_SQUAD_NAME, "Empire");
         Log.e("### Adding a squad", "...");
         db.insert(SquadTable.TABLE_NAME, null, values);
-        String selectSquadData = "SELECT  * FROM " + SquadTable.TABLE_NAME + " WHERE "+SquadTable.KEY_SQUAD_NAME+" = 'Philipp Team';";
+        String selectSquadData = "SELECT  * FROM " + SquadTable.TABLE_NAME + " WHERE "+SquadTable.KEY_SQUAD_NAME+" = 'Empire';";
         Cursor cursor = db.rawQuery(selectSquadData, null);
         if (cursor.moveToFirst()) {
             do {
@@ -44,8 +46,65 @@ public class DBHelper extends SQLiteOpenHelper {
                 // Add a player
                 values.clear();
                 // No need to include player id, is automatically added
-                values.put(PlayerTable.KEY_FIRST_NAME, "Baron");
-                values.put(PlayerTable.KEY_SURNAME, "Baronson");
+                values.put(PlayerTable.KEY_FIRST_NAME, "Darth");
+                values.put(PlayerTable.KEY_SURNAME, "Vader");
+                values.put(PlayerTable.KEY_DOB, 19991231);
+                values.put(PlayerTable.KEY_SQUAD_ID, id);
+                Log.e("### Adding first player", "...");
+                db.insert(PlayerTable.TABLE_NAME, null, values);
+                
+             // Add a player
+                values.clear();
+                // No need to include player id, is automatically added
+                values.put(PlayerTable.KEY_FIRST_NAME, "General");
+                values.put(PlayerTable.KEY_SURNAME, "Tarkin");
+                values.put(PlayerTable.KEY_DOB, 19991231);
+                values.put(PlayerTable.KEY_SQUAD_ID, id);
+                Log.e("### Adding first player", "...");
+                db.insert(PlayerTable.TABLE_NAME, null, values);
+
+                // Add a player
+                values.clear();
+                // No need to include player id, is automatically added
+                values.put(PlayerTable.KEY_FIRST_NAME, "The");
+                values.put(PlayerTable.KEY_SURNAME, "Emperor");
+                values.put(PlayerTable.KEY_DOB, 19991231);
+                values.put(PlayerTable.KEY_SQUAD_ID, id);
+                Log.e("### Adding first player", "...");
+                db.insert(PlayerTable.TABLE_NAME, null, values);
+                
+             // Add a player
+                values.clear();
+                // No need to include player id, is automatically added
+                values.put(PlayerTable.KEY_FIRST_NAME, "Boba");
+                values.put(PlayerTable.KEY_SURNAME, "Fett");
+                values.put(PlayerTable.KEY_DOB, 19991231);
+                values.put(PlayerTable.KEY_SQUAD_ID, id);
+                Log.e("### Adding first player", "...");
+                db.insert(PlayerTable.TABLE_NAME, null, values);
+                
+                
+            	
+            } while (cursor.moveToNext());
+        }
+        
+        // Add squad 1
+        // No need to include squad id, is automatically added
+        values.clear();
+        values.put(SquadTable.KEY_SQUAD_NAME, "Rebels");
+        Log.e("### Adding a squad", "...");
+        db.insert(SquadTable.TABLE_NAME, null, values);
+        selectSquadData = "SELECT  * FROM " + SquadTable.TABLE_NAME + " WHERE "+SquadTable.KEY_SQUAD_NAME+" = 'Rebels';";
+        cursor = db.rawQuery(selectSquadData, null);
+        if (cursor.moveToFirst()) {
+            do {
+            	String id = cursor.getString(0);
+
+                // Add a player
+                values.clear();
+                // No need to include player id, is automatically added
+                values.put(PlayerTable.KEY_FIRST_NAME, "Luke");
+                values.put(PlayerTable.KEY_SURNAME, "Skywalker");
                 values.put(PlayerTable.KEY_DOB, 19991231);
                 values.put(PlayerTable.KEY_SQUAD_ID, id);
                 Log.e("### Adding first player", "...");
@@ -55,8 +114,18 @@ public class DBHelper extends SQLiteOpenHelper {
                 // Add a player
                 values.clear();
                 // No need to include player id, is automatically added
-                values.put(PlayerTable.KEY_FIRST_NAME, "Miroslav");
-                values.put(PlayerTable.KEY_SURNAME, "Klose");
+                values.put(PlayerTable.KEY_FIRST_NAME, "Han");
+                values.put(PlayerTable.KEY_SURNAME, "Solo");
+                values.put(PlayerTable.KEY_DOB, 19991231);
+                values.put(PlayerTable.KEY_SQUAD_ID, id);
+                Log.e("### Adding first player", "...");
+                db.insert(PlayerTable.TABLE_NAME, null, values);
+                
+             // Add a player
+                values.clear();
+                // No need to include player id, is automatically added
+                values.put(PlayerTable.KEY_FIRST_NAME, "Princess");
+                values.put(PlayerTable.KEY_SURNAME, "Leia");
                 values.put(PlayerTable.KEY_DOB, 19991231);
                 values.put(PlayerTable.KEY_SQUAD_ID, id);
                 Log.e("### Adding first player", "...");
@@ -68,7 +137,8 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         
         // close the connection
-        this.close();*/
+        this.close();
+		
 	}
 	
     @Override

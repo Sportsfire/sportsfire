@@ -28,7 +28,10 @@ public class InjuryReportControl implements Parcelable{
     }
     
     public void setValue(String field,InjuryReportValue value){
-        
+    	if(((InjuryReportValueBoolean)value).value == true)
+    		Log.e("checked", field);
+    	else
+    		Log.e("unchecked", field);
     }
 
 	public int describeContents() {

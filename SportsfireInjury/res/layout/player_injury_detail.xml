@@ -8,8 +8,8 @@
         android:id="@+id/sendButton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="GetInjuryData"
-        android:text="Get Injury" />
+        android:onClick="GetNewInjuryReport"
+        android:text="New Injury" />
 
     <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"

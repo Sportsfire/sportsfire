@@ -9,16 +9,22 @@ import android.os.Parcelable;
 public class Player implements Parcelable{
     private String firstName;
     private String lastName;
+    private String id;
     private ArrayList<InjuryReportID> injuryReportList = new ArrayList<InjuryReportID>() ;
     private ArrayList<String> injuryReportNameList = new ArrayList<String>() ;
     public Player(String _firstName,String _lastName, String _id, SQLiteDatabase db){
         firstName = _firstName;
         lastName = _lastName;
+        id = _id;
         
         InjuryReportID in = new InjuryReportID(0,"Severe Injury");
         
         injuryReportList.add(in);
         injuryReportNameList.add(in.getName());
+    }
+    
+    public Player(Parcel in){
+    	readFromParcel(in);
     }
     
     public String getFirstName(){
@@ -46,8 +52,25 @@ public class Player implements Parcelable{
 	}
 
 	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-		
+		dest.writeString(firstName);
+		dest.writeString(lastName);
+		dest.writeString(id);
 	}
-    
+	
+	private void readFromParcel(Parcel in){
+		firstName = in.readString();
+		lastName = in.readString();
+		id = in.readString();
+	}
+	
+   public static final Parcelable.Creator CREATOR =
+   	new Parcelable.Creator() {
+           public Player createFromParcel(Parcel in) {
+               return new Player(in);
+           }
+
+           public Player[] newArray(int size) {
+               return new Player[size];
+           }
+       };
 }
