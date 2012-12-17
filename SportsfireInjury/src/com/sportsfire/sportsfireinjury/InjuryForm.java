@@ -119,6 +119,7 @@ int count) {
 		}
 	}
 	
+<<<<<<< HEAD
 	private String idToField(int id){
 		switch(id){
 		case R.id.ir1a:
@@ -191,6 +192,8 @@ int count) {
 			return "";
 		}		
 	}
+=======
+>>>>>>> fab1d6cf3062df8a0b9b0084c368fb0db33a92aa
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -206,10 +209,19 @@ int count) {
 	public void onCheckBoxClick(View v){
 		CheckBox c = (CheckBox)v;
         if(c.isChecked()){
+<<<<<<< HEAD
         	reportControl.setValue(idToField(c.getId()), "1");
         }
         else{
         	reportControl.setValue(idToField(c.getId()), "0");
+=======
+        	//reportControl.setValue(idToField(c.getId()), new InjuryReportValueBoolean(true));
+        	reportControl.setValue(c.getId(), new InjuryReportValueBoolean(true));
+        }
+        else{
+        	//reportControl.setValue(idToField(c.getId()), new InjuryReportValueBoolean(false));
+        	reportControl.setValue(c.getId(), new InjuryReportValueBoolean(false));
+>>>>>>> fab1d6cf3062df8a0b9b0084c368fb0db33a92aa
         }
 	}
 	
