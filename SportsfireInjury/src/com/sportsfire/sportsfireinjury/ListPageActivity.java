@@ -83,9 +83,9 @@ public class ListPageActivity extends FragmentActivity implements
 				.commit();
 	}
 
-	public void GetInjuryData(View v) {
+	public void GetInjuryReport(InjuryReportID injury) {
 		Intent intent = new Intent(this, InjuryForm.class);
-		InjuryReportControl injury = new InjuryReportControl((InjuryReportID) v.getTag());
+		//InjuryReportControl injury = new InjuryReportControl((InjuryReportID) v.getTag());
 		intent.putExtra(InjuryForm.ARG_ITEM_INJURY, injury);
 		startActivity(intent);
 	}

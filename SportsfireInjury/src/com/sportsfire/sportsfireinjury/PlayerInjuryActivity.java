@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 public class PlayerInjuryActivity extends FragmentActivity {
 
@@ -25,6 +29,8 @@ public class PlayerInjuryActivity extends FragmentActivity {
               //      .add(R.id.player_injury_detail_container, fragment)
                 //    .commit();
         }
+               
+        
     }
 
     @Override

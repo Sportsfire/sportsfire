@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="100sp"
+    android:layout_width="200sp"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
@@ -11,13 +11,10 @@
         android:onClick="GetNewInjuryReport"
         android:text="New Injury" />
 
-    <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/player_injury_detail"
-        style="?android:attr/textAppearanceLarge"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp" />
+    <ListView
+        android:id="@+id/injurylist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </ListView>
 
 </LinearLayout>

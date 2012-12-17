@@ -413,16 +413,18 @@
                 android:id="@+id/TextView01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                
                 android:text="Diagnosis (text or Orchard code):" />
 
             <EditText
                 android:id="@+id/ir4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="Date Of Injury:"
-                android:ems="10"
-                android:inputType="date"
+                android:contentDescription="Diagnosis: "
+                android:inputType="text"
+                 android:ems="10"
                 android:text="" />
+
         </LinearLayout>
 
         <TextView
@@ -677,6 +679,13 @@
                 android:layout_column="1"
                 android:text="opponent" />
         </GridLayout>
+         <Button
+        android:id="@+id/saveForm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onSaveForm"
+        android:text="Save Form" />
     </GridLayout>
+    
 
 </ScrollView>

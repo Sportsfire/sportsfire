@@ -48,8 +48,8 @@ public class PlayerListActivity extends FragmentActivity
 			arguments.putParcelable(PlayerInjuryFragment.ARG_ITEM_ID, id);
 			PlayerInjuryFragment fragment = new PlayerInjuryFragment();
 			fragment.setArguments(arguments);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.player_injury_detail_container, fragment).commit();
+			//getSupportFragmentManager().beginTransaction()
+				//	.replace(R.id.player_injury_detail_container, fragment).commit();
 
 		} else {
 			// In single-pane mode, simply start the detail activity
