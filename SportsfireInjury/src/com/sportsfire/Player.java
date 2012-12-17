@@ -2,6 +2,10 @@ package com.sportsfire;
 
 import java.util.ArrayList;
 
+import com.sportsfire.db.InjuryTable;
+import com.sportsfire.db.PlayerTable;
+
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -17,10 +21,22 @@ public class Player implements Parcelable{
         lastName = _lastName;
         id = _id;
         
-        InjuryReportID in = new InjuryReportID(0,"Severe Injury");
-        
-        injuryReportList.add(in);
-        injuryReportNameList.add(in.getName());
+        //InjuryReportID in = new InjuryReportID(0,"Severe Injury");
+        String selectSquadData = "SELECT  * FROM " + InjuryTable.TABLE_NAME + " WHERE "+InjuryTable.KEY_PLAYER_ID+" = "+id+";";
+        Cursor cursor = db.rawQuery(selectSquadData, null);
+        if (cursor.moveToFirst()) {
+            do {
+            	InjuryReportID in = new InjuryReportID(cursor.getString(0),cursor.getString(1)+" - "+cursor.getString(35));
+            	 injuryReportList.add(in);
+                 injuryReportNameList.add(in.getName());
+            	
+            } while (cursor.moveToNext());
+        }
+        else{
+        	injuryReportList.add(new InjuryReportID("0",""));
+        	injuryReportNameList.add("No Injuries!");
+        }
+       
     }
     
     public Player(Parcel in){
@@ -44,6 +60,9 @@ public class Player implements Parcelable{
     }
     public String getName(){
         return lastName + ", " + firstName;
+    }
+    public String getID(){
+    	return id;
     }
 
 	public int describeContents() {
