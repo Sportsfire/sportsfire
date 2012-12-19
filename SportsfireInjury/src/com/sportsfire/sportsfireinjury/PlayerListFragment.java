@@ -39,6 +39,7 @@ public class PlayerListFragment extends ListFragment {
 	private int mActivatedPosition = ListView.INVALID_POSITION;
 	List<String> playersList = new ArrayList<String>();
 	Squad selectedSquad;
+	ArrayAdapter<String> listAdapter;
 	public interface Callbacks {
 
 		public void onItemSelected(Player player);
@@ -55,26 +56,16 @@ public class PlayerListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// setListAdapter(new
-		// ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-		// R.layout.simple_list_item_activated_1,
-		// R.id.text1,
-		// DummyContent.ITEMS));
 		if (getArguments() != null) {
 			if (getArguments().containsKey(ARG_ITEM_ID)) {
 				selectedSquad = getArguments().getParcelable(ARG_ITEM_ID);
 				playersList = selectedSquad.getPlayerNameList();
-				//playersList.add("d");
-				//playersList.add("e");
-				//playersList.add("f");
 			}
 		}
-		//playersList.add("g");
-		//playersList.add("h");
-		//playersList.add("i");
-		setListAdapter(new ArrayAdapter<String>(getActivity(),
+		listAdapter = new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, playersList));
+				android.R.id.text1, playersList);
+		setListAdapter(listAdapter);
 	}
 
 	@Override

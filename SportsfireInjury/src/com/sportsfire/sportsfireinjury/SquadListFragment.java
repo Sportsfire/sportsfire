@@ -73,18 +73,7 @@ public class SquadListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
     	squad = new SquadList(getActivity());
     	squadList = squad.getSquadNameList();
-
-       // setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-         //       R.layout.simple_list_item_activated_1,
-           //     R.id.text1,
-             //   DummyContent.ITEMS));
-        //squadList.add("a");
-       // squadList.add("b");
-        //squadList.add("c");
-        
         setListAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1,android.R.id.text1, squadList));
-        //setListAdapter(ArrayAdapter.createFromResource(getActivity().getApplicationContext(),
-        		//R.array.tut_titles, android.R.id.text1));
     }
 
     @Override
@@ -114,8 +103,6 @@ public class SquadListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
-        //String[] links = getResources().getStringArray(R.array.tut_links);
-	    //String content = links[position];
 	    //TODO: pass selected squad name
         mCallbacks.onSquadSelected(squad.getSquadList().get(position));
   
@@ -142,5 +129,10 @@ public class SquadListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+    public void onResume() {
+    	super.onResume();
+    	//refresh squadlist
+    	squad.refresh();
     }
 }

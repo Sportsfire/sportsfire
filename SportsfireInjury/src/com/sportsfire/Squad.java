@@ -12,11 +12,11 @@ public class Squad implements Parcelable{
     private ArrayList<Player> playerList = new ArrayList<Player>(); // should be made final?
     private ArrayList<String> playerNameList = new ArrayList<String>();
     private String name;
-    private int id;
+    private String id;
     public Squad(String _name, String _id,SQLiteDatabase db){
         
         name = _name;
-        
+        id = _id;
         String selectSquadData = "SELECT  * FROM " + PlayerTable.TABLE_NAME + " WHERE "+PlayerTable.KEY_SQUAD_ID+" = "+_id+";";
         Cursor cursor = db.rawQuery(selectSquadData, null);
         if (cursor.moveToFirst()) {
@@ -29,7 +29,12 @@ public class Squad implements Parcelable{
         }
         
     }
-    
+    protected void refresh(SQLiteDatabase db){
+    	//refresh the players
+    	 for (Player player : playerList){
+    		 player.refresh(db);
+    	 }
+    }
     public ArrayList<Player> getPlayerList(){
         return playerList;
     }

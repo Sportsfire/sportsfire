@@ -29,7 +29,6 @@ public class Player implements Parcelable{
             	InjuryReportID in = new InjuryReportID(cursor.getString(0),cursor.getString(1)+" - "+cursor.getString(35));
             	 injuryReportList.add(in);
                  injuryReportNameList.add(in.getName());
-            	
             } while (cursor.moveToNext());
         }
         else{
@@ -37,6 +36,24 @@ public class Player implements Parcelable{
         	injuryReportNameList.add("No Injuries!");
         }
        
+    }
+    protected void refresh(SQLiteDatabase db){
+    	//when new injury comes in call this method in SquadList to show changes to db
+    	injuryReportList.clear();
+    	injuryReportNameList.clear();
+    	String selectSquadData = "SELECT  * FROM " + InjuryTable.TABLE_NAME + " WHERE "+InjuryTable.KEY_PLAYER_ID+" = "+id+";";
+        Cursor cursor = db.rawQuery(selectSquadData, null);
+        if (cursor.moveToFirst()) {
+            do {
+            	InjuryReportID in = new InjuryReportID(cursor.getString(0),cursor.getString(1)+" - "+cursor.getString(35));
+            	 injuryReportList.add(in);
+                 injuryReportNameList.add(in.getName());
+            } while (cursor.moveToNext());
+        }
+        else{
+        	injuryReportList.add(new InjuryReportID("0",""));
+        	injuryReportNameList.add("No Injuries!");
+        }
     }
     
     public Player(Parcel in){

@@ -5,6 +5,8 @@ import com.sportsfire.db.InjuryTable;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +15,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class InjuryForm extends Activity {
 	public static final String ARG_ITEM_INJURY = "argumentInjuryID";
@@ -207,6 +210,15 @@ public class InjuryForm extends Activity {
 	}
 
 	public void onSaveForm(View v) {
+		//Intent intent2 = new Intent(this,ListPageActivity.class);
+		//startActivity(intent2);
+		finish();
+		Context context = getApplicationContext();
+		CharSequence text = "Saved successfully";
+		int duration = Toast.LENGTH_SHORT;
+		Toast toast = Toast.makeText(context, text, duration);
 		reportControl.saveForm();
+		//TODO: Make a check to see if the report saved sucessfully
+		toast.show();
 	}
 }

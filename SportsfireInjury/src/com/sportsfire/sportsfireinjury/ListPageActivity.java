@@ -63,12 +63,10 @@ public class ListPageActivity extends FragmentActivity implements
 	}
 
 	public void onItemSelected(Player id) {
-		// In two-pane mode, show the detail view in this activity by
 		// adding or replacing the detail fragment using a
 		// fragment transaction.
 		if (findViewById(R.id.player_list_container) != null) {
-			// In two-pane mode, list items should be given the
-			// 'activated' state when touched.
+			//list items should be given the 'activated' state when touched.
 			((SquadListFragment) getSupportFragmentManager().findFragmentById(
 					R.id.squad_list)).setActivateOnItemClick(true);
 		}
@@ -96,4 +94,12 @@ public class ListPageActivity extends FragmentActivity implements
 		intent.putExtra(InjuryForm.ARG_ITEM_PLAYER, currentPlayer);
 		startActivity(intent);
 	}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		if (currentPlayer != null)
+		onItemSelected(currentPlayer);
+	}
+	
 }
