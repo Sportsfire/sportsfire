@@ -3,6 +3,7 @@ package com.sportsfire.sportsfireinjury;
 import com.sportsfire.*;
 import com.sportsfire.db.InjuryTable;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -20,24 +22,22 @@ import android.widget.Toast;
 public class InjuryForm extends Activity {
 	public static final String ARG_ITEM_INJURY = "argumentInjuryID";
 	public static final String ARG_ITEM_PLAYER = "argumentPlayer";
-
 	private InjuryReportControl reportControl;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.player_injury_form);
+		ActionBar actionBar = getActionBar();
 		Player p = getIntent().getParcelableExtra(ARG_ITEM_PLAYER);
 		if (p != null) {
 			reportControl = new InjuryReportControl(p, this);
+			actionBar.setTitle(p.getName() + "  PlayerID:" + p.getID() + "  NEW INJURY" );
 		} else {
 			InjuryReportID id = getIntent().getParcelableExtra(ARG_ITEM_INJURY);
 			reportControl = new InjuryReportControl(id, this);
+			actionBar.setTitle("Injury for PlayerID:" + reportControl.getValue("playerID")
+					+ " InjuryID:" + reportControl.getValue("_id"));
 		}
-		// if (details != null) {
-		// ((TextView) findViewById(R.id.EditText01)).setText("10/10/10");
-		// }
-		// ((TextView)findViewById(R.id.ir314)).setSelected(false);
-		// ((TextView)findViewById(R.id.ir4)).setSelected(false);
 
 		((TextView) findViewById(R.id.ir1a)).addTextChangedListener(new TextWatcher() {
 
@@ -190,7 +190,7 @@ public class InjuryForm extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main_page, menu);
+		getMenuInflater().inflate(R.menu.player_injury_form, menu);
 		return true;
 	}
 
@@ -202,23 +202,35 @@ public class InjuryForm extends Activity {
 	public void onCheckBoxClick(View v) {
 		CheckBox c = (CheckBox) v;
 		if (c.isChecked()) {
-
 			reportControl.setValue(idToField(c.getId()), "1");
 		} else {
 			reportControl.setValue(idToField(c.getId()), "0");
 		}
 	}
-
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case android.R.id.home:
+	            // app icon in action bar clicked; go home
+	            Intent intent = new Intent(this, ListPageActivity.class);
+	            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	            startActivity(intent);
+	            return true;
+	        case R.id.menu_save:
+	        	onSaveForm(findViewById(android.R.id.home));
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
 	public void onSaveForm(View v) {
-		//Intent intent2 = new Intent(this,ListPageActivity.class);
-		//startActivity(intent2);
+		// Intent intent2 = new Intent(this,ListPageActivity.class);
+		// startActivity(intent2);
 		finish();
 		Context context = getApplicationContext();
 		CharSequence text = "Saved successfully";
 		int duration = Toast.LENGTH_SHORT;
 		Toast toast = Toast.makeText(context, text, duration);
 		reportControl.saveForm();
-		//TODO: Make a check to see if the report saved sucessfully
+		// TODO: Make a check to see if the report saved sucessfully
 		toast.show();
 	}
 }
