@@ -1,7 +1,5 @@
 package com.sportsfire.sportsfireinjury;
 
-import java.nio.channels.SelectableChannel;
-
 import com.sportsfire.*;
 import com.sportsfire.db.InjuryTable;
 
@@ -29,7 +27,95 @@ public class InjuryForm extends Activity {
 	public static final String ARG_ITEM_INJURY = "argumentInjuryID";
 	public static final String ARG_ITEM_PLAYER = "argumentPlayer";
 	private InjuryReportControl reportControl;
-	@Override
+
+	private void doSpinners() {
+		Spinner spinner = (Spinner) findViewById(R.id.orchardSpinner);
+		// Create an ArrayAdapter using the string array and a default spinner
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+				R.array.orchardFirstSections, android.R.layout.simple_spinner_item);
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		spinner.setAdapter(adapter);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+				Spinner spinner = (Spinner) findViewById(R.id.orchardSpinnerDetail);
+				ArrayAdapter<CharSequence> adapter = null;
+
+				switch (pos) {
+					case 0 :
+						spinner.setVisibility(View.INVISIBLE);
+						break;
+					case 1 :
+						adapter = ArrayAdapter.createFromResource(getBaseContext(),
+								R.array.orchardFirst1, android.R.layout.simple_spinner_item);
+						break;
+					case 2 :
+						adapter = ArrayAdapter.createFromResource(getBaseContext(),
+								R.array.orchardFirst2, android.R.layout.simple_spinner_item);
+						break;
+					case 3 :
+						adapter = ArrayAdapter.createFromResource(getBaseContext(),
+								R.array.orchardFirst2, android.R.layout.simple_spinner_item);
+						break;
+				}
+				if (pos > 0) {
+					adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					spinner.setVisibility(View.VISIBLE);
+					spinner.setAdapter(adapter);
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+			}
+		});
+		Spinner spinner2 = (Spinner) findViewById(R.id.orchardSpinner2);
+		// Create an ArrayAdapter using the string array and a default spinner
+		ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+				R.array.orchardSecondSections, android.R.layout.simple_spinner_item);
+		// Specify the layout to use when the list of choices appears
+		adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		spinner2.setAdapter(adapter2);
+		spinner2.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+				Spinner spinner = (Spinner) findViewById(R.id.orchardSpinnerDetail2);
+				ArrayAdapter<CharSequence> adapter = null;
+
+				switch (pos) {
+					case 0 :
+						spinner.setVisibility(View.INVISIBLE);
+						break;
+					case 1 :
+						adapter = ArrayAdapter.createFromResource(getBaseContext(),
+								R.array.orchardSecond1, android.R.layout.simple_spinner_item);
+						break;
+					case 2 :
+						adapter = ArrayAdapter.createFromResource(getBaseContext(),
+								R.array.orchardSecond2, android.R.layout.simple_spinner_item);
+						break;
+					case 3 :
+						adapter = ArrayAdapter.createFromResource(getBaseContext(),
+								R.array.orchardSecond3, android.R.layout.simple_spinner_item);
+						break;
+				}
+				if (pos > 0) {
+					adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					spinner.setVisibility(View.VISIBLE);
+					spinner.setAdapter(adapter);
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+			}
+		});
+	}
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.player_injury_form);
@@ -52,30 +138,7 @@ public class InjuryForm extends Activity {
 		// Specify the layout to use when the list of choices appears
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
-		spinner.setAdapter(adapter);
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-				Spinner spinner = (Spinner) findViewById(R.id.orchardSpinnerDetail);
-				ArrayAdapter<CharSequence> adapter = null;
-				switch (pos) {
-					case 0 :
-						spinner.setVisibility(View.INVISIBLE);
-					case 1 :
-						adapter = ArrayAdapter.createFromResource(getBaseContext(),
-								R.array.orchardFirst1, android.R.layout.simple_spinner_item);
-						adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-						adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-						spinner.setVisibility(View.VISIBLE);
-						spinner.setAdapter(adapter);
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-			}
-		});
+		doSpinners();
 		((TextView) findViewById(R.id.ir1a)).addTextChangedListener(new TextWatcher() {
 
 			public void afterTextChanged(Editable s) {
@@ -141,32 +204,6 @@ public class InjuryForm extends Activity {
 				return InjuryTable.KEY_DATE_OF_INJURY;
 			case R.id.ir1b :
 				return InjuryTable.KEY_DATE_OF_RETURN;
-			case R.id.ir31 :
-				return InjuryTable.KEY_TYPE_CONCUSSION;
-			case R.id.ir32 :
-				return InjuryTable.KEY_TYPE_LESION;
-			case R.id.ir33 :
-				return InjuryTable.KEY_TYPE_HAEMATOMA;
-			case R.id.ir34 :
-				return InjuryTable.KEY_TYPE_FRACTURE;
-			case R.id.ir35 :
-				return InjuryTable.KEY_TYPE_MUSCLE;
-			case R.id.ir36 :
-				return InjuryTable.KEY_TYPE_ABRASION;
-			case R.id.ir37 :
-				return InjuryTable.KEY_TYPE_OTHERBONE;
-			case R.id.ir38 :
-				return InjuryTable.KEY_TYPE_LACERATION;
-			case R.id.ir39 :
-				return InjuryTable.KEY_TYPE_DISLOCATION;
-			case R.id.ir310 :
-				return InjuryTable.KEY_TYPE_TENDON;
-			case R.id.ir311 :
-				return InjuryTable.KEY_TYPE_NERVE;
-			case R.id.ir312 :
-				return InjuryTable.KEY_TYPE_SPRAIN;
-			case R.id.ir313 :
-				return InjuryTable.KEY_TYPE_DENTAL;
 			case R.id.ir4 :
 				return InjuryTable.KEY_DIAGNOSIS;
 			default :

@@ -15,7 +15,7 @@
         <item>Head / Face</item>
         <item>Neck / Cervicle spine</item>
     </string-array>
-    <string-array name="orchardCodeFirst3">
+    <string-array name="orchardFirst2">
         <item>Mercury</item>
         <item>Venus</item>
         <item>Earth</item>
@@ -25,7 +25,47 @@
         <item>Uranus</item>
         <item>Neptune</item>
     </string-array>
-    <string-array name="orchardCodeFirst2">
+    <string-array name="orchardFirst3">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+    <string-array name="orchardSecondSections">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+    <string-array name="orchardSecond1">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+    <string-array name="orchardSecond2">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+    <string-array name="orchardSecond3">
         <item>Mercury</item>
         <item>Venus</item>
         <item>Earth</item>
