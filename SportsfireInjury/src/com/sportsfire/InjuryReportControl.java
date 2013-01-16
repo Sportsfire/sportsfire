@@ -122,36 +122,19 @@ public class InjuryReportControl {
 				return InjuryTable.KEY_DATE_OF_INJURY;
 			case R.id.ir1b :
 				return InjuryTable.KEY_DATE_OF_RETURN;
-			case R.id.ir31 :
-				return InjuryTable.KEY_TYPE_CONCUSSION;
-			case R.id.ir32 :
-				return InjuryTable.KEY_TYPE_LESION;
-			case R.id.ir33 :
-				return InjuryTable.KEY_TYPE_HAEMATOMA;
-			case R.id.ir34 :
-				return InjuryTable.KEY_TYPE_FRACTURE;
-			case R.id.ir35 :
-				return InjuryTable.KEY_TYPE_MUSCLE;
-			case R.id.ir36 :
-				return InjuryTable.KEY_TYPE_ABRASION;
-			case R.id.ir37 :
-				return InjuryTable.KEY_TYPE_OTHERBONE;
-			case R.id.ir38 :
-				return InjuryTable.KEY_TYPE_LACERATION;
-			case R.id.ir39 :
-				return InjuryTable.KEY_TYPE_DISLOCATION;
-			case R.id.ir310 :
-				return InjuryTable.KEY_TYPE_TENDON;
-			case R.id.ir311 :
-				return InjuryTable.KEY_TYPE_NERVE;
-			case R.id.ir312 :
-				return InjuryTable.KEY_TYPE_SPRAIN;
-			case R.id.ir313 :
-				return InjuryTable.KEY_TYPE_DENTAL;
 			default :
 				return "";
 		}
 	}
+	
+	public String getOrchardCode(){
+		return getValue(InjuryTable.KEY_ORCHARD);
+	}
+	
+	public void setOrchardCode(String orchardCode){
+		setValue(InjuryTable.KEY_ORCHARD,orchardCode);
+	}
+	
 	// maybe replace field name String with enum?
 	public String getValue(String field) {
 		String result = changedData.get(field);
