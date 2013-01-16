@@ -3,16 +3,36 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main_page">MainPage</string>
-<string-array name="tut_titles">
-    <item>Design &amp; Build a 1980s iOS Phone App: Design Comp Slicing</item>
-    <item>Best of Tuts+ in February 2011</item>
-    <item>Create a Brick Breaker Game with the Corona SDK: Game Controls</item>
-    <item>Exporting Graphics for Mobile Apps: PNG or JPEG?</item>
-    <item>Android Tablet Design</item>
-    <item>Build a Titanium Mobile Pizza Ordering App: Order Form Setup</item>
-    <item>Create a Brick Breaker Game with the Corona SDK: Application Setup</item>
-    <item>Android Tablet Virtual Device Configurations</item>
-    <item>Build a Titanium Mobile Pizza Ordering App: Topping Selection</item>
-    <item>Design &amp; Build a 1980s iOS Phone App: Interface Builder Setup</item>
-</string-array>
+    <string-array name="orchardFirstSections">
+        <item>Select General Area</item>
+        <item>Head + Neck</item>
+        <item>Trunk</item>
+        <item>Upper Limb</item>
+        <item>Trunk</item>
+        <item>Lower Limb</item>
+    </string-array>
+    <string-array name="orchardFirst1">
+        <item>Head / Face</item>
+        <item>Neck / Cervicle spine</item>
+    </string-array>
+    <string-array name="orchardCodeFirst3">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+    <string-array name="orchardCodeFirst2">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
 </resources>

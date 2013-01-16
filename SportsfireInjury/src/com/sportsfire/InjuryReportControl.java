@@ -122,40 +122,6 @@ public class InjuryReportControl {
 				return InjuryTable.KEY_DATE_OF_INJURY;
 			case R.id.ir1b :
 				return InjuryTable.KEY_DATE_OF_RETURN;
-			case R.id.ir2a1 :
-				return InjuryTable.KEY_BODYPART_HEAD;
-			case R.id.ir2a2 :
-				return InjuryTable.KEY_BODYPART_SHOULDER;
-			case R.id.ir2a3 :
-				return InjuryTable.KEY_BODYPART_HIP;
-			case R.id.ir2a4 :
-				return InjuryTable.KEY_BODYPART_NECK;
-			case R.id.ir2a5 :
-				return InjuryTable.KEY_BODYPART_UPPERARM;
-			case R.id.ir2a6 :
-				return InjuryTable.KEY_BODYPART_THIGH;
-			case R.id.ir2a7 :
-				return InjuryTable.KEY_BODYPART_STERNUM;
-			case R.id.ir2a8 :
-				return InjuryTable.KEY_BODYPART_ELBOW;
-			case R.id.ir2a9 :
-				return InjuryTable.KEY_BODYPART_KNEE;
-			case R.id.ir2a10 :
-				return InjuryTable.KEY_BODYPART_ABDOMEN;
-			case R.id.ir2a11 :
-				return InjuryTable.KEY_BODYPART_FOREARM;
-			case R.id.ir2a12 :
-				return InjuryTable.KEY_BODYPART_LOWERLEG;
-			case R.id.ir2a13 :
-				return InjuryTable.KEY_BODYPART_LOWBACK;
-			case R.id.ir2a14 :
-				return InjuryTable.KEY_BODYPART_WRIST;
-			case R.id.ir2a15 :
-				return InjuryTable.KEY_BODYPART_ANKLE;
-			case R.id.ir2a16 :
-				return InjuryTable.KEY_BODYPART_HAND;
-			case R.id.ir2a17 :
-				return InjuryTable.KEY_BODYPART_FOOT;
 			case R.id.ir31 :
 				return InjuryTable.KEY_TYPE_CONCUSSION;
 			case R.id.ir32 :
