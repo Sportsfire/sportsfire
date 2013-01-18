@@ -17,28 +17,54 @@ public class DBHelper extends SQLiteOpenHelper {
 	// Database Name
     private static final String DB_NAME = "sportsfire";
     
+    private SQLiteDatabase db = null;
+    
 	public DBHelper(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
 	}
 	
+	public void openToRead(){
+		close();		
+		db = this.getReadableDatabase();
+	}
+	
+	public void openToWrite(){
+		close();
+		db = this.getWritableDatabase();
+	}
+	
+	public void close(){
+		if(db != null)
+			db.close();
+	}
+	
+	public long insert(String table,String nullColumnHack,ContentValues values){
+		return db.insert(table, nullColumnHack, values);
+	}
+	
+	public int update(String table, ContentValues values, String whereClause, String[] whereArgs) {
+		return db.update(table, values,whereClause,whereArgs);
+	}
+	
+	public Cursor readQuery(String sql, String[] selectionArgs){
+		return db.rawQuery(sql, selectionArgs);
+	}
+	
+	
+	/*
+	 * This is just a temporary method to initialize the DB with stub values if needed
+	 */
 	public void initiateDatabaseWithStubValues(){
-SQLiteDatabase db;
- 
-        
-        // Open for Read/Write
-        db = this.getWritableDatabase();
-        
-        // Open for Read-Only
-        //db = dBHelper.getReadableDatabase();
+		openToWrite();
         
        // Add squad 1
         ContentValues values = new ContentValues();
         // No need to include squad id, is automatically added
         values.put(SquadTable.KEY_SQUAD_NAME, "Empire");
         Log.e("### Adding a squad", "...");
-        db.insert(SquadTable.TABLE_NAME, null, values);
+        insert(SquadTable.TABLE_NAME, null, values);
         String selectSquadData = "SELECT  * FROM " + SquadTable.TABLE_NAME + " WHERE "+SquadTable.KEY_SQUAD_NAME+" = 'Empire';";
-        Cursor cursor = db.rawQuery(selectSquadData, null);
+        Cursor cursor = readQuery(selectSquadData, null);
         if (cursor.moveToFirst()) {
             do {
             	String id = cursor.getString(0);
@@ -51,7 +77,7 @@ SQLiteDatabase db;
                 values.put(PlayerTable.KEY_DOB, 19991231);
                 values.put(PlayerTable.KEY_SQUAD_ID, id);
                 Log.e("### Adding first player", "...");
-                db.insert(PlayerTable.TABLE_NAME, null, values);
+                insert(PlayerTable.TABLE_NAME, null, values);
                 
              // Add a player
                 values.clear();
@@ -61,7 +87,7 @@ SQLiteDatabase db;
                 values.put(PlayerTable.KEY_DOB, 19991231);
                 values.put(PlayerTable.KEY_SQUAD_ID, id);
                 Log.e("### Adding first player", "...");
-                db.insert(PlayerTable.TABLE_NAME, null, values);
+                insert(PlayerTable.TABLE_NAME, null, values);
 
                 // Add a player
                 values.clear();
@@ -71,7 +97,7 @@ SQLiteDatabase db;
                 values.put(PlayerTable.KEY_DOB, 19991231);
                 values.put(PlayerTable.KEY_SQUAD_ID, id);
                 Log.e("### Adding first player", "...");
-                db.insert(PlayerTable.TABLE_NAME, null, values);
+                insert(PlayerTable.TABLE_NAME, null, values);
                 
              // Add a player
                 values.clear();
@@ -81,7 +107,7 @@ SQLiteDatabase db;
                 values.put(PlayerTable.KEY_DOB, 19991231);
                 values.put(PlayerTable.KEY_SQUAD_ID, id);
                 Log.e("### Adding first player", "...");
-                db.insert(PlayerTable.TABLE_NAME, null, values);
+                insert(PlayerTable.TABLE_NAME, null, values);
                 
                 
             	
@@ -93,9 +119,9 @@ SQLiteDatabase db;
         values.clear();
         values.put(SquadTable.KEY_SQUAD_NAME, "Rebels");
         Log.e("### Adding a squad", "...");
-        db.insert(SquadTable.TABLE_NAME, null, values);
+        insert(SquadTable.TABLE_NAME, null, values);
         selectSquadData = "SELECT  * FROM " + SquadTable.TABLE_NAME + " WHERE "+SquadTable.KEY_SQUAD_NAME+" = 'Rebels';";
-        cursor = db.rawQuery(selectSquadData, null);
+        cursor = readQuery(selectSquadData, null);
         if (cursor.moveToFirst()) {
             do {
             	String id = cursor.getString(0);
@@ -108,7 +134,7 @@ SQLiteDatabase db;
                 values.put(PlayerTable.KEY_DOB, 19991231);
                 values.put(PlayerTable.KEY_SQUAD_ID, id);
                 Log.e("### Adding first player", "...");
-                db.insert(PlayerTable.TABLE_NAME, null, values);
+                insert(PlayerTable.TABLE_NAME, null, values);
                 
 
                 // Add a player
@@ -119,7 +145,7 @@ SQLiteDatabase db;
                 values.put(PlayerTable.KEY_DOB, 19991231);
                 values.put(PlayerTable.KEY_SQUAD_ID, id);
                 Log.e("### Adding first player", "...");
-                db.insert(PlayerTable.TABLE_NAME, null, values);
+                insert(PlayerTable.TABLE_NAME, null, values);
                 
              // Add a player
                 values.clear();
@@ -129,7 +155,7 @@ SQLiteDatabase db;
                 values.put(PlayerTable.KEY_DOB, 19991231);
                 values.put(PlayerTable.KEY_SQUAD_ID, id);
                 Log.e("### Adding first player", "...");
-                db.insert(PlayerTable.TABLE_NAME, null, values);
+                insert(PlayerTable.TABLE_NAME, null, values);
                 
                 
             	
@@ -137,7 +163,7 @@ SQLiteDatabase db;
         }
         
         // close the connection
-        this.close();
+        close();
 		
 	}
 	
@@ -159,4 +185,6 @@ SQLiteDatabase db;
     public void onOpen(SQLiteDatabase db) {
     	db.execSQL("PRAGMA foreign_keys = ON");
     }
+
+	
 }

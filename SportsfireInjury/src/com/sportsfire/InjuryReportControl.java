@@ -27,6 +27,7 @@ public class InjuryReportControl {
 	private String playerID;
 	private String injuryID;
 	boolean newReport;
+	private DBHelper dbHelp = null;
 
 	// creates a new injury report for Player p
 	public InjuryReportControl(Player p, Context c) {
@@ -34,6 +35,7 @@ public class InjuryReportControl {
 		newReport = true;
 		playerID = p.getID();
 		context = c;
+		dbHelp = new DBHelper(context);
 	}
 
 	// loads an injury report with ID == formID
@@ -46,12 +48,12 @@ public class InjuryReportControl {
 		injuryID = formID.getID();
 
 		// open db for read / write
-		DBHelper dbHelp = new DBHelper(context);
-		SQLiteDatabase db = dbHelp.getReadableDatabase();
+		//SQLiteDatabase db = dbHelp.getReadableDatabase();
+		dbHelp.openToRead();
 
 		String selectSquadData = "SELECT  * FROM " + InjuryTable.TABLE_NAME + " WHERE "
 				+ InjuryTable.KEY_INJURY_ID + " = " + injuryID + ";";
-		Cursor cursor = db.rawQuery(selectSquadData, null);
+		Cursor cursor = dbHelp.readQuery(selectSquadData, null);
 		if (cursor.moveToFirst()) {
 			do {
 				for (int i = 0; i < cursor.getColumnCount(); i++) {
@@ -63,7 +65,7 @@ public class InjuryReportControl {
 		dbHelp.close();
 	}
 
-	private void createNewReport(SQLiteDatabase db) {
+	private void createNewReport() {
 
 		// Open for Read-Only
 		// db = dBHelper.getReadableDatabase();
@@ -72,7 +74,7 @@ public class InjuryReportControl {
 		// No need to include squad id, is automatically added
 		values.put(InjuryTable.KEY_PLAYER_ID, playerID);
 		Log.e("### Adding a new injury", "...");
-		long rowID = db.insert(InjuryTable.TABLE_NAME, null, values);
+		long rowID = dbHelp.insert(InjuryTable.TABLE_NAME, null, values);
 
 		/*
 		 * String getInjuryID = "SELECT * FROM " + InjuryTable.TABLE_NAME +
@@ -86,11 +88,11 @@ public class InjuryReportControl {
 
 	public void saveForm() {
 		// open db for read / write
-		DBHelper dbHelp = new DBHelper(context);
-		SQLiteDatabase db = dbHelp.getWritableDatabase();
+		//SQLiteDatabase db = dbHelp.getWritableDatabase();
+		dbHelp.openToWrite();
 
 		if (newReport == true) {
-			createNewReport(db);
+			createNewReport();
 		}
 
 		// process changes
@@ -102,8 +104,10 @@ public class InjuryReportControl {
 			values.put(pairs.getKey(), pairs.getValue());
 
 		}
-		db.update(InjuryTable.TABLE_NAME, values, InjuryTable.KEY_INJURY_ID + " = '" + injuryID
+		dbHelp.update(InjuryTable.TABLE_NAME, values, InjuryTable.KEY_INJURY_ID + " = '" + injuryID
 				+ "'", null);
+		
+		dbHelp.close();
 	}
 
 	private String getStandardValue(String field) {
