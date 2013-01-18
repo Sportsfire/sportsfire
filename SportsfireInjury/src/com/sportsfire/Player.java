@@ -2,6 +2,7 @@ package com.sportsfire;
 
 import java.util.ArrayList;
 
+import com.sportsfire.db.DBHelper;
 import com.sportsfire.db.InjuryTable;
 import com.sportsfire.db.PlayerTable;
 
@@ -16,14 +17,14 @@ public class Player implements Parcelable{
     private String id;
     private ArrayList<InjuryReportID> injuryReportList = new ArrayList<InjuryReportID>() ;
     private ArrayList<String> injuryReportNameList = new ArrayList<String>() ;
-    public Player(String _firstName,String _lastName, String _id, SQLiteDatabase db){
+    public Player(String _firstName,String _lastName, String _id, DBHelper dbHelp){
         firstName = _firstName;
         lastName = _lastName;
         id = _id;
         
         //InjuryReportID in = new InjuryReportID(0,"Severe Injury");
         String selectSquadData = "SELECT  * FROM " + InjuryTable.TABLE_NAME + " WHERE "+InjuryTable.KEY_PLAYER_ID+" = "+id+";";
-        Cursor cursor = db.rawQuery(selectSquadData, null);
+        Cursor cursor = dbHelp.readQuery(selectSquadData, null);
         if (cursor.moveToFirst()) {
             do {
             	InjuryReportID in = new InjuryReportID(cursor.getString(0),cursor.getString(1)+" - "+cursor.getString(35));
@@ -37,12 +38,12 @@ public class Player implements Parcelable{
         }
        
     }
-    protected void refresh(SQLiteDatabase db){
+    protected void refresh(DBHelper dbHelp){
     	//when new injury comes in call this method in SquadList to show changes to db
     	injuryReportList.clear();
     	injuryReportNameList.clear();
     	String selectSquadData = "SELECT  * FROM " + InjuryTable.TABLE_NAME + " WHERE "+InjuryTable.KEY_PLAYER_ID+" = "+id+";";
-        Cursor cursor = db.rawQuery(selectSquadData, null);
+        Cursor cursor = dbHelp.readQuery(selectSquadData, null);
         if (cursor.moveToFirst()) {
             do {
             	InjuryReportID in = new InjuryReportID(cursor.getString(0),cursor.getString(1)+" - "+cursor.getString(35));

@@ -46,7 +46,7 @@ public class InjuryReportControl {
 		playerID = ""; // here we need to set this from DB later
 
 		injuryID = formID.getID();
-
+		dbHelp = new DBHelper(context);
 		// open db for read / write
 		//SQLiteDatabase db = dbHelp.getReadableDatabase();
 		dbHelp.openToRead();

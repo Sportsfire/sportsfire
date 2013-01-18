@@ -15,12 +15,12 @@ public class SquadList {
     public SquadList(Context context){
     	this.context = context;
     	DBHelper dbHelp = new DBHelper(context);
-    	SQLiteDatabase db = dbHelp.getReadableDatabase();
+    	dbHelp.openToRead();
         String selectSquadData = "SELECT  * FROM " + SquadTable.TABLE_NAME + ";";
-        Cursor cursor = db.rawQuery(selectSquadData, null);
+        Cursor cursor = dbHelp.readQuery(selectSquadData, null);
         if (cursor.moveToFirst()) {
             do {
-            	Squad sq = new Squad(cursor.getString(1),cursor.getString(0),db);
+            	Squad sq = new Squad(cursor.getString(1),cursor.getString(0),dbHelp);
                 squadList.add(sq);
                 squadNameList.add(sq.getSquadName());
             } while (cursor.moveToNext());
@@ -30,9 +30,9 @@ public class SquadList {
     public void refresh(){
     	//refresh the squads
 		DBHelper dbHelp = new DBHelper(context);
-    	SQLiteDatabase db = dbHelp.getReadableDatabase();
+    	dbHelp.openToRead();
     	for (Squad squad: squadList){
-    		squad.refresh(db);
+    		squad.refresh(dbHelp);
     	}
         dbHelp.close();
     }

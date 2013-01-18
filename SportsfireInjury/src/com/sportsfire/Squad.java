@@ -1,6 +1,7 @@
 package com.sportsfire;
 import java.util.ArrayList;
 
+import com.sportsfire.db.DBHelper;
 import com.sportsfire.db.PlayerTable;
 
 import android.database.Cursor;
@@ -13,15 +14,15 @@ public class Squad implements Parcelable{
     private ArrayList<String> playerNameList = new ArrayList<String>();
     private String name;
     private String id;
-    public Squad(String _name, String _id,SQLiteDatabase db){
+    public Squad(String _name, String _id,DBHelper dbHelp){
         
         name = _name;
         id = _id;
         String selectSquadData = "SELECT  * FROM " + PlayerTable.TABLE_NAME + " WHERE "+PlayerTable.KEY_SQUAD_ID+" = "+_id+";";
-        Cursor cursor = db.rawQuery(selectSquadData, null);
+        Cursor cursor = dbHelp.readQuery(selectSquadData, null);
         if (cursor.moveToFirst()) {
             do {
-            	Player pl = new Player(cursor.getString(1),cursor.getString(2),cursor.getString(0),db);
+            	Player pl = new Player(cursor.getString(1),cursor.getString(2),cursor.getString(0),dbHelp);
                 playerList.add(pl);
                 playerNameList.add(pl.getName());
             	
@@ -29,10 +30,10 @@ public class Squad implements Parcelable{
         }
         
     }
-    protected void refresh(SQLiteDatabase db){
+    protected void refresh(DBHelper dbHelp){
     	//refresh the players
     	 for (Player player : playerList){
-    		 player.refresh(db);
+    		 player.refresh(dbHelp);
     	 }
     }
     public ArrayList<Player> getPlayerList(){
