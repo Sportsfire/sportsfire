@@ -34,8 +34,11 @@ public class DBHelper extends SQLiteOpenHelper {
 	}
 	
 	public void close(){
-		if(db != null)
-			db.close();
+		if(db != null){
+			super.close();
+			db = null;
+		}
+			
 	}
 	
 	public long insert(String table,String nullColumnHack,ContentValues values){
