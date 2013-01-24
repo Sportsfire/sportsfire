@@ -171,7 +171,8 @@
                 android:id="@+id/ir314"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="other injury (please specify)" />
+                android:text="other injury (please specify)" 
+                android:onClick="onOtherInjuryCheckboxClick"/>
 
             <EditText
                 android:id="@+id/ir314text"
@@ -180,7 +181,8 @@
                 android:contentDescription="Injury:"
                 android:ems="30"
                 android:imeOptions="actionDone"
-                android:inputType="text" />
+                android:inputType="text"
+                android:enabled="false"/>
         </LinearLayout>
 
         <LinearLayout

@@ -1,5 +1,11 @@
 package com.sportsfire.sportsfireinjury;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
 import com.sportsfire.*;
 import com.sportsfire.db.InjuryTable;
 
@@ -19,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,39 +34,52 @@ public class InjuryForm extends Activity {
 	public static final String ARG_ITEM_INJURY = "argumentInjuryID";
 	public static final String ARG_ITEM_PLAYER = "argumentPlayer";
 	private InjuryReportControl reportControl;
+	private String OrchardCode;
+	HashMap<String, String> orchardFirstMap = new HashMap<String, String>();
 
 	private void doSpinners() {
 		Spinner spinner = (Spinner) findViewById(R.id.orchardSpinner);
 		// Create an ArrayAdapter using the string array and a default spinner
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-				R.array.orchardFirstSections, android.R.layout.simple_spinner_item);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this, R.array.orchardFirstSections,
+				android.R.layout.simple_spinner_item);
 		// Specify the layout to use when the list of choices appears
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		spinner.setAdapter(adapter);
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
 				Spinner spinner = (Spinner) findViewById(R.id.orchardSpinnerDetail);
 				ArrayAdapter<CharSequence> adapter = null;
 
 				switch (pos) {
-					case 0 :
-						spinner.setVisibility(View.INVISIBLE);
-						break;
-					case 1 :
-						adapter = ArrayAdapter.createFromResource(getBaseContext(),
-								R.array.orchardFirst1, android.R.layout.simple_spinner_item);
-						break;
-					case 2 :
-						adapter = ArrayAdapter.createFromResource(getBaseContext(),
-								R.array.orchardFirst2, android.R.layout.simple_spinner_item);
-						break;
-					case 3 :
-						adapter = ArrayAdapter.createFromResource(getBaseContext(),
-								R.array.orchardFirst2, android.R.layout.simple_spinner_item);
-						break;
+				case 0:
+					spinner.setVisibility(View.INVISIBLE);
+					break;
+				case 1:
+					adapter = ArrayAdapter.createFromResource(getBaseContext(),
+							R.array.orchardFirst1,
+							android.R.layout.simple_spinner_item);
+					break;
+				case 2:
+					adapter = ArrayAdapter.createFromResource(getBaseContext(),
+							R.array.orchardFirst2,
+							android.R.layout.simple_spinner_item);
+					break;
+				case 3:
+					adapter = ArrayAdapter.createFromResource(getBaseContext(),
+							R.array.orchardFirst3,
+							android.R.layout.simple_spinner_item);
+					break;
+				case 4:
+					adapter = ArrayAdapter.createFromResource(getBaseContext(),
+							R.array.orchardFirst4,
+							android.R.layout.simple_spinner_item);
+					break;
 				}
+
 				if (pos > 0) {
 					adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 					spinner.setVisibility(View.VISIBLE);
@@ -69,39 +89,65 @@ public class InjuryForm extends Activity {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
+
+			}
+		});
+		Spinner spinnerD = (Spinner) findViewById(R.id.orchardSpinnerDetail);
+		spinnerD.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				String[] keys = getResources().getStringArray(R.array.orchardFirst);
+				String[] value = getResources().getStringArray(
+						R.array.orchardFirstCodes);
+				for (int i = 0; i < keys.length; i++) {
+					orchardFirstMap.put(keys[i], value[i]);
+				}
+				OrchardCode = orchardFirstMap.get((String)((TextView) arg1).getText());
+				//OrchardCode =  (String) ((TextView) arg1).getText();
+				((EditText) findViewById(R.id.ir4)).setText(OrchardCode,TextView.BufferType.EDITABLE);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
 		Spinner spinner2 = (Spinner) findViewById(R.id.orchardSpinner2);
 		// Create an ArrayAdapter using the string array and a default spinner
-		ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
-				R.array.orchardSecondSections, android.R.layout.simple_spinner_item);
+		ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
+				this, R.array.orchardSecondSections,
+				android.R.layout.simple_spinner_item);
 		// Specify the layout to use when the list of choices appears
 		adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		spinner2.setAdapter(adapter2);
 		spinner2.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
 				Spinner spinner = (Spinner) findViewById(R.id.orchardSpinnerDetail2);
 				ArrayAdapter<CharSequence> adapter = null;
 
 				switch (pos) {
-					case 0 :
-						spinner.setVisibility(View.INVISIBLE);
-						break;
-					case 1 :
-						adapter = ArrayAdapter.createFromResource(getBaseContext(),
-								R.array.orchardSecond1, android.R.layout.simple_spinner_item);
-						break;
-					case 2 :
-						adapter = ArrayAdapter.createFromResource(getBaseContext(),
-								R.array.orchardSecond2, android.R.layout.simple_spinner_item);
-						break;
-					case 3 :
-						adapter = ArrayAdapter.createFromResource(getBaseContext(),
-								R.array.orchardSecond3, android.R.layout.simple_spinner_item);
-						break;
+				case 0:
+					spinner.setVisibility(View.INVISIBLE);
+					break;
+				case 1:
+					adapter = ArrayAdapter.createFromResource(getBaseContext(),
+							R.array.orchardSecond1,
+							android.R.layout.simple_spinner_item);
+					break;
+				case 2:
+					adapter = ArrayAdapter.createFromResource(getBaseContext(),
+							R.array.orchardSecond2,
+							android.R.layout.simple_spinner_item);
+					break;
+				case 3:
+					adapter = ArrayAdapter.createFromResource(getBaseContext(),
+							R.array.orchardSecond3,
+							android.R.layout.simple_spinner_item);
+					break;
 				}
 				if (pos > 0) {
 					adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -116,6 +162,7 @@ public class InjuryForm extends Activity {
 			}
 		});
 	}
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.player_injury_form);
@@ -123,63 +170,84 @@ public class InjuryForm extends Activity {
 		Player p = getIntent().getParcelableExtra(ARG_ITEM_PLAYER);
 		if (p != null) {
 			reportControl = new InjuryReportControl(p, this);
-			actionBar.setTitle(p.getName() + "  PlayerID:" + p.getID() + "  NEW INJURY");
+			actionBar.setTitle(p.getName() + "  PlayerID:" + p.getID()
+					+ "  NEW INJURY");
 		} else {
 			InjuryReportID id = getIntent().getParcelableExtra(ARG_ITEM_INJURY);
 			reportControl = new InjuryReportControl(id, this);
-			actionBar.setTitle("Injury for PlayerID:" + reportControl.getValue("playerID")
-					+ " InjuryID:" + reportControl.getValue("_id"));
+			actionBar.setTitle("Injury for PlayerID:"
+					+ reportControl.getValue("playerID") + " InjuryID:"
+					+ reportControl.getValue("_id"));
 		}
 		Spinner spinner = (Spinner) findViewById(R.id.orchardSpinner);
 		// Create an ArrayAdapter using the string array and a default spinner
 		// layout
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-				R.array.orchardFirstSections, android.R.layout.simple_spinner_item);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this, R.array.orchardFirstSections,
+				android.R.layout.simple_spinner_item);
 		// Specify the layout to use when the list of choices appears
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		doSpinners();
-		((TextView) findViewById(R.id.ir1a)).addTextChangedListener(new TextWatcher() {
+		((TextView) findViewById(R.id.ir1a))
+				.addTextChangedListener(new TextWatcher() {
 
-			public void afterTextChanged(Editable s) {
-				// Log.d("seachScreen", "afterTextChanged");
-				reportControl.setValue(idToField(R.id.ir1a), s.toString());
-			}
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				// Log.d("seachScreen", "beforeTextChanged");
-			}
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// Log.d("seachScreen", "onTextChanged");
-			}
-		});
+					public void afterTextChanged(Editable s) {
+						// Log.d("seachScreen", "afterTextChanged");
+						reportControl.setValue(idToField(R.id.ir1a),
+								s.toString());
+					}
 
-		((TextView) findViewById(R.id.ir1b)).addTextChangedListener(new TextWatcher() {
+					public void beforeTextChanged(CharSequence s, int start,
+							int count, int after) {
+						// Log.d("seachScreen", "beforeTextChanged");
+					}
 
-			public void afterTextChanged(Editable s) {
-				// Log.d("seachScreen", "afterTextChanged");
-				reportControl.setValue(idToField(R.id.ir1b), s.toString());
-			}
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				// Log.d("seachScreen", "beforeTextChanged");
-			}
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// Log.d("seachScreen", "onTextChanged");
-			}
-		});
+					public void onTextChanged(CharSequence s, int start,
+							int before, int count) {
+						// Log.d("seachScreen", "onTextChanged");
+					}
+				});
 
-		((TextView) findViewById(R.id.ir4)).addTextChangedListener(new TextWatcher() {
+		((TextView) findViewById(R.id.ir1b))
+				.addTextChangedListener(new TextWatcher() {
 
-			public void afterTextChanged(Editable s) {
-				// Log.d("seachScreen", "afterTextChanged");
-				reportControl.setValue(idToField(R.id.ir4), s.toString());
-			}
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				// Log.d("seachScreen", "beforeTextChanged");
-			}
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// Log.d("seachScreen", "onTextChanged");
-			}
-		});
+					public void afterTextChanged(Editable s) {
+						// Log.d("seachScreen", "afterTextChanged");
+						reportControl.setValue(idToField(R.id.ir1b),
+								s.toString());
+					}
+
+					public void beforeTextChanged(CharSequence s, int start,
+							int count, int after) {
+						// Log.d("seachScreen", "beforeTextChanged");
+					}
+
+					public void onTextChanged(CharSequence s, int start,
+							int before, int count) {
+						// Log.d("seachScreen", "onTextChanged");
+					}
+				});
+
+		((TextView) findViewById(R.id.ir4))
+				.addTextChangedListener(new TextWatcher() {
+
+					public void afterTextChanged(Editable s) {
+						// Log.d("seachScreen", "afterTextChanged");
+						reportControl.setValue(idToField(R.id.ir4),
+								s.toString());
+					}
+
+					public void beforeTextChanged(CharSequence s, int start,
+							int count, int after) {
+						// Log.d("seachScreen", "beforeTextChanged");
+					}
+
+					public void onTextChanged(CharSequence s, int start,
+							int before, int count) {
+						// Log.d("seachScreen", "onTextChanged");
+					}
+				});
 
 		// Setup everything
 		((TextView) findViewById(R.id.ir1a)).setText(reportControl
@@ -200,14 +268,14 @@ public class InjuryForm extends Activity {
 
 	private String idToField(int id) {
 		switch (id) {
-			case R.id.ir1a :
-				return InjuryTable.KEY_DATE_OF_INJURY;
-			case R.id.ir1b :
-				return InjuryTable.KEY_DATE_OF_RETURN;
-			case R.id.ir4 :
-				return InjuryTable.KEY_DIAGNOSIS;
-			default :
-				return "";
+		case R.id.ir1a:
+			return InjuryTable.KEY_DATE_OF_INJURY;
+		case R.id.ir1b:
+			return InjuryTable.KEY_DATE_OF_RETURN;
+		case R.id.ir4:
+			return InjuryTable.KEY_DIAGNOSIS;
+		default:
+			return "";
 		}
 	}
 
@@ -230,20 +298,30 @@ public class InjuryForm extends Activity {
 			reportControl.setValue(idToField(c.getId()), "0");
 		}
 	}
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home :
-				// app icon in action bar clicked; go home
-				Intent intent = new Intent(this, ListPageActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				return true;
-			case R.id.menu_save :
-				onSaveForm(findViewById(android.R.id.home));
-			default :
-				return super.onOptionsItemSelected(item);
+
+	public void onOtherInjuryCheckboxClick(View v) {
+		if (((CheckBox) v).isChecked()) {
+			(findViewById(R.id.ir314text)).setEnabled(true);
+		} else {
+			(findViewById(R.id.ir314text)).setEnabled(false);
 		}
 	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			// app icon in action bar clicked; go home
+			Intent intent = new Intent(this, ListPageActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			return true;
+		case R.id.menu_save:
+			onSaveForm(findViewById(android.R.id.home));
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
 	public void onSaveForm(View v) {
 		// Intent intent2 = new Intent(this,ListPageActivity.class);
 		// startActivity(intent2);

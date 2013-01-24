@@ -3,12 +3,49 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main_page">MainPage</string>
+    <string-array name="orchardFirst">
+        <item>Head / Face</item>
+        <item>Neck / Cervicle spine</item>
+        <item>Sternum / Ribs / Upper back</item>
+        <item>Abdomen</item>
+        <item>Low back / Sacrum / Pelvis</item>
+        <item>Shoulder / Clavicula</item>
+        <item>Upper Arm</item>
+        <item>Elbow</item>
+        <item>Forearm</item>
+        <item>Wrist</item>
+        <item>Hand / Finger / Thumb</item>
+        <item>Hip / Groin</item>
+        <item>Thigh</item>
+        <item>Knee</item>
+        <item>Lower Leg / Achilles tendon</item>
+        <item>Ankle</item>
+        <item>Foot / Toe</item>
+    </string-array>
+    <string-array name="orchardFirstCodes">
+        <item>H</item>
+        <item>N</item>
+        <item>C</item>
+        <item>O</item>
+        <item>L</item>
+        <item>S</item>
+        <item>U</item>
+        <item>E</item>
+        <item>R</item>
+        <item>W</item>
+        <item>P</item>
+        <item>G</item>
+        <item>T</item>
+        <item>K</item>
+        <item>Q</item>
+        <item>A</item>
+        <item>F</item>
+    </string-array>
     <string-array name="orchardFirstSections">
         <item>Select General Area</item>
         <item>Head + Neck</item>
         <item>Trunk</item>
         <item>Upper Limb</item>
-        <item>Trunk</item>
         <item>Lower Limb</item>
     </string-array>
     <string-array name="orchardFirst1">
@@ -16,44 +53,47 @@
         <item>Neck / Cervicle spine</item>
     </string-array>
     <string-array name="orchardFirst2">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+        <item>Sternum / Ribs / Upper back</item>
+        <item>Abdomen</item>
+        <item>Low back / Sacrum / Pelvis</item>
     </string-array>
     <string-array name="orchardFirst3">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+        <item>Shoulder / Clavicula</item>
+        <item>Upper Arm</item>
+        <item>Elbow</item>
+        <item>Forearm</item>
+        <item>Wrist</item>
+        <item>Hand / Finger / Thumb</item>
+    </string-array>
+     <string-array name="orchardFirst4">
+     	<item>Hip / Groin</item>
+        <item>Thigh</item>
+        <item>Knee</item>
+        <item>Lower Leg / Achilles tendon</item>
+        <item>Ankle</item>
+        <item>Foot / Toe</item>
     </string-array>
     <string-array name="orchardSecondSections">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+        <item>Select General Type of Injury</item>
+        <item>Bone</item>
+        <item>Joint</item>
+        <item>Soft Tissue</item>
+        <item>Other</item>
     </string-array>
     <string-array name="orchardSecond1">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+        <item>Fracture</item>
+        <item>Concussion with or without loss of consciousness</item>
+        <item>Other bone injury</item>
+        <item>Dislocation / subluxation</item>
+        <item>Sprain / ligament injury</item>
+        <item>lesion of meniscus or cartilage</item>
+        <item>Muscle rupture / strain / tear / cramps</item>
+        <item>Tendon Injury / Rupture / tendinosis / bursitis </item>
+        <item>Haematoma / contusion / bruise</item>
+        <item>Abrasion</item>
+        <item>Laceration</item>
+        <item>Nerve Injury</item>
+        <item>Dental Injury</item>
     </string-array>
     <string-array name="orchardSecond2">
         <item>Mercury</item>
