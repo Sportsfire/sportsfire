@@ -150,16 +150,10 @@
                 android:id="@+id/orchardSpinner2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left" />
-
-            <Spinner
-                android:id="@+id/orchardSpinnerDetail2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:visibility="gone" />
+                android:entries="@array/orchardSecond" />
         </LinearLayout>
-
+            
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -205,7 +199,7 @@
                 android:contentDescription="Diagnosis: "
                 android:ems="10"
                 android:imeOptions="actionDone"
-                android:inputType="text" />
+                android:inputType="textCapCharacters" />
         </LinearLayout>
 
         <TextView

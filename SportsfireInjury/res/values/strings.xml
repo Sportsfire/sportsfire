@@ -80,30 +80,35 @@
         <item>Soft Tissue</item>
         <item>Other</item>
     </string-array>
-    <string-array name="orchardSecond1">
+    <string-array name="orchardSecond">
         <item>Fracture</item>
         <item>Concussion with or without loss of consciousness</item>
         <item>Other bone injury</item>
         <item>Dislocation / subluxation</item>
-        <item>Sprain / ligament injury</item>
-        <item>lesion of meniscus or cartilage</item>
+        <item>Sprain / Ligament injury</item>
+        <item>Lesion of meniscus or cartilage</item>
         <item>Muscle rupture / strain / tear / cramps</item>
-        <item>Tendon Injury / Rupture / tendinosis / bursitis </item>
-        <item>Haematoma / contusion / bruise</item>
+        <item>Tendon Injury / Rupture / Tendinosis / Bursitis</item>
+        <item>Haematoma / Contusion / Bruise</item>
         <item>Abrasion</item>
         <item>Laceration</item>
         <item>Nerve Injury</item>
         <item>Dental Injury</item>
     </string-array>
-    <string-array name="orchardSecond2">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+    <string-array name="orchardSecondCodes">
+        <item>F</item>
+        <item>N</item>
+        <item>Q</item>
+        <item>D</item>
+        <item>L</item>
+        <item>C</item>
+        <item>M</item>
+        <item>T</item>
+        <item>H</item>
+        <item></item>
+        <item>K</item>
+        <item>N</item>
+        <item>G</item>
     </string-array>
     <string-array name="orchardSecond3">
         <item>Mercury</item>
