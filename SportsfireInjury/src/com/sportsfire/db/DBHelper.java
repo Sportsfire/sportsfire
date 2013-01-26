@@ -59,7 +59,12 @@ public class DBHelper extends SQLiteOpenHelper {
 	 */
 	public void initiateDatabaseWithStubValues(){
 		openToWrite();
-        
+		String sql = "SELECT COUNT(*) FROM " + SquadTable.TABLE_NAME;
+		SQLiteStatement statement = db.compileStatement(sql);
+	    if (statement.simpleQueryForLong()>0){
+	    	close();
+	    	return;
+	    }
        // Add squad 1
         ContentValues values = new ContentValues();
         // No need to include squad id, is automatically added

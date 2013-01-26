@@ -26,7 +26,7 @@
 
             <fragment
                 android:id="@+id/squad_list"
-                android:name="com.sportsfire.sportsfireinjury.SquadListFragment"
+                android:name="com.sportsfire.injury.SquadListFragment"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />

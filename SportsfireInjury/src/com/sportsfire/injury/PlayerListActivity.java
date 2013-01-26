@@ -1,7 +1,8 @@
-package com.sportsfire.sportsfireinjury;
+package com.sportsfire.injury;
 
 
 import com.sportsfire.Player;
+import com.sportsfire.R;
 
 import android.content.Intent;
 import android.os.Bundle;

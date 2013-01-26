@@ -14,8 +14,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.sportsfire.db.InjuryTable;
-import com.sportsfire.sportsfireinjury.R;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;

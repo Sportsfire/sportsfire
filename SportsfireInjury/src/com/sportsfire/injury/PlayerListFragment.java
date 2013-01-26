@@ -1,4 +1,4 @@
-package com.sportsfire.sportsfireinjury;
+package com.sportsfire.injury;
 
 //import android.app.ListFragment;
 //import android.os.Bundle;

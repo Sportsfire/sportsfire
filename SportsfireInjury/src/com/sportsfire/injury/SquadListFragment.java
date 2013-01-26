@@ -29,7 +29,7 @@
 //    }
 //}
 
-package com.sportsfire.sportsfireinjury;
+package com.sportsfire.injury;
 
 import java.util.List;
 

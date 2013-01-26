@@ -1,4 +1,4 @@
-package com.sportsfire.sportsfireinjury;
+package com.sportsfire.injury;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.sportsfire.*;
 import com.sportsfire.db.InjuryTable;
+import com.sportsfire.R;
 
 import android.app.ActionBar;
 import android.app.Activity;
