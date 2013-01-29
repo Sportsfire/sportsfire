@@ -13,8 +13,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainPage"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_main_page" >
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,23 +21,37 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".InjuryForm"
+            android:name=".injury.MainPage"
             android:screenOrientation="landscape">
         </activity>
         <activity
-            android:name=".ListPageActivity"
+            android:name=".injury.InjuryForm"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape">
+            
+        </activity>
+        <activity
+            android:name=".injury.ListPageActivity"
             android:screenOrientation="landscape">
         </activity>
         <activity
-            android:name=".SquadListActivity"
+            android:name=".injury.SquadListActivity"
             android:screenOrientation="landscape">
         </activity>
         <activity
-            android:name=".PlayerListActivity"
+            android:name=".injury.PlayerListActivity"
             android:screenOrientation="landscape">
         </activity>
          <activity
-            android:name=".PlayerInjuryActivity"
+            android:name=".injury.PlayerInjuryActivity"
+            android:screenOrientation="landscape">
+        </activity>
+         <activity
+            android:name=".screening.MainPage"
+            android:screenOrientation="landscape">
+        </activity>
+         <activity
+            android:name=".screening.TestSelectionActivity"
             android:screenOrientation="landscape">
         </activity>
     </application>
