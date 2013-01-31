@@ -8,28 +8,27 @@
     <LinearLayout
         android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" 
-        android:layout_weight="0.4">
+        android:layout_weight="0.4"
+        android:orientation="horizontal" >
 
         <Spinner
-            android:id="@+id/spinner1"
+            android:id="@+id/squadSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <Spinner
-            android:id="@+id/spinner3"
+            android:id="@+id/weekSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dip"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="0.6" >
+        android:layout_weight="0.6"
+        android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,16 +47,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                 <Switch
-                     android:id="@+id/Switch03"
-                     android:text="Weight"
-                     style="@style/SwitchStyle" />
+                <Switch
+                    android:id="@+id/WeightSwitch"
+                    style="@style/SwitchStyle"
+                    android:text="Weight" />
 
-                    <Spinner
-                        android:id="@+id/Spinner03"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                <Spinner
+                    android:id="@+id/WeightSpinner"
+                    style="@style/TestSpinnerOptionStyle" />
             </LinearLayout>
 
             <LinearLayout
@@ -71,9 +68,10 @@
 
                 <Spinner
                     android:id="@+id/Spinner05"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:entries="@array/TestChoices" />
             </LinearLayout>
 
             <LinearLayout
@@ -82,14 +80,15 @@
 
                 <Switch
                     android:id="@+id/CMJSwitch"
-               		style="@style/SwitchStyle"
+                    style="@style/SwitchStyle"
                     android:text="Counter-movement Jumps" />
 
                 <Spinner
                     android:id="@+id/Spinner06"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:entries="@array/TestChoices" />
             </LinearLayout>
         </LinearLayout>
 
@@ -179,7 +178,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Button" />
-
     </LinearLayout>
 
 </LinearLayout>
