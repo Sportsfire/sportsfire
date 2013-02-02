@@ -71,11 +71,11 @@ public class TestSelectionActivity extends Activity {
 	}
 
 	public void sendData(View view) {
-		Map<String, String> selectedTests = new HashMap<String, String>();
+		Map<String, Integer> selectedTests = new HashMap<String, Integer>();
 		for (CompoundButton k : testSelectionMap.keySet()) {
 			if (k.isChecked()) {
 				selectedTests.put(k.getText().toString(), (testSelectionMap.get(k))
-						.getSelectedItem().toString());
+						.getSelectedItemPosition());
 			}
 		}
 		Intent intent = new Intent(this, TestInputForm.class);

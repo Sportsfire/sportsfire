@@ -8,29 +8,25 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 /**
- * An activity representing a list of Squads. This activity has different
- * presentations for handset and tablet-size devices. On handsets, the activity
- * presents a list of items, which when touched, lead to a
- * {@link SquadDetailActivity} representing item details. On tablets, the
- * activity presents the list of items and item details side-by-side using two
- * vertical panes.
+ * An activity representing a list of Squads. This activity has different presentations for handset and tablet-size
+ * devices. On handsets, the activity presents a list of items, which when touched, lead to a
+ * {@link SquadDetailActivity} representing item details. On tablets, the activity presents the list of items and item
+ * details side-by-side using two vertical panes.
  * <p>
- * The activity makes heavy use of fragments. The list of items is a
- * {@link SquadListFragment} and the item details (if present) is a
- * {@link SquadDetailFragment}.
+ * The activity makes heavy use of fragments. The list of items is a {@link SquadListFragment} and the item details (if
+ * present) is a {@link SquadDetailFragment}.
  * <p>
- * This activity also implements the required
- * {@link SquadListFragment.Callbacks} interface to listen for item selections.
+ * This activity also implements the required {@link SquadListFragment.Callbacks} interface to listen for item
+ * selections.
  */
-public class ListPageActivity extends FragmentActivity implements
-		SquadListFragment.Callbacks, PlayerListFragment.Callbacks {
+public class ListPageActivity extends FragmentActivity implements SquadListFragment.Callbacks,
+		PlayerListFragment.Callbacks {
 
 	/**
-	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-	 * device.
+	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
 	 */
 	PlayerInjuryFragment playerFragment = new PlayerInjuryFragment();
-	
+
 	private Player currentPlayer;
 
 	@Override
@@ -40,15 +36,14 @@ public class ListPageActivity extends FragmentActivity implements
 		if (findViewById(R.id.player_list_container) != null) {
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
-			((SquadListFragment) getSupportFragmentManager().findFragmentById(
-					R.id.squad_list)).setActivateOnItemClick(true);
+			((SquadListFragment) getSupportFragmentManager().findFragmentById(R.id.squad_list))
+					.setActivateOnItemClick(true);
 		}
 		// TODO: If exposing deep links into your app, handle intents here.
 	}
 
 	/**
-	 * Callback method from {@link SquadListFragment.Callbacks} indicating that
-	 * the item with the given ID was selected.
+	 * Callback method from {@link SquadListFragment.Callbacks} indicating that the item with the given ID was selected.
 	 */
 	public void onSquadSelected(Squad id) {
 		// adding or replacing the detail fragment using a
@@ -59,17 +54,16 @@ public class ListPageActivity extends FragmentActivity implements
 		fragment.setArguments(arguments);
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.player_list_container, fragment).commit();
-		getSupportFragmentManager().beginTransaction().remove(playerFragment)
-				.commit();
+		getSupportFragmentManager().beginTransaction().remove(playerFragment).commit();
 	}
 
 	public void onItemSelected(Player id) {
 		// adding or replacing the detail fragment using a
 		// fragment transaction.
 		if (findViewById(R.id.player_list_container) != null) {
-			//list items should be given the 'activated' state when touched.
-			((SquadListFragment) getSupportFragmentManager().findFragmentById(
-					R.id.squad_list)).setActivateOnItemClick(true);
+			// list items should be given the 'activated' state when touched.
+			((SquadListFragment) getSupportFragmentManager().findFragmentById(R.id.squad_list))
+					.setActivateOnItemClick(true);
 		}
 		currentPlayer = id;
 		Bundle arguments = new Bundle();
@@ -78,29 +72,29 @@ public class ListPageActivity extends FragmentActivity implements
 		fragment.setArguments(arguments);
 		playerFragment = fragment;
 		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.player_injury_detail_container, fragment)
-				.commit();
+				.replace(R.id.player_injury_detail_container, fragment).commit();
 	}
 
 	public void GetInjuryReport(InjuryReportID injury) {
 		Intent intent = new Intent(this, InjuryForm.class);
-		//InjuryReportControl injury = new InjuryReportControl((InjuryReportID) v.getTag());
+		// InjuryReportControl injury = new InjuryReportControl((InjuryReportID) v.getTag());
 		intent.putExtra(InjuryForm.ARG_ITEM_INJURY, injury);
 		startActivity(intent);
 	}
-	
+
 	public void GetNewInjuryReport(View v) {
 		Intent intent = new Intent(this, InjuryForm.class);
-		//InjuryReportControl injury = new InjuryReportControl(currentPlayer);
+		// InjuryReportControl injury = new InjuryReportControl(currentPlayer);
 		intent.putExtra(InjuryForm.ARG_ITEM_PLAYER, currentPlayer);
 		startActivity(intent);
 	}
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		if (currentPlayer != null)
-		onItemSelected(currentPlayer);
+			onItemSelected(currentPlayer);
 	}
-	
+
 }
