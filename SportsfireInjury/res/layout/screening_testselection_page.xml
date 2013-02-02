@@ -67,7 +67,7 @@
                     android:text="Adjucator Squeeze" />
 
                 <Spinner
-                    android:id="@+id/Spinner05"
+                    android:id="@+id/SqueezeSpinner"
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -84,7 +84,7 @@
                     android:text="Counter-movement Jumps" />
 
                 <Spinner
-                    android:id="@+id/Spinner06"
+                    android:id="@+id/CMJSpinner"
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -177,7 +177,8 @@
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:onClick="sendData"
+            android:text="Input Data" />
     </LinearLayout>
 
 </LinearLayout>

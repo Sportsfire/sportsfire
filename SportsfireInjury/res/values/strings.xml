@@ -1,8 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">SportsFireApp</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main_page">MainPage</string>
+
     <string-array name="orchardFirst">
         <item>Head / Face</item>
         <item>Neck / Cervicle spine</item>
@@ -65,8 +68,8 @@
         <item>Wrist</item>
         <item>Hand / Finger / Thumb</item>
     </string-array>
-     <string-array name="orchardFirst4">
-     	<item>Hip / Groin</item>
+    <string-array name="orchardFirst4">
+        <item>Hip / Groin</item>
         <item>Thigh</item>
         <item>Knee</item>
         <item>Lower Leg / Achilles tendon</item>
@@ -111,9 +114,12 @@
         <item>G</item>
     </string-array>
     <string-array name="TestChoices">
-     	<item>Show previous and average</item>
-     	<item>Show previous</item>
-     	<item>Show Average</item>
-      	<item>Show Input only</item>
+        <item>Show previous and average</item>
+        <item>Show previous</item>
+        <item>Show Average</item>
+        <item>Show Input only</item>
     </string-array>
+
+    <string name="title_activity_test_input_form">Test Input Form</string>
+
 </resources>
