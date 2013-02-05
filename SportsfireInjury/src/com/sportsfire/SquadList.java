@@ -10,11 +10,11 @@ import android.util.Log;
 public class SquadList {
     private ArrayList<Squad> squadList = new ArrayList<Squad>();
     private ArrayList<String> squadNameList = new ArrayList<String>();
-    private Context context;
+    private DBHelper dbHelp;
     // loads the current SquadList from DB
-    public SquadList(Context context){
-    	this.context = context;
-    	DBHelper dbHelp = new DBHelper(context);
+    
+    public SquadList(DBHelper dbHelp){
+    	this.dbHelp = dbHelp;
     	dbHelp.openToRead();
         String selectSquadData = "SELECT  * FROM " + SquadTable.TABLE_NAME + ";";
         Cursor cursor = dbHelp.readQuery(selectSquadData, null);
@@ -27,9 +27,12 @@ public class SquadList {
         }
         dbHelp.close();
     }
+    public SquadList(Context context){
+    	this(new DBHelper(context));
+    }
+    
     public void refresh(){
     	//refresh the squads
-		DBHelper dbHelp = new DBHelper(context);
     	dbHelp.openToRead();
     	for (Squad squad: squadList){
     		squad.refresh(dbHelp);
