@@ -29,6 +29,7 @@ public DatePickerFragment(TextView view){
 	}
 
 	public void onDateSet(DatePicker view, int year, int month, int day) {
-		viewToEdit.setText(day + "/" + month+1 + "/" + year);
+		month = month + 1;
+		viewToEdit.setText(day + "/" + month + "/" + year);
 	}
 }

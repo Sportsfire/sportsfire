@@ -84,6 +84,7 @@
         <item>Other</item>
     </string-array>
     <string-array name="orchardSecond">
+    	<item>Select detail</item>
         <item>Fracture</item>
         <item>Concussion with or without loss of consciousness</item>
         <item>Other bone injury</item>
@@ -99,6 +100,7 @@
         <item>Dental Injury</item>
     </string-array>
     <string-array name="orchardSecondCodes">
+     	<item></item>
         <item>F</item>
         <item>N</item>
         <item>Q</item>

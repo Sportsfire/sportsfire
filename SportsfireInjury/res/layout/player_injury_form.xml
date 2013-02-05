@@ -110,6 +110,7 @@
             android:layout_column="0"
             android:layout_columnSpan="2"
             android:layout_row="5"
+            android:id="@+id/irBodyPrt"
             android:orientation="horizontal" >
 
             <RadioButton
@@ -128,7 +129,8 @@
                 android:id="@+id/ir2b3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="not applicable" />
+                android:text="not applicable"
+                android:checked="true" />
         </RadioGroup>
 
         <TextView
@@ -147,7 +149,7 @@
             android:layout_row="7" >
 
             <Spinner
-                android:id="@+id/orchardSpinner2"
+                android:id="@+id/irOrchTypeSpin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -162,14 +164,14 @@
             android:layout_row="8" >
 
             <CheckBox
-                android:id="@+id/ir314"
+                android:id="@+id/irOtherInjuryChk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="other injury (please specify)" 
                 android:onClick="onOtherInjuryCheckboxClick"/>
 
             <EditText
-                android:id="@+id/ir314text"
+                android:id="@+id/irOtherInjuryTxt"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="Injury:"
@@ -193,7 +195,7 @@
                 android:text="Diagnosis (text or Orchard code):" />
 
             <EditText
-                android:id="@+id/ir4"
+                android:id="@+id/OrchCodeTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="Diagnosis: "
@@ -220,16 +222,18 @@
             android:orientation="horizontal" >
 
             <RadioButton
-                android:id="@+id/ir51"
+                android:id="@+id/irReOccurYesRd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="yes" />
+                android:text="yes"
+                android:onClick="onRecurrenceClick" />
 
             <RadioButton
-                android:id="@+id/ir52"
+                android:id="@+id/irReOccurNoRd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="no" />
+                android:text="no"
+                android:onClick="onRecurrenceClick" />
         </RadioGroup>
 
         <LinearLayout
@@ -249,11 +253,12 @@
                 android:text="If yes specify date of player&apos;s return to full participation from the previous injury" />
 
             <EditText
-                android:id="@+id/ir52text"
+                android:id="@+id/irPreDORtext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="Previous date of return"
                 android:ems="10"
+                android:enabled="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:inputType="date"
@@ -272,19 +277,20 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/OverTraumaRadGrp"
             android:layout_column="0"
             android:layout_columnSpan="2"
             android:layout_row="14"
             android:orientation="horizontal" >
 
             <RadioButton
-                android:id="@+id/ir61"
+                android:id="@+id/irOverRadBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="overuse" />
 
             <RadioButton
-                android:id="@+id/ir62"
+                android:id="@+id/irTrauRadBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="trauma" />
@@ -308,13 +314,13 @@
             android:orientation="horizontal" >
 
             <RadioButton
-                android:id="@+id/ir71"
+                android:id="@+id/irTrainInjRad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="training" />
 
             <RadioButton
-                android:id="@+id/ir72"
+                android:id="@+id/irMatchInjRad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="match" />
@@ -336,27 +342,30 @@
             android:layout_row="18" >
 
             <CheckBox
-                android:id="@+id/ir81"
+                android:id="@+id/irNoContactChk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
                 android:layout_row="0"
+                android:onClick="onContactCheckBoxClick"
                 android:text="no" />
 
             <CheckBox
-                android:id="@+id/ir82"
+                android:id="@+id/irContactPlyrChk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:layout_row="0"
+                android:onClick="onContactCheckBoxClick"
                 android:text="yes, with another player" />
 
             <CheckBox
-                android:id="@+id/ir83"
+                android:id="@+id/irContactBallChk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:layout_row="1"
+                android:onClick="onContactCheckBoxClick"
                 android:text="yes, with the ball" />
 
             <LinearLayout
@@ -367,16 +376,18 @@
                 android:layout_row="2" >
 
                 <CheckBox
-                    android:id="@+id/ir84"
+                    android:id="@+id/irContactOtherChk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="onContactCheckBoxClick"
                     android:text="yes, with other object (specify)" />
 
                 <EditText
-                    android:id="@+id/ir84text"
+                    android:id="@+id/irContactOtherTxt"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:ems="30"
+                    android:enabled="false"
                     android:imeOptions="actionDone"
                     android:inputType="text" />
             </LinearLayout>
@@ -400,27 +411,31 @@
             android:orientation="horizontal" >
 
             <RadioButton
-                android:id="@+id/ir91"
+                android:id="@+id/irNoViolRd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="no" />
+                android:text="no"
+                android:onClick="onViolationRadioClick" />
 
             <RadioButton
-                android:id="@+id/ir92"
+                android:id="@+id/irFreeKRd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="onViolationRadioClick" 
                 android:text="yes, free kick / penalty" />
 
             <RadioButton
-                android:id="@+id/ir93"
+                android:id="@+id/irYelCrdRd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="onViolationRadioClick" 
                 android:text="yes, yellow card" />
 
             <RadioButton
-                android:id="@+id/ir94"
+                android:id="@+id/irRedCrdRd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="onViolationRadioClick" 
                 android:text="yes, red card" />
         </RadioGroup>
 
@@ -440,17 +455,19 @@
             android:layout_row="22" >
 
             <CheckBox
-                android:id="@+id/ir101"
+                android:id="@+id/irPlyrSanChk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
+                android:enabled="false"
                 android:text="injured player" />
 
             <CheckBox
-                android:id="@+id/ir102"
+                android:id="@+id/irOpponSanChk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
+                android:enabled="false"
                 android:text="opponent" />
         </GridLayout>
 
@@ -463,34 +480,6 @@
             android:onClick="onSaveForm"
             android:text="Save Form" />
 
-        <Space
-            android:layout_width="148dp"
-            android:layout_height="15dp"
-            android:layout_column="1"
-            android:layout_row="23" />
-
-        <Space
-            android:layout_width="100dp"
-            android:layout_column="0"
-            android:layout_row="24" />
-
-        <Space
-            android:layout_width="100dp"
-            android:layout_column="0"
-            android:layout_row="24" />
-
-        <Space
-            android:layout_width="100dp"
-            android:layout_row="1" />
-
-        <Space
-            android:layout_width="100dp"
-            android:layout_height="169dp"
-            android:layout_row="7" />
-
-        <Space
-            android:layout_width="100dp"
-            android:layout_row="24" />
     </GridLayout>
 
 </ScrollView>

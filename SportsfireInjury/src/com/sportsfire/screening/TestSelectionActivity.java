@@ -10,10 +10,12 @@ import com.sportsfire.R;
 import com.sportsfire.SquadList;
 import com.sportsfire.injury.InjuryForm;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
@@ -55,11 +57,27 @@ public class TestSelectionActivity extends Activity {
 				(Spinner) findViewById(R.id.SqueezeSpinner));
 		testSelectionMap.put((CompoundButton) findViewById(R.id.CMJSwitch),
 				(Spinner) findViewById(R.id.CMJSpinner));
+		ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
 	}
+	
 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main_page, menu);
 		return true;
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case android.R.id.home:
+	            // app icon in action bar clicked; go home
+	            Intent intent = new Intent(this, com.sportsfire.MainPage.class);
+	            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	            startActivity(intent);
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 
 	public void onSwitchClicked(View view) {

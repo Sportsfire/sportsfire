@@ -118,17 +118,7 @@ public class InjuryReportControl {
 		}
 		return "0";
 	}
-	private String idToField(int id) {
-		switch (id) {
-			case R.id.ir1a :
-				return InjuryTable.KEY_DATE_OF_INJURY;
-			case R.id.ir1b :
-				return InjuryTable.KEY_DATE_OF_RETURN;
-			default :
-				return "";
-		}
-	}
-	
+
 	public String getOrchardCode(){
 		return getValue(InjuryTable.KEY_ORCHARD);
 	}
