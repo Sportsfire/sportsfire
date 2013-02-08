@@ -33,7 +33,7 @@ public class MainPage extends Activity{
         	  
             break;
           case R.id.button2:
-        	  Intent intent21 = new Intent(this,com.sportsfire.screening.MainPage.class);
+        	  Intent intent21 = new Intent(this,com.sportsfire.screening.ScreeningMainPage.class);
         	  //setContentView(R.layout.activity_list_page);
         	  startActivity(intent21);
             break;

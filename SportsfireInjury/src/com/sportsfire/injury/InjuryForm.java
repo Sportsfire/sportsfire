@@ -218,7 +218,6 @@ public class InjuryForm extends Activity {
 					}
 				}
 				((Spinner) findViewById(R.id.orchardSpinner)).setSelection(firstpos);
-				System.out.println(orchardSectionMap.entrySet());
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 						android.R.layout.simple_spinner_item,
 						orchardSectionMap.get(((Spinner) findViewById(R.id.orchardSpinner))
@@ -230,13 +229,10 @@ public class InjuryForm extends Activity {
 				((Spinner) findViewById(R.id.orchardSpinnerDetail)).getSelectedItem().toString();
 				if (orchard.length() > 1) {
 					String second = getKey(orchSecondMap, orchard.substring(1, 2));
-					System.out.println(second);
 					int pos = Arrays.asList(getResources().getStringArray(R.array.orchardSecond))
 							.indexOf(second);
 					((Spinner) findViewById(R.id.irOrchTypeSpin)).setSelection(pos);
-					System.out.println(pos);
 				}
-				System.out.println(orchardCode);
 			}
 		}
 		if (reportControl.getValue(InjuryTable.KEY_PREVIOUS).startsWith("0")) {
@@ -301,14 +297,6 @@ public class InjuryForm extends Activity {
 			}
 		}
 		return null;
-	}
-
-	private void textBoxSetup(int id, String field) {
-		if (reportControl.getValue(field).equals("0")) {
-			((CheckBox) findViewById(id)).setChecked(false);
-		} else {
-			((CheckBox) findViewById(id)).setChecked(true);
-		}
 	}
 
 	private String idToField(int id) {

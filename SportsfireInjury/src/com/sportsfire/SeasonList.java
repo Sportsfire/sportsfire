@@ -33,6 +33,10 @@ public class SeasonList {
         //dbHelp.close();
     }
     
+    public SeasonList(Context context){
+    	this(new DBHelper(context));
+    }
+    
     public ArrayList<Season> getSeasonList(){
         return seasonList;
     }

@@ -47,7 +47,7 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name="com.sportsfire.screening.MainPage"
+            android:name="com.sportsfire.screening.ScreeningMainPage"
             android:screenOrientation="landscape" >
         </activity>
         <activity
@@ -55,7 +55,7 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name="com.sportsfire.TestInputForm"
+            android:name="com.sportsfire.screening.TestInputForm"
             android:label="@string/title_activity_test_input_form" >
         </activity>
         <activity
