@@ -25,14 +25,14 @@ public class ScreeningData {
 	}
 	
 	public String getValue(String playerID,String valueName){
-		return "val";
+		return "1";
 	}
 	
 	public String getAverageValue(String playerID,String valueName){
-		return "val";
+		return "1";
 	}
 	
 	public String getPreviousValue(String playerID,String valueName){
-		return "val";
+		return "1";
 	}
 }
