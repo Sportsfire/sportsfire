@@ -1,11 +1,9 @@
 package com.sportsfire;
 import java.util.ArrayList;
-import com.sportsfire.db.*;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+
+import com.sportsfire.db.DBHelper;
 
 public class SeasonList {
     private ArrayList<Season> seasonList = new ArrayList<Season>();

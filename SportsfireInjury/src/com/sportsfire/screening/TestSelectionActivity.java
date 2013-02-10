@@ -45,7 +45,8 @@ public class TestSelectionActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.screening_testselection_page);
-		season = new Season(getIntent().getStringExtra(ARG_ITEM_SEASON_NAME),getIntent().getStringExtra(ARG_ITEM_SEASON_ID),new DBHelper(this));
+		season = new Season(getIntent().getStringExtra(ARG_ITEM_SEASON_NAME), getIntent()
+				.getStringExtra(ARG_ITEM_SEASON_ID), new DBHelper(this));
 		squads = new SquadList(this);
 		Spinner spinner = (Spinner) findViewById(R.id.squadSpinner);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -95,14 +96,14 @@ public class TestSelectionActivity extends Activity {
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home:
-			// app icon in action bar clicked; go home
-			Intent intent = new Intent(this, com.sportsfire.MainPage.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
+			case android.R.id.home :
+				// app icon in action bar clicked; go home
+				Intent intent = new Intent(this, com.sportsfire.MainPage.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				return true;
+			default :
+				return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -126,21 +127,22 @@ public class TestSelectionActivity extends Activity {
 		intent.putExtra(TestInputForm.ARG_ITEM_TESTS, selectedTests.keySet().toArray());
 		intent.putExtra(TestInputForm.ARG_ITEM_TESTVAL, selectedTests.values().toArray());
 		List<List<String>> column = new ArrayList<List<String>>();
-		//add column headings
+		// add column headings
+		List<String> headerRow = new ArrayList<String>();
+		headerRow.add("Full Name");
 		for (Entry<String, Integer> test : selectedTests.entrySet()) {
-			List<String> row = new ArrayList<String>();
-			row.add("Full Name");
-			row.add(test.getKey());
+
+			headerRow.add(test.getKey());
 			if (test.getValue() == 0) {
-				row.add(test.getKey() + " Avg");
-				row.add(test.getKey() + " Pre");
-			}  else if (test.getValue() == 1) {
-				row.add(test.getKey() + " Avg");
+				headerRow.add(test.getKey() + " Avg");
+				headerRow.add(test.getKey() + " Pre");
+			} else if (test.getValue() == 1) {
+				headerRow.add(test.getKey() + " Avg");
 			} else if (test.getValue() == 2) {
-				row.add(test.getKey() + " Pre");
+				headerRow.add(test.getKey() + " Pre");
 			}
-			column.add(row);
 		}
+		column.add(headerRow);
 		for (Player player : selected.getPlayerList()) {
 			List<String> row = new ArrayList<String>();
 			row.add(player.getName());

@@ -68,10 +68,7 @@
 
                 <Spinner
                     android:id="@+id/SqueezeSpinner"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/TestChoices" />
+                    style="@style/TestSpinnerOptionStyle" />
             </LinearLayout>
 
             <LinearLayout
@@ -81,14 +78,11 @@
                 <Switch
                     android:id="@+id/CMJSwitch"
                     style="@style/SwitchStyle"
-                    android:text="Counter-movement Jumps" />
+                    android:text="Counter movement Jumps" />
 
                 <Spinner
                     android:id="@+id/CMJSpinner"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/TestChoices" />
+                    style="@style/TestSpinnerOptionStyle"/>
             </LinearLayout>
         </LinearLayout>
 

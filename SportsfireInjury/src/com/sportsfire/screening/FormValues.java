@@ -8,60 +8,75 @@ import com.sportsfire.Player;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class FormValues implements Parcelable{
+public class FormValues implements Parcelable {
 	private List<List<String>> values;
-	public FormValues(List<List<String>> values){
+	List<String> dummyList;
+	public FormValues(List<List<String>> values) {
 		this.values = values;
 	}
-	
+
 	public FormValues(Parcel in) {
 		this.values = new ArrayList<List<String>>();
 		readFromParcel(in);
 	}
 
-	public List<String> getHeader(){
+	public List<String> getHeader() {
 		return values.get(0);
 	}
-	public List<List<String>> getValues(){
-		return values;
+	public List<List<String>> getValues() {
+		return values.subList(1, values.size() - 1);
+	}
+	public List<String> getDummy() {
+
+		if (dummyList == null) {
+			dummyList = values.get(0);
+			for (List<String> list : values) {
+				for (int i = 0; i < dummyList.size() - 1; i++) {
+					if (list.get(i).length() > dummyList.get(i).length()) {
+						dummyList.remove(i);
+						dummyList.add(i, list.get(i));
+					}
+				}
+			}
+		}
+		return dummyList;
 	}
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(values.size());
-		for(List<String> l:values){
+		for (List<String> l : values) {
 			dest.writeInt(l.size());
-			for(String s:l){
+			for (String s : l) {
 				dest.writeString(s);
 			}
 		}
 	}
-	
-	private void readFromParcel(Parcel in){
+
+	private void readFromParcel(Parcel in) {
 		int listlistsize = in.readInt();
-		for(int i = 0;i<listlistsize;i++){
+		for (int i = 0; i < listlistsize; i++) {
 			int listsize = in.readInt();
 			List<String> newentry = new ArrayList<String>();
-			for(int j = 0;j<listsize;j++){
+			for (int j = 0; j < listsize; j++) {
 				newentry.add(in.readString());
 			}
 			values.add(newentry);
 		}
 	}
-	
-   public static final Parcelable.Creator CREATOR =
-   	new Parcelable.Creator() {
-           public FormValues createFromParcel(Parcel in) {
-               return new FormValues(in);
-           }
 
-           public FormValues[] newArray(int size) {
-               return new FormValues[size];
-           }
-       };
+	public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+		public FormValues createFromParcel(Parcel in) {
+			return new FormValues(in);
+		}
+
+		public FormValues[] newArray(int size) {
+			return new FormValues[size];
+		}
+	};
 
 }
