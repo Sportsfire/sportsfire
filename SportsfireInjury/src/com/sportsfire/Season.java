@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Season implements Parcelable{
+public class Season{
     //private ArrayList<Player> playerList = new ArrayList<Player>(); // should be made final?
 	private SquadList squadList;
     private ArrayList<String> weekList = new ArrayList<String>();
@@ -47,13 +47,12 @@ public class Season implements Parcelable{
         return name;
     }
 
+    public String getSeasonID(){
+        return id;
+    }
+
 	public int describeContents() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-		
 	}
 }

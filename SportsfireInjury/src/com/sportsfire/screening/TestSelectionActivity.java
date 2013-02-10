@@ -12,6 +12,7 @@ import com.sportsfire.ScreeningData;
 import com.sportsfire.Season;
 import com.sportsfire.Squad;
 import com.sportsfire.SquadList;
+import com.sportsfire.db.DBHelper;
 import com.sportsfire.injury.InjuryForm;
 
 import android.app.ActionBar;
@@ -34,7 +35,9 @@ import android.widget.AdapterView.OnItemSelectedListener;
 public class TestSelectionActivity extends Activity {
 	SquadList squads;
 	Season season;
-	public static final String ARG_ITEM_SEASON = "argumentSeason";
+	public static final String ARG_ITEM_SEASON_NAME = "argumentSeasonName";
+	public static final String ARG_ITEM_SEASON_ID = "argumentSeasonId";
+
 	HashMap<CompoundButton, Spinner> testSelectionMap = new HashMap<CompoundButton, Spinner>();
 	ScreeningData screenData;
 	Squad selected;
@@ -42,7 +45,7 @@ public class TestSelectionActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.screening_testselection_page);
-		season = getIntent().getParcelableExtra(ARG_ITEM_SEASON);
+		season = new Season(getIntent().getStringExtra(ARG_ITEM_SEASON_NAME),getIntent().getStringExtra(ARG_ITEM_SEASON_ID),new DBHelper(this));
 		squads = new SquadList(this);
 		Spinner spinner = (Spinner) findViewById(R.id.squadSpinner);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,

@@ -16,17 +16,20 @@ import com.sportsfire.Season;
 import com.sportsfire.SeasonList;
 
 public class ScreeningMainPage extends Activity {
-	SeasonList seasons = new SeasonList(this);
+	SeasonList seasons;
 	Season selected;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		seasons = new SeasonList(this);
+
 		setContentView(R.layout.screening_main_page);
 		Spinner spinner = (Spinner) findViewById(R.id.seasonSpin);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, seasons.getSeasonNameList());
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
 		spinner.setAdapter(adapter);
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -54,7 +57,8 @@ public class ScreeningMainPage extends Activity {
 		case R.id.button1:
 			Intent intent2 = new Intent(this, TestSelectionActivity.class);
 			// setContentView(R.layout.activity_list_page);
-			intent2.putExtra(TestSelectionActivity.ARG_ITEM_SEASON, selected);
+			intent2.putExtra(TestSelectionActivity.ARG_ITEM_SEASON_NAME, selected.getSeasonName());
+			intent2.putExtra(TestSelectionActivity.ARG_ITEM_SEASON_ID, selected.getSeasonID());
 			startActivity(intent2);
 			break;
 		case R.id.button2:
