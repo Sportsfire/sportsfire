@@ -46,7 +46,7 @@ public class Player implements Parcelable{
         Cursor cursor = dbHelp.readQuery(selectSquadData, null);
         if (cursor.moveToFirst()) {
             do {
-            	InjuryReportID in = new InjuryReportID(cursor.getString(0),cursor.getString(1));
+            	InjuryReportID in = new InjuryReportID(cursor.getString(0),cursor.getString(1) + " - " + cursor.getString(3));
             	 injuryReportList.add(in);
                  injuryReportNameList.add(in.getName());
             } while (cursor.moveToNext());
