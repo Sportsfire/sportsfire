@@ -3,8 +3,21 @@ package com.sportsfire.screening;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
+
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.sportsfire.Player;
 import com.sportsfire.R;
@@ -13,24 +26,6 @@ import com.sportsfire.Season;
 import com.sportsfire.Squad;
 import com.sportsfire.SquadList;
 import com.sportsfire.db.DBHelper;
-import com.sportsfire.injury.InjuryForm;
-
-import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.Selection;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.Spinner;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.ToggleButton;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 public class TestSelectionActivity extends Activity {
 	SquadList squads;
@@ -41,6 +36,7 @@ public class TestSelectionActivity extends Activity {
 	HashMap<CompoundButton, Spinner> testSelectionMap = new HashMap<CompoundButton, Spinner>();
 	ScreeningData screenData;
 	Squad selected;
+	String week;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,8 +67,9 @@ public class TestSelectionActivity extends Activity {
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				week = ((TextView) arg1).getText().toString();
 				screenData = new ScreeningData(arg0.getContext(), season.getSeasonName(),
-						((TextView) arg1).getText().toString());
+						week);
 			}
 
 			@Override
@@ -96,14 +93,14 @@ public class TestSelectionActivity extends Activity {
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home :
-				// app icon in action bar clicked; go home
-				Intent intent = new Intent(this, com.sportsfire.MainPage.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				return true;
-			default :
-				return super.onOptionsItemSelected(item);
+		case android.R.id.home:
+			// app icon in action bar clicked; go home
+			Intent intent = new Intent(this, com.sportsfire.MainPage.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -116,22 +113,28 @@ public class TestSelectionActivity extends Activity {
 	}
 
 	public void sendData(View view) {
-		Map<String, Integer> selectedTests = new HashMap<String, Integer>();
+		HashMap<String, Integer> selectedTests = new HashMap<String, Integer>();
 		for (CompoundButton k : testSelectionMap.keySet()) {
 			if (k.isChecked()) {
 				selectedTests.put(k.getText().toString(),
 						(testSelectionMap.get(k)).getSelectedItemPosition());
 			}
 		}
+		String[] params = new String[2];
+		params[0] = season.getSeasonID();
+		params[1] = week;
 		Intent intent = new Intent(this, TestInputForm.class);
-		intent.putExtra(TestInputForm.ARG_ITEM_TESTS, selectedTests.keySet().toArray());
-		intent.putExtra(TestInputForm.ARG_ITEM_TESTVAL, selectedTests.values().toArray());
+		intent.putExtra(TestInputForm.ARG_ITEM_PARAM, params);
+		intent.putExtra(TestInputForm.ARG_ITEM_SQUAD, selected.getPlayerList());
+		intent.putExtra(TestInputForm.ARG_ITEM_TESTS, selectedTests);
+		
+		
 		List<List<String>> column = new ArrayList<List<String>>();
 		// add column headings
 		List<String> headerRow = new ArrayList<String>();
 		headerRow.add("Full Name");
+		int position = 0;
 		for (Entry<String, Integer> test : selectedTests.entrySet()) {
-
 			headerRow.add(test.getKey());
 			if (test.getValue() == 0) {
 				headerRow.add(test.getKey() + " Avg");
@@ -146,21 +149,12 @@ public class TestSelectionActivity extends Activity {
 		for (Player player : selected.getPlayerList()) {
 			List<String> row = new ArrayList<String>();
 			row.add(player.getName());
-			for (Entry<String, Integer> test : selectedTests.entrySet()) {
-				row.add(screenData.getValue(player.getID(), test.getKey()));
-				if (test.getValue() == 0) {
-					row.add(screenData.getAverageValue(player.getID(), test.getKey()));
-					row.add(screenData.getPreviousValue(player.getID(), test.getKey()));
-				} else if (test.getValue() == 1) {
-					row.add(screenData.getPreviousValue(player.getID(), test.getKey()));
-				} else if (test.getValue() == 2) {
-					row.add(screenData.getAverageValue(player.getID(), test.getKey()));
-				}
-			}
 			column.add(row);
 		}
 		FormValues values = new FormValues(column);
 		intent.putExtra(TestInputForm.ARG_ITEM_DATA, values);
+		
+		
 		startActivity(intent);
 	}
 }

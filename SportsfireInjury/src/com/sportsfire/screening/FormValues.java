@@ -23,24 +23,24 @@ public class FormValues implements Parcelable {
 	public List<String> getHeader() {
 		return values.get(0);
 	}
+
 	public List<List<String>> getValues() {
 		return values.subList(1, values.size() - 1);
 	}
-	public List<String> getDummy() {
 
+	public List<String> getDummy() {
 		if (dummyList == null) {
 			dummyList = values.get(0);
 			for (List<String> list : values) {
-				for (int i = 0; i < dummyList.size() - 1; i++) {
-					if (list.get(i).length() > dummyList.get(i).length()) {
-						dummyList.remove(i);
-						dummyList.add(i, list.get(i));
-					}
+				if (list.get(0).length() > dummyList.get(0).length()) {
+					dummyList.remove(0);
+					dummyList.add(0, list.get(0));
 				}
 			}
 		}
 		return dummyList;
 	}
+
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub

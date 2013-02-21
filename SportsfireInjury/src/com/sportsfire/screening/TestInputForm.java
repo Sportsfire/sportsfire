@@ -1,53 +1,67 @@
 package com.sportsfire.screening;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.TableRow.LayoutParams;
+import android.widget.TextView;
 
+import com.sportsfire.Player;
 import com.sportsfire.R;
+import com.sportsfire.ScreeningData;
+import com.sportsfire.Squad;
 
 public class TestInputForm extends Activity {
 	public static final String ARG_ITEM_TESTS = "argumentTest";
-	public static final String ARG_ITEM_TESTVAL = "argumentTestValue";
+	public static final String ARG_ITEM_PARAM = "argumentParam";
+	public static final String ARG_ITEM_SQUAD = "argumentSquad";
 	public static final String ARG_ITEM_DATA = "argumentScreen";
 	FormValues values;
-	Map<String, Integer> TestsMap = new HashMap<String, Integer>();
+	HashMap<String, Integer> TestsMap;
+	Squad Asquad;
+	ArrayList<Player> squad;
+	String[] params;
 
 	private void setCellStyle(TextView cell) {
 		LayoutParams layout = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT, 1.0f);
+				LayoutParams.MATCH_PARENT, 1.0f);
 		layout.setMargins(1, 1, 1, 1);
 		cell.setLayoutParams(layout);
-		cell.setTextColor(Color.BLACK);
+		// cell.setTextColor(Color.BLACK);
 		cell.setBackgroundColor(Color.WHITE);
 		cell.setGravity(Gravity.CENTER_HORIZONTAL);
 		cell.requestLayout();
 	}
+
 	private TableRow createDummyRow() {
 		TableRow dummyRow = new TableRow(this);
 		for (String heading : values.getDummy()) {
-			TextView cell = new TextView(this);
+			TextView cell = new EditText(this);
 			LayoutParams layout = new LayoutParams(LayoutParams.WRAP_CONTENT, 0, 1.0f);
 			layout.setMargins(1, 1, 1, 1);
 			cell.setLayoutParams(layout);
 			cell.setText(heading);
+			cell.setFocusable(false);
 			dummyRow.addView(cell);
 		}
 		return dummyRow;
 	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,6 +69,10 @@ public class TestInputForm extends Activity {
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		values = getIntent().getParcelableExtra(ARG_ITEM_DATA);
+		TestsMap = (HashMap<String, Integer>) getIntent().getSerializableExtra(ARG_ITEM_TESTS);
+		params = getIntent().getStringArrayExtra(ARG_ITEM_PARAM);
+		squad = (ArrayList<Player>) getIntent().getSerializableExtra(ARG_ITEM_SQUAD);
+
 		TableRow headRow = new TableRow(this);
 		for (String heading : values.getHeader()) {
 			TextView cell = new TextView(this);
@@ -62,19 +80,66 @@ public class TestInputForm extends Activity {
 			if (heading.compareTo("Full Name") == 0) {
 				cell.setBackgroundColor(Color.parseColor("#ffcccccc"));
 			}
+			cell.setTextAppearance(this, android.R.style.Widget_EditText);
 			cell.setText(heading);
 			headRow.addView(cell);
 		}
 		((TableLayout) findViewById(R.id.headerTable)).addView(headRow);
 		((TableLayout) findViewById(R.id.headerTable)).addView(createDummyRow());
 		((TableLayout) findViewById(R.id.mainTable)).addView(createDummyRow());
-		for (List<String> row : values.getValues()) {
+
+		final ScreeningData screenData = new ScreeningData(this, params[0], params[1]);
+		for (final Player player : squad) {
 			TableRow bodyRow = new TableRow(this);
-			for (String value : row) {
-				TextView cell = new TextView(this);
-				setCellStyle(cell);
-				cell.setText(value);
-				bodyRow.addView(cell);
+			TextView cell = new TextView(this);
+			setCellStyle(cell);
+			cell.setBackgroundColor(Color.parseColor("#ffcccccc"));
+			//cell.setFocusable(false);
+			cell.setText(player.getName());
+			bodyRow.addView(cell);
+			for (final Entry<String, Integer> test : TestsMap.entrySet()) {
+				EditText tCell = new EditText(this);
+
+				setCellStyle(tCell);
+				tCell.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+				tCell.setText(screenData.getValue(player.getID(), test.getKey()));
+				tCell.addTextChangedListener(new TextWatcher() {
+
+					@Override
+					public void onTextChanged(CharSequence s, int start, int before, int count) {
+						// TODO Auto-generated method stub
+						screenData.setValue(player.getID(), test.getKey(), s.toString());
+						System.out.println(player.getID() + " " + test.getKey());
+					}
+
+					@Override
+					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+					}
+
+					@Override
+					public void afterTextChanged(Editable s) {
+						// TODO: change colour depending on value range
+					}
+				});
+				bodyRow.addView(tCell);
+				TextView aCell = new TextView(this);
+				TextView pCell = new TextView(this);
+				setCellStyle(aCell);
+				setCellStyle(pCell);
+				aCell.setBackgroundColor(Color.YELLOW);
+				pCell.setBackgroundColor(Color.CYAN);
+				if (test.getValue() == 0) {
+					aCell.setText(screenData.getAverageValue(player.getID(), test.getKey()));
+					pCell.setText(screenData.getPreviousValue(player.getID(), test.getKey()));
+					bodyRow.addView(aCell);
+					bodyRow.addView(pCell);
+				} else if (test.getValue() == 1) {
+					pCell.setText(screenData.getPreviousValue(player.getID(), test.getKey()));
+					bodyRow.addView(pCell);
+				} else if (test.getValue() == 2) {
+					aCell.setText(screenData.getAverageValue(player.getID(), test.getKey()));
+					bodyRow.addView(aCell);
+				}
 			}
 			((TableLayout) findViewById(R.id.mainTable)).addView(bodyRow);
 		}
@@ -90,14 +155,14 @@ public class TestInputForm extends Activity {
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home :
-				// app icon in action bar clicked; go home
-				Intent intent = new Intent(this, ScreeningMainPage.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				return true;
-			default :
-				return super.onOptionsItemSelected(item);
+		case android.R.id.home:
+			// app icon in action bar clicked; go home
+			Intent intent = new Intent(this, ScreeningMainPage.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
 }
