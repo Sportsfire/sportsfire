@@ -1,10 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:divider="?android:attr/dividerHorizontal"
-    android:baselineAligned="false"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
+    android:baselineAligned="false"
+    android:divider="?android:attr/dividerHorizontal"
     android:showDividers="middle" >
 
     <LinearLayout
@@ -17,12 +17,13 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Manage Injury Records"
+            android:text="Get Screening Analysis"
             android:textSize="40sp" />
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:divider="?android:attr/dividerHorizontal" >
 
             <fragment
                 android:id="@+id/squad_list"
@@ -41,10 +42,10 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/player_injury_detail_container"
+        android:id="@+id/test_selection_container"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:layout_weight="2" >
     </FrameLayout>
 
 </LinearLayout>

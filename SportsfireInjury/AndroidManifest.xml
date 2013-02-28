@@ -52,7 +52,11 @@
         </activity>
         <activity
             android:name="com.sportsfire.screening.TestSelectionActivity"
-            android:screenOrientation="landscape" >d
+            android:screenOrientation="landscape" >
+        </activity>
+     	<activity
+            android:name="com.sportsfire.screening.AnalysisPageActivity"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.sportsfire.screening.TestInputForm"

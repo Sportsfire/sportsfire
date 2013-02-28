@@ -57,7 +57,7 @@ public class ListPageActivity extends FragmentActivity implements SquadListFragm
 		getSupportFragmentManager().beginTransaction().remove(playerFragment).commit();
 	}
 
-	public void onItemSelected(Player id) {
+	public void onPlayerSelected(Player id) {
 		// adding or replacing the detail fragment using a
 		// fragment transaction.
 		if (findViewById(R.id.player_list_container) != null) {
@@ -94,7 +94,7 @@ public class ListPageActivity extends FragmentActivity implements SquadListFragm
 		// TODO Auto-generated method stub
 		super.onResume();
 		if (currentPlayer != null)
-			onItemSelected(currentPlayer);
+			onPlayerSelected(currentPlayer);
 	}
 
 }

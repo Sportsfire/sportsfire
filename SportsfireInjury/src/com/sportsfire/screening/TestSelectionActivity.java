@@ -133,7 +133,6 @@ public class TestSelectionActivity extends Activity {
 		// add column headings
 		List<String> headerRow = new ArrayList<String>();
 		headerRow.add("Full Name");
-		int position = 0;
 		for (Entry<String, Integer> test : selectedTests.entrySet()) {
 			headerRow.add(test.getKey());
 			if (test.getValue() == 0) {
