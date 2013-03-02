@@ -56,10 +56,10 @@ public class ScreeningMainPage extends Activity {
 		Intent intent;
 		switch (v.getId()) {
 		case R.id.button1:
-			intent = new Intent(this, TestSelectionActivity.class);
+			intent = new Intent(this, InputPageActivity.class);
 			// setContentView(R.layout.activity_list_page);
-			intent.putExtra(TestSelectionActivity.ARG_ITEM_SEASON_NAME, selected.getSeasonName());
-			intent.putExtra(TestSelectionActivity.ARG_ITEM_SEASON_ID, selected.getSeasonID());
+			intent.putExtra(InputPageActivity.ARG_ITEM_SEASON_NAME, selected.getSeasonName());
+			intent.putExtra(InputPageActivity.ARG_ITEM_SEASON_ID, selected.getSeasonID());
 			startActivity(intent);
 			break;
 		case R.id.button2:

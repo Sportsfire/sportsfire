@@ -15,28 +15,22 @@ import com.sportsfire.Player;
 import com.sportsfire.R;
 
 public class TestSelectionFragment extends Fragment {
-	public static final String ARG_ITEM_ID = "player_name";
-	Player player;
 	private Callbacks mCallbacks = sDummyCallbacks;
 	HashMap<CompoundButton, Spinner> testSelectionMap = new HashMap<CompoundButton, Spinner>();
 
 	public interface Callbacks {
 
-		public void onTestsChosen(HashMap<String, Integer> map);
+		public void onTestsChosen(HashMap<String, Integer> testsMap);
 	}
 
 	private static Callbacks sDummyCallbacks = new Callbacks() {
-		public void onTestsChosen(HashMap<String, Integer> map) {
+		public void onTestsChosen(HashMap<String, Integer> testsMap) {
 		}
 	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (getArguments().containsKey(ARG_ITEM_ID)) {
-			// have player name want to get injury details
-			player = getArguments().getParcelable(ARG_ITEM_ID);
-		}
 	}
 
 	@Override

@@ -3,157 +3,150 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:orientation="vertical" >
 
     <LinearLayout
-        android:layout_width="0dip"
-        android:layout_height="match_parent"
-        android:layout_weight="0.6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/TextView01"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:gravity="center_horizontal"
+            android:text="Weekly"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:id="@+id/TextView01"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="Weekly"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+            <Switch
+                android:id="@+id/WeightSwitch"
+                style="@style/SwitchStyle"
+                android:text="Weight" />
 
-                <Switch
-                    android:id="@+id/WeightSwitch"
-                    style="@style/SwitchStyle"
-                    android:text="Weight" />
-
-                <Spinner
-                    android:id="@+id/WeightSpinner"
-                    style="@style/TestSpinnerOptionStyle" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <Switch
-                    android:id="@+id/SqueezeSwitch"
-                    style="@style/SwitchStyle"
-                    android:text="Adjucator Squeeze" />
-
-                <Spinner
-                    android:id="@+id/SqueezeSpinner"
-                    style="@style/TestSpinnerOptionStyle" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <Switch
-                    android:id="@+id/CMJSwitch"
-                    style="@style/SwitchStyle"
-                    android:text="Counter movement Jumps" />
-
-                <Spinner
-                    android:id="@+id/CMJSpinner"
-                    style="@style/TestSpinnerOptionStyle"/>
-            </LinearLayout>
+            <Spinner
+                android:id="@+id/WeightSpinner"
+                style="@style/TestSpinnerOptionStyle" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Monthly"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+            <Switch
+                android:id="@+id/SqueezeSwitch"
+                style="@style/SwitchStyle"
+                android:text="Adjucator Squeeze" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                    <Switch
-                        android:id="@+id/Switch03"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="Weight" />
-
-                    <Spinner
-                        android:id="@+id/Spinner03"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-                <Switch
-                    android:id="@+id/Switch02"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Weight" />
-
-                <Spinner
-                    android:id="@+id/Spinner02"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <Switch
-                    android:id="@+id/Switch01"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Weight" />
-
-                <Spinner
-                    android:id="@+id/Spinner01"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <Switch
-                    android:id="@+id/switch1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Weight" />
-
-                <Spinner
-                    android:id="@+id/spinner2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
+            <Spinner
+                android:id="@+id/SqueezeSpinner"
+                style="@style/TestSpinnerOptionStyle" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/button1"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/CMJSwitch"
+                style="@style/SwitchStyle"
+                android:text="Counter movement Jumps" />
+
+            <Spinner
+                android:id="@+id/CMJSpinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="sendData"
-            android:text="Input Data" />
+            android:text="Monthly"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <Switch
+                    android:id="@+id/Switch03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Weight" />
+
+                <Spinner
+                    android:id="@+id/Spinner03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/Switch02"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Weight" />
+
+            <Spinner
+                android:id="@+id/Spinner02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/Switch01"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Weight" />
+
+            <Spinner
+                android:id="@+id/Spinner01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Weight" />
+
+            <Spinner
+                android:id="@+id/spinner2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="sendData"
+        android:text="Input Data" />
 
 </LinearLayout>

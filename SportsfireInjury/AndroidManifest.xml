@@ -51,11 +51,15 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name="com.sportsfire.screening.TestSelectionActivity"
+            android:name="com.sportsfire.screening.InputPageActivity"
             android:screenOrientation="landscape" >
         </activity>
      	<activity
             android:name="com.sportsfire.screening.AnalysisPageActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.sportsfire.screening.AnalysisGraphPage"
             android:screenOrientation="landscape" >
         </activity>
         <activity

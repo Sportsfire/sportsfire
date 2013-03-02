@@ -9,6 +9,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,20 +28,19 @@ import com.sportsfire.Squad;
 import com.sportsfire.SquadList;
 import com.sportsfire.db.DBHelper;
 
-public class TestSelectionActivity extends Activity {
+public class InputPageActivity extends FragmentActivity implements TestSelectionFragment.Callbacks {
 	SquadList squads;
 	Season season;
 	public static final String ARG_ITEM_SEASON_NAME = "argumentSeasonName";
 	public static final String ARG_ITEM_SEASON_ID = "argumentSeasonId";
-
-	HashMap<CompoundButton, Spinner> testSelectionMap = new HashMap<CompoundButton, Spinner>();
+	TestSelectionFragment fragment;
 	ScreeningData screenData;
 	Squad selected;
 	String week;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.screening_testselection_page);
+		setContentView(R.layout.screening_input_page);
 		season = new Season(getIntent().getStringExtra(ARG_ITEM_SEASON_NAME), getIntent()
 				.getStringExtra(ARG_ITEM_SEASON_ID), new DBHelper(this));
 		squads = new SquadList(this);
@@ -68,20 +68,16 @@ public class TestSelectionActivity extends Activity {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				week = ((TextView) arg1).getText().toString();
-				screenData = new ScreeningData(arg0.getContext(), season.getSeasonName(),
-						week);
+				screenData = new ScreeningData(arg0.getContext(), season.getSeasonName(), week);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		testSelectionMap.put((CompoundButton) findViewById(R.id.WeightSwitch),
-				(Spinner) findViewById(R.id.WeightSpinner));
-		testSelectionMap.put((CompoundButton) findViewById(R.id.SqueezeSwitch),
-				(Spinner) findViewById(R.id.SqueezeSpinner));
-		testSelectionMap.put((CompoundButton) findViewById(R.id.CMJSwitch),
-				(Spinner) findViewById(R.id.CMJSpinner));
+		fragment = new TestSelectionFragment();
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.test_selection_container, fragment).commit();
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
@@ -105,35 +101,28 @@ public class TestSelectionActivity extends Activity {
 	}
 
 	public void onSwitchClicked(View view) {
-		if (((CompoundButton) view).isChecked()) {
-			(testSelectionMap.get(view)).setVisibility(View.VISIBLE);
-		} else {
-			(testSelectionMap.get(view)).setVisibility(View.INVISIBLE);
-		}
+		fragment.onSwitchClicked(view);
 	}
 
 	public void sendData(View view) {
-		HashMap<String, Integer> selectedTests = new HashMap<String, Integer>();
-		for (CompoundButton k : testSelectionMap.keySet()) {
-			if (k.isChecked()) {
-				selectedTests.put(k.getText().toString(),
-						(testSelectionMap.get(k)).getSelectedItemPosition());
-			}
-		}
+		fragment.sendData(view);
+	}
+
+	@Override
+	public void onTestsChosen(HashMap<String, Integer> map) {
 		String[] params = new String[2];
 		params[0] = season.getSeasonID();
 		params[1] = week;
 		Intent intent = new Intent(this, TestInputForm.class);
 		intent.putExtra(TestInputForm.ARG_ITEM_PARAM, params);
 		intent.putExtra(TestInputForm.ARG_ITEM_SQUAD, selected.getPlayerList());
-		intent.putExtra(TestInputForm.ARG_ITEM_TESTS, selectedTests);
-		
-		
+		intent.putExtra(TestInputForm.ARG_ITEM_TESTS, map);
+
 		List<List<String>> column = new ArrayList<List<String>>();
 		// add column headings
 		List<String> headerRow = new ArrayList<String>();
 		headerRow.add("Full Name");
-		for (Entry<String, Integer> test : selectedTests.entrySet()) {
+		for (Entry<String, Integer> test : map.entrySet()) {
 			headerRow.add(test.getKey());
 			if (test.getValue() == 0) {
 				headerRow.add(test.getKey() + " Avg");
@@ -152,8 +141,6 @@ public class TestSelectionActivity extends Activity {
 		}
 		FormValues values = new FormValues(column);
 		intent.putExtra(TestInputForm.ARG_ITEM_DATA, values);
-		
-		
 		startActivity(intent);
 	}
 }

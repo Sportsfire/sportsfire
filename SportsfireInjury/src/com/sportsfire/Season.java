@@ -14,7 +14,7 @@ public class Season{
         name = _name;
         id = _id;
         squadList = new SquadList(dbHelp);
-        for (int i = 0; i <= 53; i++) {
+        for (int i = 0; i <= 52; i++) {
 			weekList.add("Week " + Integer.toString(i));
 		}
         //String selectSquadData = "SELECT  * FROM " + PlayerTable.TABLE_NAME + " WHERE "+PlayerTable.KEY_SQUAD_ID+" = "+_id+";";

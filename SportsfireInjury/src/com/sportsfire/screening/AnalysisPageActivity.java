@@ -2,11 +2,17 @@ package com.sportsfire.screening;
 
 import java.util.HashMap;
 
+import org.achartengine.ChartFactory;
+import org.achartengine.chart.LineChart;
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.renderer.DefaultRenderer;
+
 import com.sportsfire.*;
 import com.sportsfire.injury.PlayerInjuryFragment;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.LinearGradient;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -25,11 +31,11 @@ public class AnalysisPageActivity extends FragmentActivity implements SquadListF
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
 	 */
-	TestSelectionFragment playerFragment;
-	HashMap<CompoundButton, Spinner> testSelectionMap = new HashMap<CompoundButton, Spinner>();
+	TestSelectionFragment testsFragment;
 	public static final String ARG_ITEM_SEASON_NAME = "argumentSeasonName";
 	public static final String ARG_ITEM_SEASON_ID = "argumentSeasonId";
 	private Player currentPlayer;
+	private Season currentSeason;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +61,8 @@ public class AnalysisPageActivity extends FragmentActivity implements SquadListF
 		fragment.setArguments(arguments);
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.player_list_container, fragment).commit();
-		if (playerFragment != null){
-			getSupportFragmentManager().beginTransaction().remove(playerFragment).commit();
+		if (testsFragment != null) {
+			getSupportFragmentManager().beginTransaction().remove(testsFragment).commit();
 		}
 	}
 
@@ -68,11 +74,8 @@ public class AnalysisPageActivity extends FragmentActivity implements SquadListF
 					.setActivateOnItemClick(true);
 		}
 		currentPlayer = id;
-		Bundle arguments = new Bundle();
-		arguments.putParcelable(TestSelectionFragment.ARG_ITEM_ID, id);
 		TestSelectionFragment fragment = new TestSelectionFragment();
-		fragment.setArguments(arguments);
-		playerFragment = fragment;
+		testsFragment = fragment;
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.test_selection_container, fragment).commit();
 	}
@@ -94,16 +97,19 @@ public class AnalysisPageActivity extends FragmentActivity implements SquadListF
 			return super.onOptionsItemSelected(item);
 		}
 	}
+
 	public void onSwitchClicked(View view) {
-		if (playerFragment != null){
-			playerFragment.onSwitchClicked(view);
+		if (testsFragment != null) {
+			testsFragment.onSwitchClicked(view);
 		}
 	}
+
 	public void sendData(View view) {
-		if (playerFragment != null){
-			playerFragment.sendData(view);
+		if (testsFragment != null) {
+			testsFragment.sendData(view);
 		}
 	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -114,7 +120,14 @@ public class AnalysisPageActivity extends FragmentActivity implements SquadListF
 	@Override
 	public void onTestsChosen(HashMap<String, Integer> map) {
 		// TODO Auto-generated method stub
-
+		// for each week in selected season
+		// for each selected test (max 2?)
+		// getValue
+		// for (String week: currentSeason.getWeeklist()){
+		// }
+		Intent intent = new Intent(this, AnalysisGraphPage.class);
+		intent.putExtra(AnalysisGraphPage.ARG_ITEM_PLAYER, currentPlayer);
+		startActivity(intent);
 	}
 
 }
