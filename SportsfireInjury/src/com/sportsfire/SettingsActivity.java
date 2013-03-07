@@ -1,12 +1,12 @@
 package com.sportsfire;
 
-import android.annotation.TargetApi;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
-import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -16,8 +16,6 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
-
-import java.util.List;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On handset devices, settings are presented
@@ -89,7 +87,9 @@ public class SettingsActivity extends PreferenceActivity {
 	 * Helper method to determine if the device has an extra-large screen. For example, 10" tablets are extra-large.
 	 */
 	private static boolean isXLargeTablet(Context context) {
-		return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
+		return true;
+		// return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >=
+		// Configuration.SCREENLAYOUT_SIZE_XLARGE;
 	}
 
 	/**
@@ -99,13 +99,11 @@ public class SettingsActivity extends PreferenceActivity {
 	 * shown.
 	 */
 	private static boolean isSimplePreferences(Context context) {
-		return ALWAYS_SIMPLE_PREFS || Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB
-				|| !isXLargeTablet(context);
+		return ALWAYS_SIMPLE_PREFS || !isXLargeTablet(context);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void onBuildHeaders(List<Header> target) {
 		if (!isSimplePreferences(this)) {
 			loadHeadersFromResource(R.xml.pref_headers, target);
@@ -121,17 +119,14 @@ public class SettingsActivity extends PreferenceActivity {
 			String stringValue = value.toString();
 
 			if (preference instanceof ListPreference) {
-				// For list preferences, look up the correct display value in
-				// the preference's 'entries' list.
+				// For list preferences, look up the correct display value in the preference's 'entries' list.
 				ListPreference listPreference = (ListPreference) preference;
 				int index = listPreference.findIndexOfValue(stringValue);
-
 				// Set the summary to reflect the new value.
 				preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
 
 			} else if (preference instanceof RingtonePreference) {
-				// For ringtone preferences, look up the correct display value
-				// using RingtoneManager.
+				// For ringtone preferences, look up the correct display value using RingtoneManager.
 				if (TextUtils.isEmpty(stringValue)) {
 					// Empty values correspond to 'silent' (no ringtone).
 					preference.setSummary(R.string.pref_ringtone_silent);
@@ -152,8 +147,7 @@ public class SettingsActivity extends PreferenceActivity {
 				}
 
 			} else {
-				// For all other preferences, set the summary to the value's
-				// simple string representation.
+				// For all other preferences, set the summary to the value's simple string representation.
 				preference.setSummary(stringValue);
 			}
 			return true;
@@ -182,17 +176,23 @@ public class SettingsActivity extends PreferenceActivity {
 	/**
 	 * This fragment shows general preferences only. It is used when the activity is showing a two-pane settings UI.
 	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+
 	public static class GeneralPreferenceFragment extends PreferenceFragment {
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.pref_general);
-
-			// Bind the summaries of EditText/List/Dialog/Ringtone preferences
-			// to their values. When their values change, their summaries are
-			// updated to reflect the new value, per the Android Design
-			// guidelines.
+			ListPreference lp = (ListPreference) findPreference("selected_season");
+			SeasonList seasons = new SeasonList(getActivity());
+			ArrayList<String> list = seasons.getSeasonNameList();
+			lp.setEntries(list.toArray(new CharSequence[list.size()]));
+			//lp.setEntryValues(list.toArray(new CharSequence[list.size()]));
+			//lp.set
+			//lp = (ListPreference) findPreference("selected_week");
+			//lp.g
+			//lp.setEntries(list.toArray(new CharSequence[list.size()]));
+			// Bind the summaries of preferences to their values.
+			bindPreferenceSummaryToValue(findPreference("selected_season"));
 			bindPreferenceSummaryToValue(findPreference("example_text"));
 			bindPreferenceSummaryToValue(findPreference("example_list"));
 		}
@@ -202,7 +202,7 @@ public class SettingsActivity extends PreferenceActivity {
 	 * This fragment shows notification preferences only. It is used when the activity is showing a two-pane settings
 	 * UI.
 	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+
 	public static class NotificationPreferenceFragment extends PreferenceFragment {
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
@@ -221,7 +221,7 @@ public class SettingsActivity extends PreferenceActivity {
 	 * This fragment shows data and sync preferences only. It is used when the activity is showing a two-pane settings
 	 * UI.
 	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+
 	public static class DataSyncPreferenceFragment extends PreferenceFragment {
 		@Override
 		public void onCreate(Bundle savedInstanceState) {

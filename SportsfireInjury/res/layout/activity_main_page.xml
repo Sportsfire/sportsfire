@@ -22,6 +22,14 @@
             android:layout_height="100dp"
             android:onClick="ButtonOnClick"
             android:text="Screening" />
+        
+         <Button
+            android:id="@+id/settingsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:onClick="ButtonOnClick"
+            android:text="Settings" />
+        
     </LinearLayout>
 
 </ScrollView>
