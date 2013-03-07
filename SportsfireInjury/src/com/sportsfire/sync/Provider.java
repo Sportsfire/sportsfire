@@ -31,7 +31,6 @@ public class Provider extends ContentProvider {
 	public static final Uri CONTENT_URI_PLAYERS = Uri.parse(BASEPATH + PLAYERS_BASE_PATH);
 	public static final Uri CONTENT_URI_SQUADS = Uri.parse(BASEPATH + SQUADS_BASE_PATH);
 	public static final Uri CONTENT_URI_INJURIES = Uri.parse(BASEPATH + INJURIES_BASE_PATH);
-	
 	public static final String CONTENT_TYPE_PLAYERS = ContentResolver.CURSOR_DIR_BASE_TYPE
 	            + "/type-player";
 	public static final String CONTENT_TYPE_SQUADS = ContentResolver.CURSOR_DIR_BASE_TYPE
@@ -47,7 +46,7 @@ public class Provider extends ContentProvider {
 		sURIMatcher.addURI(AUTHORITY, SQUADS_BASE_PATH, SQUADS);
 		sURIMatcher.addURI(AUTHORITY, SQUADS_BASE_PATH + "/#", SQUADS_ID);
 		sURIMatcher.addURI(AUTHORITY, INJURIES_BASE_PATH, INJURIES);
-		sURIMatcher.addURI(AUTHORITY, INJURIES_BASE_PATH + "/#", INJURIES_ID);
+		sURIMatcher.addURI(AUTHORITY, INJURIES_BASE_PATH + "/*", INJURIES_ID);
 	}
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
@@ -212,6 +211,8 @@ public class Provider extends ContentProvider {
         	tableid = InjuryTable.KEY_INJURY_ID;
         	tablename = InjuryTable.TABLE_NAME;
         	break;
+        default:
+            throw new IllegalArgumentException("Unknown URI");
         }
 
         switch (uriType) {
@@ -220,7 +221,7 @@ public class Provider extends ContentProvider {
         case INJURIES_ID:
             String id = uri.getLastPathSegment();
             StringBuilder modSelection = new StringBuilder(tableid
-                    + "=" + id);
+                    + "= '" + id + "'");
 
             if (!TextUtils.isEmpty(selection)) {
                 modSelection.append(" AND " + selection);

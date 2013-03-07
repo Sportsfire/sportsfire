@@ -30,7 +30,7 @@ public class InjuryTable {
 	
     public static void onCreate(SQLiteDatabase db) {
 		String createInjuryTable = "CREATE TABLE " + TABLE_NAME + "("
-				+ KEY_INJURY_ID + " INTEGER PRIMARY KEY,"
+				+ KEY_INJURY_ID + " TEXT PRIMARY KEY,"
                 + KEY_DATE_OF_INJURY + " TEXT DEFAULT '',"
                 + KEY_DATE_OF_RETURN + " TEXT DEFAULT ''," 
                 + KEY_ORCHARD + " TEXT DEFAULT '',"

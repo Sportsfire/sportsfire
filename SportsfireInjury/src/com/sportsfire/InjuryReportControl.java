@@ -3,24 +3,26 @@ package com.sportsfire;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
 import java.util.Map.Entry;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 
 import com.sportsfire.db.DBHelper;
 import com.sportsfire.db.InjuryTable;
+import com.sportsfire.sync.Provider;
 
 public class InjuryReportControl {
 	private HashMap<String, String> changedData = new HashMap<String, String>();
 	private HashMap<String, String> oldData = new HashMap<String, String>();
-	private Context context;
 	private String playerID;
 	private String injuryID;
 	boolean newReport;
-	private DBHelper dbHelp = null;
+	private Context context;
 
 	// creates a new injury report for Player p
 	public InjuryReportControl(Player p, Context c) {
@@ -28,25 +30,19 @@ public class InjuryReportControl {
 		newReport = true;
 		playerID = p.getID();
 		context = c;
-		dbHelp = new DBHelper(context);
 	}
 
 	// loads an injury report with ID == formID
-	public InjuryReportControl(InjuryReportID formID, Context c) {
+	public InjuryReportControl(InjuryReportID formID, Context context) {
 		Log.e("###  Loading existing injury report", "...");
 		newReport = false;
-		context = c;
 		playerID = ""; // here we need to set this from DB later
 
 		injuryID = formID.getID();
-		dbHelp = new DBHelper(context);
-		// open db for read / write
-		//SQLiteDatabase db = dbHelp.getReadableDatabase();
-		dbHelp.openToRead();
+		this.context = context;
+		
+		Cursor cursor = context.getContentResolver().query(Provider.CONTENT_URI_INJURIES, null, InjuryTable.KEY_INJURY_ID + " = '" + injuryID + "'", null, null);
 
-		String selectSquadData = "SELECT  * FROM " + InjuryTable.TABLE_NAME + " WHERE "
-				+ InjuryTable.KEY_INJURY_ID + " = " + injuryID + ";";
-		Cursor cursor = dbHelp.readQuery(selectSquadData, null);
 		if (cursor.moveToFirst()) {
 			do {
 				for (int i = 0; i < cursor.getColumnCount(); i++) {
@@ -55,7 +51,6 @@ public class InjuryReportControl {
 
 			} while (cursor.moveToNext());
 		}
-		dbHelp.close();
 	}
 
 	private void createNewReport() {
@@ -67,22 +62,16 @@ public class InjuryReportControl {
 		// No need to include squad id, is automatically added
 		values.put(InjuryTable.KEY_PLAYER_ID, playerID);
 		Log.e("### Adding a new injury", "...");
-		long rowID = dbHelp.insert(InjuryTable.TABLE_NAME, null, values);
-
-		/*
-		 * String getInjuryID = "SELECT * FROM " + InjuryTable.TABLE_NAME +
-		 * " WHERE "+InjuryTable.KEY_PLAYER_ID+" = '"+playerID+"';"; Cursor
-		 * cursor = db.rawQuery(getInjuryID, null); if (cursor.moveToFirst()) {
-		 * injuryID = cursor.getString(0); }
-		 */
-		injuryID = String.valueOf(rowID);
+		injuryID = UUID.randomUUID().toString();
+		values.put(InjuryTable.KEY_INJURY_ID, injuryID);
+		context.getContentResolver().insert(Provider.CONTENT_URI_INJURIES, values);
+		
 		newReport = false;
 	}
 
 	public void saveForm() {
 		// open db for read / write
 		//SQLiteDatabase db = dbHelp.getWritableDatabase();
-		dbHelp.openToWrite();
 
 		if (newReport == true) {
 			createNewReport();
@@ -97,10 +86,8 @@ public class InjuryReportControl {
 			values.put(pairs.getKey(), pairs.getValue());
 
 		}
-		dbHelp.update(InjuryTable.TABLE_NAME, values, InjuryTable.KEY_INJURY_ID + " = '" + injuryID
-				+ "'", null);
+		context.getContentResolver().update(Uri.withAppendedPath(Provider.CONTENT_URI_INJURIES, injuryID), values, null, null);
 		
-		dbHelp.close();
 	}
 
 	private String getStandardValue(String field) {

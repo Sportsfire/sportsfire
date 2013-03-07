@@ -23,7 +23,7 @@ public class Player implements Parcelable{
         firstName = _firstName;
         lastName = _lastName;
         id = _id;
-
+        this.context = context;
         String[] projection = { InjuryTable.KEY_INJURY_ID, InjuryTable.KEY_DATE_OF_INJURY };
         
         //InjuryReportID in = new InjuryReportID(0,"Severe Injury");
