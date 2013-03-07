@@ -3,20 +3,15 @@ package com.sportsfire;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import com.sportsfire.db.DBHelper;
-import com.sportsfire.db.InjuryTable;
-import com.sportsfire.db.PlayerTable;
-import com.sportsfire.db.SquadTable;
+import java.util.Map.Entry;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import com.sportsfire.db.InjuryTable;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
+
+import com.sportsfire.db.DBHelper;
+import com.sportsfire.db.InjuryTable;
 
 public class InjuryReportControl {
 	private HashMap<String, String> changedData = new HashMap<String, String>();
@@ -95,7 +90,7 @@ public class InjuryReportControl {
 
 		// process changes
 		ContentValues values = new ContentValues();
-		Iterator it = changedData.entrySet().iterator();
+		Iterator<Entry<String,String>> it = changedData.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, String> pairs = (Map.Entry<String, String>) it.next();
 

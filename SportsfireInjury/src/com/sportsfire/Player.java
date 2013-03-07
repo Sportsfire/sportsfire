@@ -2,14 +2,12 @@ package com.sportsfire;
 
 import java.util.ArrayList;
 
-import com.sportsfire.db.DBHelper;
-import com.sportsfire.db.InjuryTable;
-import com.sportsfire.db.PlayerTable;
-
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.sportsfire.db.DBHelper;
+import com.sportsfire.db.InjuryTable;
 
 public class Player implements Parcelable{
     private String firstName;

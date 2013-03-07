@@ -1,13 +1,12 @@
 package com.sportsfire;
 import java.util.ArrayList;
 
-import com.sportsfire.db.DBHelper;
-import com.sportsfire.db.PlayerTable;
-
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.sportsfire.db.DBHelper;
+import com.sportsfire.db.PlayerTable;
 
 public class Squad implements Parcelable{
     private ArrayList<Player> playerList = new ArrayList<Player>(); // should be made final?

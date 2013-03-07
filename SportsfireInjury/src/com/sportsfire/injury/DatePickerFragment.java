@@ -2,20 +2,23 @@ package com.sportsfire.injury;
 
 import java.util.Calendar;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+@SuppressLint("ValidFragment")
 public class DatePickerFragment extends DialogFragment implements
 		DatePickerDialog.OnDateSetListener {
-private TextView viewToEdit;
-public DatePickerFragment(TextView view){
-	viewToEdit = view;
-}
+	private TextView viewToEdit;
+
+	public DatePickerFragment(TextView view) {
+		viewToEdit = view;
+	}
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		// Use the current date as the default date in the picker
