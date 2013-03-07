@@ -2,7 +2,9 @@ package com.sportsfire.screening;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,13 +31,19 @@ public class ScreeningMainPage extends Activity {
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, seasons.getSeasonNameList());
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		
 		spinner.setAdapter(adapter);
+
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		spinner.setSelection(settings.getInt("selected_season", 0));
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				selected = seasons.getSeasonList().get(arg2);
+				SharedPreferences settings = PreferenceManager
+						.getDefaultSharedPreferences(getApplicationContext());
+				settings.edit().putInt("selected_season", arg2).apply();
+
 			}
 
 			@Override

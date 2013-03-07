@@ -68,8 +68,9 @@
 
         <TextView
             android:id="@+id/textView1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:text="Monthly"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -77,34 +78,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <Switch
-                    android:id="@+id/Switch03"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Weight" />
-
-                <Spinner
-                    android:id="@+id/Spinner03"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
             <Switch
-                android:id="@+id/Switch02"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Weight" />
+                android:id="@+id/HeightSwitch"
+                style="@style/SwitchStyle"
+                android:text="Height" />
 
             <Spinner
-                android:id="@+id/Spinner02"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:id="@+id/HeightSpinner"
+                style="@style/TestSpinnerOptionStyle" />
         </LinearLayout>
 
         <LinearLayout
@@ -112,33 +93,13 @@
             android:layout_height="wrap_content" >
 
             <Switch
-                android:id="@+id/Switch01"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Weight" />
+                android:id="@+id/BodyFatSwitch"
+                style="@style/SwitchStyle"
+                android:text="Body Fat %" />
 
             <Spinner
-                android:id="@+id/Spinner01"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <Switch
-                android:id="@+id/switch1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Weight" />
-
-            <Spinner
-                android:id="@+id/spinner2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:id="@+id/BodyFatSpinner"
+                style="@style/TestSpinnerOptionStyle" />
         </LinearLayout>
     </LinearLayout>
 
@@ -146,7 +107,8 @@
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="fill_horizontal"
         android:onClick="sendData"
-        android:text="Input Data" />
+        android:text="Next" />
 
 </LinearLayout>

@@ -2,24 +2,20 @@ package com.sportsfire.screening;
 
 import java.util.HashMap;
 
-import org.achartengine.ChartFactory;
-import org.achartengine.chart.LineChart;
-import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.renderer.DefaultRenderer;
-
-import com.sportsfire.*;
-import com.sportsfire.injury.PlayerInjuryFragment;
-
 import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.LinearGradient;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.Spinner;
+
+import com.sportsfire.Player;
+import com.sportsfire.PlayerListFragment;
+import com.sportsfire.R;
+import com.sportsfire.Season;
+import com.sportsfire.Squad;
+import com.sportsfire.SquadListFragment;
 
 /**
  * The activity makes heavy use of fragments. The list of items is a {@link SquadListFragment} This activity also

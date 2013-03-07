@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -64,11 +64,17 @@ public class InputPageActivity extends FragmentActivity implements TestSelection
 				android.R.layout.simple_spinner_dropdown_item, season.getWeeklist());
 		adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter2);
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		spinner.setSelection(settings.getInt("selected_week", 0));
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				week = ((TextView) arg1).getText().toString();
 				screenData = new ScreeningData(arg0.getContext(), season.getSeasonName(), week);
+				SharedPreferences settings = PreferenceManager
+						.getDefaultSharedPreferences(getApplicationContext());
+				settings.edit().putInt("selected_week", arg2).apply();
+
 			}
 
 			@Override
