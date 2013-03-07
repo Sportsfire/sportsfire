@@ -8,13 +8,11 @@ import com.sportsfire.db.DBHelper;
 public class SeasonList {
     private ArrayList<Season> seasonList = new ArrayList<Season>();
     private ArrayList<String> seasonNameList = new ArrayList<String>();
-    private DBHelper dbHelp;
     // loads the current SquadList from DB
-    public SeasonList(DBHelper dbHelp){
-    	this.dbHelp = dbHelp;
+    public SeasonList(Context context){
     	
-    	seasonList.add(new Season("First Season","1",dbHelp));
-    	seasonList.add(new Season("Second Season","2",dbHelp));
+    	seasonList.add(new Season("First Season","1",context));
+    	seasonList.add(new Season("Second Season","2",context));
     	seasonNameList.add("First Season");
     	seasonNameList.add("Second Season");
     	/*DBHelper dbHelp = new DBHelper(context);
@@ -29,10 +27,6 @@ public class SeasonList {
             } while (cursor.moveToNext());
         }*/
         //dbHelp.close();
-    }
-    
-    public SeasonList(Context context){
-    	this(new DBHelper(context));
     }
     
     public ArrayList<Season> getSeasonList(){

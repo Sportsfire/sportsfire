@@ -1,38 +1,45 @@
 package com.sportsfire;
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.sportsfire.db.DBHelper;
 import com.sportsfire.db.PlayerTable;
+import com.sportsfire.sync.Provider;
 
 public class Squad implements Parcelable{
     private ArrayList<Player> playerList = new ArrayList<Player>(); // should be made final?
     private ArrayList<String> playerNameList = new ArrayList<String>();
     private String name;
     private String id;
-    public Squad(String _name, String _id,DBHelper dbHelp){
-        
+    private Context context;
+    public Squad(String _name, String _id,Context context){
+        this.context= context;
         name = _name;
         id = _id;
-        String selectSquadData = "SELECT  * FROM " + PlayerTable.TABLE_NAME + " WHERE "+PlayerTable.KEY_SQUAD_ID+" = "+_id+";";
-        Cursor cursor = dbHelp.readQuery(selectSquadData, null);
-        if (cursor.moveToFirst()) {
+        String[] projection = { PlayerTable.KEY_FIRST_NAME, PlayerTable.KEY_SURNAME, PlayerTable.KEY_PLAYER_ID };
+		Cursor cursor = context.getContentResolver().query(Provider.CONTENT_URI_PLAYERS, projection, PlayerTable.KEY_SQUAD_ID + " = '" + _id + "'", null, null);
+		if (cursor.moveToFirst()) {
             do {
-            	Player pl = new Player(cursor.getString(1),cursor.getString(2),cursor.getString(0),dbHelp);
+            	Player pl = new Player(cursor.getString(0),cursor.getString(1),cursor.getString(2),context);
                 playerList.add(pl);
                 playerNameList.add(pl.getName());
-            	
             } while (cursor.moveToNext());
         }
         
     }
-    protected void refresh(DBHelper dbHelp){
+    protected void refresh(){
     	//refresh the players
     	 for (Player player : playerList){
-    		 player.refresh(dbHelp);
+    		 try {
+				player.refresh();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     	 }
     }
     public ArrayList<Player> getPlayerList(){

@@ -2,12 +2,14 @@ package com.sportsfire;
 
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.sportsfire.db.DBHelper;
 import com.sportsfire.db.InjuryTable;
+import com.sportsfire.sync.Provider;
 
 public class Player implements Parcelable{
     private String firstName;
@@ -15,14 +17,17 @@ public class Player implements Parcelable{
     private String id;
     private ArrayList<InjuryReportID> injuryReportList = new ArrayList<InjuryReportID>() ;
     private ArrayList<String> injuryReportNameList = new ArrayList<String>() ;
-    public Player(String _firstName,String _lastName, String _id, DBHelper dbHelp){
+    private Context context;
+    
+    public Player(String _firstName,String _lastName, String _id, Context context){
         firstName = _firstName;
         lastName = _lastName;
         id = _id;
+
+        String[] projection = { InjuryTable.KEY_INJURY_ID, InjuryTable.KEY_DATE_OF_INJURY };
         
         //InjuryReportID in = new InjuryReportID(0,"Severe Injury");
-        String selectSquadData = "SELECT  * FROM " + InjuryTable.TABLE_NAME + " WHERE "+InjuryTable.KEY_PLAYER_ID+" = "+id+";";
-        Cursor cursor = dbHelp.readQuery(selectSquadData, null);
+        Cursor cursor = context.getContentResolver().query(Provider.CONTENT_URI_INJURIES, projection, InjuryTable.KEY_PLAYER_ID+"= '"+id+"'", null, null);
         if (cursor.moveToFirst()) {
             do {
             	InjuryReportID in = new InjuryReportID(cursor.getString(0),cursor.getString(1)	);
@@ -36,23 +41,28 @@ public class Player implements Parcelable{
         }
        
     }
-    protected void refresh(DBHelper dbHelp){
+    protected void refresh() throws Exception{
+    	if(context == null){
+    		throw new Exception("Context in Player Object is null. Maybe parcelable was used, in which case use setContext().");
+    	}
     	//when new injury comes in call this method in SquadList to show changes to db
     	injuryReportList.clear();
     	injuryReportNameList.clear();
-    	String selectSquadData = "SELECT  * FROM " + InjuryTable.TABLE_NAME + " WHERE "+InjuryTable.KEY_PLAYER_ID+" = "+id+";";
-        Cursor cursor = dbHelp.readQuery(selectSquadData, null);
-        if (cursor.moveToFirst()) {
-            do {
-            	InjuryReportID in = new InjuryReportID(cursor.getString(0),cursor.getString(1) + " - " + cursor.getString(3));
-            	 injuryReportList.add(in);
-                 injuryReportNameList.add(in.getName());
-            } while (cursor.moveToNext());
-        }
-        else{
-        	injuryReportList.add(new InjuryReportID("0",""));
-        	injuryReportNameList.add("No Injuries!");
-        }
+    	 String[] projection = { InjuryTable.KEY_INJURY_ID, InjuryTable.KEY_DATE_OF_INJURY };
+         
+         //InjuryReportID in = new InjuryReportID(0,"Severe Injury");
+         Cursor cursor = context.getContentResolver().query(Provider.CONTENT_URI_INJURIES, projection, InjuryTable.KEY_PLAYER_ID+"= '"+id+"'", null, null);
+         if (cursor.moveToFirst()) {
+             do {
+             	InjuryReportID in = new InjuryReportID(cursor.getString(0),cursor.getString(1)	);
+             	 injuryReportList.add(in);
+                  injuryReportNameList.add(in.getName());
+             } while (cursor.moveToNext());
+         }
+         else{
+         	injuryReportList.add(new InjuryReportID("0",""));
+         	injuryReportNameList.add("No Injuries!");
+         }
     }
     
     public Player(Parcel in){
@@ -96,6 +106,10 @@ public class Player implements Parcelable{
 		firstName = in.readString();
 		lastName = in.readString();
 		id = in.readString();
+	}
+	
+	public void setContext(Context context){
+		this.context = context;
 	}
 	
    public static final Parcelable.Creator CREATOR =

@@ -6,38 +6,32 @@ import android.database.Cursor;
 
 import com.sportsfire.db.DBHelper;
 import com.sportsfire.db.SquadTable;
+import com.sportsfire.sync.Provider;
 
 public class SquadList {
     private ArrayList<Squad> squadList = new ArrayList<Squad>();
     private ArrayList<String> squadNameList = new ArrayList<String>();
-    private DBHelper dbHelp;
     // loads the current SquadList from DB
-    
-    public SquadList(DBHelper dbHelp){
-    	this.dbHelp = dbHelp;
-    	dbHelp.openToRead();
-        String selectSquadData = "SELECT  * FROM " + SquadTable.TABLE_NAME + ";";
-        Cursor cursor = dbHelp.readQuery(selectSquadData, null);
-        if (cursor.moveToFirst()) {
+    private Context context;
+    public SquadList(Context context){
+    	this.context = context;
+    	
+    	String[] projection = { SquadTable.KEY_SQUAD_NAME, SquadTable.KEY_SQUAD_ID };
+		Cursor cursor = context.getContentResolver().query(Provider.CONTENT_URI_SQUADS, projection, null, null, null);
+		if (cursor.moveToFirst()) {
             do {
-            	Squad sq = new Squad(cursor.getString(1),cursor.getString(0),dbHelp);
-                squadList.add(sq);
-                squadNameList.add(sq.getSquadName());
+            	squadList.add(new Squad(cursor.getString(0),cursor.getString(1),context));
+            	squadNameList.add(cursor.getString(0));
             } while (cursor.moveToNext());
         }
-        dbHelp.close();
     }
-    public SquadList(Context context){
-    	this(new DBHelper(context));
-    }
+
     
     public void refresh(){
     	//refresh the squads
-    	dbHelp.openToRead();
     	for (Squad squad: squadList){
-    		squad.refresh(dbHelp);
+    		squad.refresh();
     	}
-        dbHelp.close();
     }
     public ArrayList<Squad> getSquadList(){
         return squadList;

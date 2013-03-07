@@ -42,7 +42,7 @@ public class InputPageActivity extends FragmentActivity implements TestSelection
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.screening_input_page);
 		season = new Season(getIntent().getStringExtra(ARG_ITEM_SEASON_NAME), getIntent()
-				.getStringExtra(ARG_ITEM_SEASON_ID), new DBHelper(this));
+				.getStringExtra(ARG_ITEM_SEASON_ID), this);
 		squads = new SquadList(this);
 		Spinner spinner = (Spinner) findViewById(R.id.squadSpinner);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,

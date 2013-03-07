@@ -1,6 +1,8 @@
 package com.sportsfire;
 import java.util.ArrayList;
 
+import android.content.Context;
+
 import com.sportsfire.db.DBHelper;
 
 public class Season{
@@ -9,11 +11,11 @@ public class Season{
     private ArrayList<String> weekList = new ArrayList<String>();
     private String name;
     private String id;
-    public Season(String _name, String _id,DBHelper dbHelp){
+    public Season(String _name, String _id,Context context){
         
         name = _name;
         id = _id;
-        squadList = new SquadList(dbHelp);
+        squadList = new SquadList(context);
         for (int i = 0; i <= 52; i++) {
 			weekList.add("Week " + Integer.toString(i));
 		}

@@ -119,6 +119,11 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
+        <provider 
+		    android:authorities="com.sportsfire.sync.Provider"
+		    android:multiprocess="true"
+		    android:name="com.sportsfire.sync.Provider">\
+		</provider>
     </application>
 
 </manifest>
