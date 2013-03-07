@@ -28,6 +28,7 @@ import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.achartengine.util.MathHelper;
 
 /**
  * An abstract class for the demo charts to extend. It contains some methods for
@@ -59,7 +60,10 @@ public abstract class AbstractDemoChart {
       double[] yV = yValues.get(i);
       int seriesLength = xV.length;
       for (int k = 0; k < seriesLength; k++) {
-        series.add(xV[k], yV[k]);
+    	  if (yV[k]!=MathHelper.NULL_VALUE){ // modified
+    		  series.add(xV[k], yV[k]);
+    	  }
+    	  
       }
       dataset.addSeries(series);
     }

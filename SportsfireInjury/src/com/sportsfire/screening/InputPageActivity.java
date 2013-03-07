@@ -116,6 +116,9 @@ public class InputPageActivity extends FragmentActivity implements TestSelection
 
 	@Override
 	public void onTestsChosen(HashMap<String, Integer> map) {
+		if (map.isEmpty()){
+			return;
+		}
 		String[] params = new String[2];
 		params[0] = season.getSeasonID();
 		params[1] = week;
