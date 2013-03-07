@@ -121,7 +121,10 @@
         <item>Show Average</item>
         <item>Show Input only</item>
     </string-array>
-
+	<string-array name="ComparisonChoices">
+        <item>Show Values</item>
+        <item>Show Comparison</item>
+    </string-array>
     <string name="title_activity_test_input_form">Test Input Form</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.sportsfire.screening;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import android.app.Activity;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 
@@ -43,9 +45,23 @@ public class TestSelectionFragment extends Fragment {
 				(Spinner) rootView.findViewById(R.id.SqueezeSpinner));
 		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.CMJSwitch),
 				(Spinner) rootView.findViewById(R.id.CMJSpinner));
+		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.HeightSwitch),
+				(Spinner) rootView.findViewById(R.id.HeightSpinner));
+		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.BodyFatSwitch),
+				(Spinner) rootView.findViewById(R.id.BodyFatSpinner));
+		String[] choices;
+		if (getActivity().getClass().equals(AnalysisPageActivity.class)) {
+			choices = getResources().getStringArray(R.array.ComparisonChoices);
+			for (Spinner spinner : testSelectionMap.values()) {
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+						android.R.layout.simple_spinner_dropdown_item, choices);
+				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				spinner.setAdapter(adapter);
+			}
+		}
 		return rootView;
 	}
-	
+
 	public void onSwitchClicked(View view) {
 		if (((CompoundButton) view).isChecked()) {
 			(testSelectionMap.get(view)).setVisibility(View.VISIBLE);
@@ -53,7 +69,7 @@ public class TestSelectionFragment extends Fragment {
 			(testSelectionMap.get(view)).setVisibility(View.INVISIBLE);
 		}
 	}
-	
+
 	public void sendData(View view) {
 		HashMap<String, Integer> selectedTests = new HashMap<String, Integer>();
 		for (CompoundButton k : testSelectionMap.keySet()) {
@@ -62,7 +78,7 @@ public class TestSelectionFragment extends Fragment {
 						(testSelectionMap.get(k)).getSelectedItemPosition());
 			}
 		}
-		 mCallbacks.onTestsChosen(selectedTests);
+		mCallbacks.onTestsChosen(selectedTests);
 	}
 
 	@Override
@@ -73,7 +89,6 @@ public class TestSelectionFragment extends Fragment {
 		}
 		mCallbacks = (Callbacks) activity;
 	}
-	
 
 	@Override
 	public void onDetach() {

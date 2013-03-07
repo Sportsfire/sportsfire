@@ -23,19 +23,16 @@ public class MainPage extends Activity{
         return true;
     }
     public void ButtonOnClick(View v) {
+    	Intent intent;
         switch (v.getId()) {
           case R.id.button1:
-        	  //Intent intent = new Intent(this,InjuryForm.class);
-        	  //setContentView(R.layout.player_injury_form);
-              //startActivity(intent);
         	  DBHelper db = new DBHelper(this);
         	  db.initiateDatabaseWithStubValues();
         	  
             break;
           case R.id.button2:
-        	  Intent intent2 = new Intent(this,ListPageActivity.class);
-        	  //setContentView(R.layout.activity_list_page);
-        	  startActivity(intent2);
+        	  intent = new Intent(this,ListPageActivity.class);
+        	  startActivity(intent);
             break;
           }
     }
