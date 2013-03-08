@@ -47,10 +47,7 @@ public class InjuryTable {
 				+ KEY_REFEREE + " TEXT DEFAULT '',"
 				+ KEY_SANCTION_PLAYER + " TEXT DEFAULT '0',"
 				+ KEY_SANCTION_OPPONENT + " TEXT DEFAULT '0',"
-				+ KEY_PLAYER_ID + " INTEGER NOT NULL,"
-				+ "FOREIGN KEY("+ KEY_PLAYER_ID +") REFERENCES " + PlayerTable.TABLE_NAME + "(" + PlayerTable.KEY_PLAYER_ID + ")"
-				+ ")";
-        
+				+ KEY_PLAYER_ID + " INTEGER NOT NULL)";
         db.execSQL(createInjuryTable);
    }
  
