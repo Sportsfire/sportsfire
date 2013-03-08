@@ -18,16 +18,20 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnManagerParams;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.sportsfire.Player;
+import com.sportsfire.db.InjuryUpdateTable;
 import com.sportsfire.db.PlayerTable;
 import com.sportsfire.db.SquadTable;
 
@@ -41,6 +45,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncResult;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -57,6 +62,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     /** URI for sync service */
     public static final String SYNC_PLAYERS_URI = BASE_URL + "/player/";
     public static final String SYNC_SQUADS_URI = BASE_URL + "/squads/";
+    public static final String SYNC_INJURIES_URI = BASE_URL + "/injuries/";
     public static final int HTTP_REQUEST_TIMEOUT_MS = 70 * 1000;
 
 
@@ -84,6 +90,51 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			ContentProviderClient provider, SyncResult syncResult) {
 		String authtoken = null;
 
+		loadSquadsAndPlayers();
+		updateInjuries();
+		
+		
+	}
+
+	private void updateInjuries() {
+		try{
+			final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+	        
+			JSONArray jsonarray = new JSONArray();
+			String[] projection = { InjuryUpdateTable.KEY_INJURY_ID, InjuryUpdateTable.KEY_UPDATE_TYPE, InjuryUpdateTable.KEY_DATA};
+			Cursor cursor = mContentResolver.query(Provider.CONTENT_URI_INJURIES_UPDATES, projection, null, null, null);
+			if (cursor.moveToFirst()) {
+	            do {
+	            	JSONObject jsonentry = new JSONObject();
+	            	for(int i = 0;i<cursor.getColumnCount();i++){
+	            		jsonentry.put(cursor.getColumnName(i),cursor.getString(i));
+	            	}
+	            	jsonarray.put(jsonentry);
+	            } while (cursor.moveToNext());
+	        }
+			StringEntity entity = new StringEntity(jsonarray.toString(),HTTP.UTF_8);
+	        final HttpPost post = new HttpPost(SYNC_INJURIES_URI);
+	        Log.e("post",post.toString());
+	        post.addHeader("Content-Type", "application/json");
+	        post.setEntity(entity);
+	        final HttpResponse resp = getHttpClient().execute(post);
+
+	        final String response = EntityUtils.toString(resp.getEntity());
+	        Log.e("response",response);
+	        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+	            
+	            
+	        }
+		}
+		catch (Exception e){
+			Log.e("Exception", e.toString());
+		}
+		
+		
+	}
+
+	private void loadSquadsAndPlayers() {
+
 		LinkedList<ContentValues> squads = loadSquads();
 		LinkedList<ContentValues> players = loadPlayers();
 		mContentResolver.delete(Provider.CONTENT_URI_PLAYERS, null, null);
@@ -97,8 +148,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			mContentResolver.insert(Provider.CONTENT_URI_PLAYERS, it.next());
 		}
 		
-        Log.e("hello","marker");
-
 		
 		
 	}

@@ -24,19 +24,25 @@ public class Provider extends ContentProvider {
 	public static final int SQUADS_ID = 210;
 	public static final int INJURIES = 300;
 	public static final int INJURIES_ID = 310;
+	public static final int INJURIES_UPDATES = 400;
+
 	private static final String BASEPATH = "content://" + AUTHORITY + "/"; 
 	private static final String PLAYERS_BASE_PATH = "players";
 	private static final String SQUADS_BASE_PATH = "squads";
 	private static final String INJURIES_BASE_PATH = "injuries";
+	private static final String INJURIES_UPDATES_BASE_PATH = "injuriesupdates";
 	public static final Uri CONTENT_URI_PLAYERS = Uri.parse(BASEPATH + PLAYERS_BASE_PATH);
 	public static final Uri CONTENT_URI_SQUADS = Uri.parse(BASEPATH + SQUADS_BASE_PATH);
 	public static final Uri CONTENT_URI_INJURIES = Uri.parse(BASEPATH + INJURIES_BASE_PATH);
+	public static final Uri CONTENT_URI_INJURIES_UPDATES = Uri.parse(BASEPATH + INJURIES_UPDATES_BASE_PATH);
 	public static final String CONTENT_TYPE_PLAYERS = ContentResolver.CURSOR_DIR_BASE_TYPE
 	            + "/type-player";
 	public static final String CONTENT_TYPE_SQUADS = ContentResolver.CURSOR_DIR_BASE_TYPE
             + "/type-squad";
 	public static final String CONTENT_TYPE_INJURIES = ContentResolver.CURSOR_DIR_BASE_TYPE
             + "/type-injury";
+	public static final String CONTENT_TYPE_INJURIES_UPDATES = ContentResolver.CURSOR_DIR_BASE_TYPE
+            + "/type-injury-updates";
 	
 
 	private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -47,6 +53,7 @@ public class Provider extends ContentProvider {
 		sURIMatcher.addURI(AUTHORITY, SQUADS_BASE_PATH + "/#", SQUADS_ID);
 		sURIMatcher.addURI(AUTHORITY, INJURIES_BASE_PATH, INJURIES);
 		sURIMatcher.addURI(AUTHORITY, INJURIES_BASE_PATH + "/*", INJURIES_ID);
+		sURIMatcher.addURI(AUTHORITY, INJURIES_UPDATES_BASE_PATH, INJURIES_UPDATES);
 	}
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
@@ -88,6 +95,9 @@ public class Provider extends ContentProvider {
 		case INJURIES:
 			rowsAffected = sqldb.delete(InjuryTable.TABLE_NAME, selection, selectionArgs);
 			break;
+		case INJURIES_UPDATES:
+			rowsAffected = sqldb.delete(InjuryUpdateTable.TABLE_NAME, selection, selectionArgs);
+			break;
 		default:
 			throw new IllegalArgumentException("Unkown URI");
 		}
@@ -112,6 +122,8 @@ public class Provider extends ContentProvider {
 			return CONTENT_TYPE_INJURIES;
 		case INJURIES_ID:
 			return CONTENT_TYPE_INJURIES;
+		case INJURIES_UPDATES:
+			return CONTENT_TYPE_INJURIES_UPDATES;
 		default:
 			return null;
 				
@@ -121,7 +133,7 @@ public class Provider extends ContentProvider {
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		int uriType = sURIMatcher.match(uri);
-        if ((uriType != PLAYERS) && (uriType != SQUADS) && (uriType != INJURIES)) {
+        if ((uriType != PLAYERS) && (uriType != SQUADS) && (uriType != INJURIES) && (uriType != INJURIES_UPDATES)) {
             throw new IllegalArgumentException("Invalid URI for insert");
         }
         SQLiteDatabase sqldb = db.getWritableDatabase();
@@ -132,6 +144,8 @@ public class Provider extends ContentProvider {
         	newID = sqldb.insert(SquadTable.TABLE_NAME, null, values);
         } else if(uriType == INJURIES){
         	newID = sqldb.insert(InjuryTable.TABLE_NAME, null, values);
+        } else if(uriType == INJURIES_UPDATES){
+        	newID = sqldb.insert(InjuryUpdateTable.TABLE_NAME, null, values);
         }
         if (newID > 0) {
             Uri newUri = ContentUris.withAppendedId(uri, newID);
@@ -178,6 +192,10 @@ public class Provider extends ContentProvider {
 			queryBuilder.setTables(InjuryTable.TABLE_NAME);
 			// no filter
 			break;
+		case INJURIES_UPDATES:
+			queryBuilder.setTables(InjuryUpdateTable.TABLE_NAME);
+			// no filter
+			break;
 		default:
 			throw new IllegalArgumentException("Unkown URI");
 		}
@@ -211,6 +229,9 @@ public class Provider extends ContentProvider {
         	tableid = InjuryTable.KEY_INJURY_ID;
         	tablename = InjuryTable.TABLE_NAME;
         	break;
+        case INJURIES_UPDATES:
+        	tableid = InjuryUpdateTable.KEY_ID;
+        	tablename = InjuryUpdateTable.TABLE_NAME;
         default:
             throw new IllegalArgumentException("Unknown URI");
         }
@@ -233,6 +254,7 @@ public class Provider extends ContentProvider {
         case PLAYERS:
         case SQUADS:
         case INJURIES:
+        case INJURIES_UPDATES:
             rowsAffected = sqldb.update(tablename,
                     values, selection, selectionArgs);
             break;

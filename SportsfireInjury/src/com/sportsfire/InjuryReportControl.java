@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.Map.Entry;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,6 +17,7 @@ import android.util.Log;
 
 import com.sportsfire.db.DBHelper;
 import com.sportsfire.db.InjuryTable;
+import com.sportsfire.db.InjuryUpdateTable;
 import com.sportsfire.sync.Provider;
 
 public class InjuryReportControl {
@@ -66,6 +70,12 @@ public class InjuryReportControl {
 		values.put(InjuryTable.KEY_INJURY_ID, injuryID);
 		context.getContentResolver().insert(Provider.CONTENT_URI_INJURIES, values);
 		
+		values.clear();
+		
+		values.put(InjuryUpdateTable.KEY_INJURY_ID, injuryID);
+		values.put(InjuryUpdateTable.KEY_UPDATE_TYPE,InjuryUpdateTable.TYPE_NEW);
+		context.getContentResolver().insert(Provider.CONTENT_URI_INJURIES_UPDATES, values);
+		
 		newReport = false;
 	}
 
@@ -79,15 +89,29 @@ public class InjuryReportControl {
 
 		// process changes
 		ContentValues values = new ContentValues();
+		JSONObject jsonChanges = new JSONObject();
 		Iterator<Entry<String,String>> it = changedData.entrySet().iterator();
+		
 		while (it.hasNext()) {
 			Map.Entry<String, String> pairs = (Map.Entry<String, String>) it.next();
 
 			values.put(pairs.getKey(), pairs.getValue());
+			try {
+				jsonChanges.put(pairs.getKey(), pairs.getValue());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}
 		context.getContentResolver().update(Uri.withAppendedPath(Provider.CONTENT_URI_INJURIES, injuryID), values, null, null);
 		
+		values.clear();
+		values.put(InjuryUpdateTable.KEY_INJURY_ID, injuryID);
+		values.put(InjuryUpdateTable.KEY_UPDATE_TYPE, InjuryUpdateTable.TYPE_UPDATE);
+		
+		String jsonString = jsonChanges.toString();
+		values.put(InjuryUpdateTable.KEY_DATA, jsonString);		
 	}
 
 	private String getStandardValue(String field) {
