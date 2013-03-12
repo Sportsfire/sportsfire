@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources.Theme;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -38,11 +39,10 @@ public class TestInputForm extends Activity {
 	String[] params;
 
 	private void setCellStyle(TextView cell) {
-		LayoutParams layout = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.MATCH_PARENT, 1.0f);
+		LayoutParams layout = new LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f);
 		layout.setMargins(1, 1, 1, 1);
 		cell.setLayoutParams(layout);
-		// cell.setTextColor(Color.BLACK);
+		cell.setTextAppearance(this, android.R.style.TextAppearance_DeviceDefault_Medium);
 		cell.setBackgroundColor(Color.WHITE);
 		cell.setGravity(Gravity.CENTER_HORIZONTAL);
 		cell.requestLayout();
@@ -56,6 +56,7 @@ public class TestInputForm extends Activity {
 			layout.setMargins(1, 1, 1, 1);
 			cell.setLayoutParams(layout);
 			cell.setText(heading);
+			cell.setTextAppearance(this, android.R.style.TextAppearance_Holo_Large);
 			cell.setFocusable(false);
 			dummyRow.addView(cell);
 		}
@@ -80,7 +81,7 @@ public class TestInputForm extends Activity {
 			if (heading.compareTo("Full Name") == 0) {
 				cell.setBackgroundColor(Color.parseColor("#ffcccccc"));
 			}
-			cell.setTextAppearance(this, android.R.style.Widget_EditText);
+			cell.setTextAppearance(this, android.R.style.TextAppearance_Holo_Large);
 			cell.setText(heading);
 			headRow.addView(cell);
 		}
@@ -94,7 +95,7 @@ public class TestInputForm extends Activity {
 			TextView cell = new TextView(this);
 			setCellStyle(cell);
 			cell.setBackgroundColor(Color.parseColor("#ffcccccc"));
-			//cell.setFocusable(false);
+			// cell.setFocusable(false);
 			cell.setText(player.getName());
 			bodyRow.addView(cell);
 			for (final Entry<String, Integer> test : TestsMap.entrySet()) {

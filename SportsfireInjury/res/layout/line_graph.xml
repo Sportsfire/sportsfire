@@ -22,12 +22,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/new_series"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="new_series" />
     </LinearLayout>
 
 </LinearLayout>

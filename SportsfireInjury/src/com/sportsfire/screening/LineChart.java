@@ -21,11 +21,11 @@ public class LineChart extends AbstractDemoChart {
 	private List<double[]> y;
 	private String[] lineNames;
 	private int lineCount;
-	int[] colors = new int[] { Color.MAGENTA, Color.GREEN, Color.CYAN, Color.YELLOW };
+	int[] colors = new int[] { Color.BLUE, Color.MAGENTA, Color.CYAN, Color.RED };
 	PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE, PointStyle.DIAMOND,
 			PointStyle.TRIANGLE, PointStyle.SQUARE };
 
-	public LineChart(String playerName, String chartName, List<String> lineNames,
+	public LineChart(Context context, String playerName, String chartName, List<String> lineNames,
 			List<double[]> values) {
 		lineCount = lineNames.size();
 		this.lineNames = (String[]) lineNames.toArray();
@@ -42,16 +42,22 @@ public class LineChart extends AbstractDemoChart {
 		renderer = buildRenderer(colors, styles);
 		for (int i = 0; i < lineCount; i++) {
 			((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
+			((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setLineWidth(3f);
 		}
 		setChartSettings(renderer, playerName, "Week Number", chartName, 0, values.get(0).length,
-				50, 150, Color.LTGRAY, Color.LTGRAY);
+				50, 150, Color.BLACK, Color.BLACK);
 		renderer.setXLabels(x.get(0).length);
-		renderer.setBackgroundColor(Color.BLACK);
+		renderer.setApplyBackgroundColor(true);
+		renderer.setBackgroundColor(context.getResources().getColor(
+				android.R.color.background_light));
+		renderer.setMarginsColor(context.getResources().getColor(android.R.color.background_light));
 		renderer.setShowGrid(true);
+		renderer.setGridColor(context.getResources().getColor(android.R.color.tertiary_text_light));
+		renderer.setXLabelsColor(Color.BLACK);
+		renderer.setYLabelsColor(0, Color.BLACK);
 		renderer.setXLabelsAlign(Align.RIGHT);
 		renderer.setYLabelsAlign(Align.RIGHT);
-		renderer.setApplyBackgroundColor(true);
-		renderer.setMargins(new int[] { 30, 50, 5, 1 });
+		renderer.setMargins(new int[] { 30, 60, 10, 10 });
 		renderer.setZoomButtonsVisible(true);
 		renderer.setPanLimits(new double[] { -0.5, 55, 0, 300 });
 		renderer.setZoomLimits(new double[] { -0.5, 55, 0, 300 });
