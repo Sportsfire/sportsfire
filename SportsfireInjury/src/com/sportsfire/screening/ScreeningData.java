@@ -1,4 +1,4 @@
-package com.sportsfire;
+package com.sportsfire.screening;
 
 import android.content.Context;
 

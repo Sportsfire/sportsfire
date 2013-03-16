@@ -24,7 +24,6 @@ import android.widget.TextView;
 
 import com.sportsfire.Player;
 import com.sportsfire.R;
-import com.sportsfire.ScreeningData;
 import com.sportsfire.Squad;
 
 public class TestInputForm extends Activity {

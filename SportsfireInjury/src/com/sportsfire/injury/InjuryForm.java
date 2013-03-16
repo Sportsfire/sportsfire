@@ -27,8 +27,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sportsfire.InjuryReportControl;
-import com.sportsfire.InjuryReportID;
 import com.sportsfire.Player;
 import com.sportsfire.R;
 import com.sportsfire.db.InjuryTable;
@@ -40,10 +38,10 @@ public class InjuryForm extends Activity {
 	private String orchardCode = "";
 	private boolean initializedView = false;
 	private boolean initializedView2 = false;
-	Map<String, String[]> orchardSectionMap = new HashMap<String, String[]>();
-	Map<String, Integer> orchTypeMap = new HashMap<String, Integer>();
-	Map<String, String> orchFirstMap = new HashMap<String, String>();
-	Map<String, String> orchSecondMap = new HashMap<String, String>();
+	private Map<String, String[]> orchardSectionMap = new HashMap<String, String[]>();
+	private Map<String, Integer> orchTypeMap = new HashMap<String, Integer>();
+	private Map<String, String> orchFirstMap = new HashMap<String, String>();
+	private Map<String, String> orchSecondMap = new HashMap<String, String>();
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

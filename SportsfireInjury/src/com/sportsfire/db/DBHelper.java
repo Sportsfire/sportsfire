@@ -20,7 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private SQLiteDatabase db = null;
     
 	public DBHelper(Context context) {
-		super(context, DB_NAME, null, DB_VERSION);
+		super(context, getDbName(), null, DB_VERSION);
 	}
 	
 	public void openToRead(){
@@ -40,7 +40,9 @@ public class DBHelper extends SQLiteOpenHelper {
 		}
 			
 	}
-	
+	public void deleteDatabase(){
+		db.delete(getDbName(), null, null); 
+	}
 	public long insert(String table,String nullColumnHack,ContentValues values){
 		return db.insert(table, nullColumnHack, values);
 	}
@@ -195,6 +197,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onOpen(SQLiteDatabase db) {
     	db.execSQL("PRAGMA foreign_keys = ON");
     }
+
+	public static String getDbName() {
+		return DB_NAME;
+	}
 
 	
 }

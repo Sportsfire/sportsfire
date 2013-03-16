@@ -24,6 +24,7 @@ public class SquadList {
             	squadNameList.add(cursor.getString(0));
             } while (cursor.moveToNext());
         }
+		cursor.close();
     }
 
     

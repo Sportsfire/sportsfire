@@ -29,6 +29,7 @@ public class Squad implements Parcelable{
                 playerNameList.add(pl.getName());
             } while (cursor.moveToNext());
         }
+		cursor.close();
         
     }
     protected void refresh(){

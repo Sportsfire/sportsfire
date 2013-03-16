@@ -1,5 +1,7 @@
 package com.sportsfire;
 
+import com.sportsfire.injury.InjuryReportValue;
+
 public class InjuryReportValueString extends InjuryReportValue {
 	public String value;
 	public InjuryReportValueString(){

@@ -22,11 +22,9 @@ import android.widget.TextView;
 
 import com.sportsfire.Player;
 import com.sportsfire.R;
-import com.sportsfire.ScreeningData;
 import com.sportsfire.Season;
 import com.sportsfire.Squad;
 import com.sportsfire.SquadList;
-import com.sportsfire.db.DBHelper;
 
 public class InputPageActivity extends FragmentActivity implements TestSelectionFragment.Callbacks {
 	SquadList squads;
@@ -44,6 +42,15 @@ public class InputPageActivity extends FragmentActivity implements TestSelection
 		season = new Season(getIntent().getStringExtra(ARG_ITEM_SEASON_NAME), getIntent()
 				.getStringExtra(ARG_ITEM_SEASON_ID), this);
 		squads = new SquadList(this);
+		setUpSquadSpinner();
+		setUpWeekSpinner();
+		fragment = new TestSelectionFragment();
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.test_selection_container, fragment).commit();
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+	}
+	private void setUpSquadSpinner(){
 		Spinner spinner = (Spinner) findViewById(R.id.squadSpinner);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_dropdown_item, squads.getSquadNameList());
@@ -59,13 +66,19 @@ public class InputPageActivity extends FragmentActivity implements TestSelection
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		spinner = (Spinner) findViewById(R.id.weekSpinner);
+	}
+	private void setUpWeekSpinner(){
+		Spinner spinner = (Spinner) findViewById(R.id.weekSpinner);
 		ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_dropdown_item, season.getWeeklist());
 		adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter2);
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-		spinner.setSelection(settings.getInt("selected_week", 0));
+		try {
+			spinner.setSelection(settings.getInt("selected_week", 0));
+		} catch (Exception e) {
+		}
+		
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
@@ -81,13 +94,7 @@ public class InputPageActivity extends FragmentActivity implements TestSelection
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		fragment = new TestSelectionFragment();
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.test_selection_container, fragment).commit();
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
-
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main_page, menu);
 		return true;

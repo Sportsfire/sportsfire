@@ -34,7 +34,11 @@ public class ScreeningMainPage extends Activity {
 		spinner.setAdapter(adapter);
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-		spinner.setSelection(settings.getInt("selected_season", 0));
+		try {
+			spinner.setSelection(settings.getInt("selected_season", 0));
+		} catch (Exception e) {
+		}
+
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override

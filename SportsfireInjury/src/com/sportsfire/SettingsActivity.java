@@ -182,17 +182,7 @@ public class SettingsActivity extends PreferenceActivity {
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.pref_general);
-			ListPreference lp = (ListPreference) findPreference("selected_season");
-			SeasonList seasons = new SeasonList(getActivity());
-			ArrayList<String> list = seasons.getSeasonNameList();
-			lp.setEntries(list.toArray(new CharSequence[list.size()]));
-			//lp.setEntryValues(list.toArray(new CharSequence[list.size()]));
-			//lp.set
-			//lp = (ListPreference) findPreference("selected_week");
-			//lp.g
-			//lp.setEntries(list.toArray(new CharSequence[list.size()]));
 			// Bind the summaries of preferences to their values.
-			bindPreferenceSummaryToValue(findPreference("selected_season"));
 			bindPreferenceSummaryToValue(findPreference("example_text"));
 			bindPreferenceSummaryToValue(findPreference("example_list"));
 		}

@@ -9,6 +9,7 @@ import android.os.Parcelable;
 
 import com.sportsfire.db.DBHelper;
 import com.sportsfire.db.InjuryTable;
+import com.sportsfire.injury.InjuryReportID;
 import com.sportsfire.sync.Provider;
 
 public class Player implements Parcelable{
@@ -34,6 +35,7 @@ public class Player implements Parcelable{
             	 injuryReportList.add(in);
                  injuryReportNameList.add(in.getName());
             } while (cursor.moveToNext());
+            cursor.close();
         }
         else{
         	injuryReportList.add(new InjuryReportID("0",""));
@@ -58,6 +60,7 @@ public class Player implements Parcelable{
              	 injuryReportList.add(in);
                   injuryReportNameList.add(in.getName());
              } while (cursor.moveToNext());
+             cursor.close();
          }
          else{
          	injuryReportList.add(new InjuryReportID("0",""));

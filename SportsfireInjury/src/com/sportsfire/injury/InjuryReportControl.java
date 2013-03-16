@@ -1,4 +1,4 @@
-package com.sportsfire;
+package com.sportsfire.injury;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
+import com.sportsfire.Player;
 import com.sportsfire.db.DBHelper;
 import com.sportsfire.db.InjuryTable;
 import com.sportsfire.db.InjuryUpdateTable;
@@ -25,14 +26,14 @@ public class InjuryReportControl {
 	private HashMap<String, String> oldData = new HashMap<String, String>();
 	private String playerID;
 	private String injuryID;
-	boolean newReport;
+	private boolean newReport;
 	private Context context;
 
 	// creates a new injury report for Player p
-	public InjuryReportControl(Player p, Context c) {
+	public InjuryReportControl(Player player, Context c) {
 		Log.e("### Creating new Injury Report", "...");
 		newReport = true;
-		playerID = p.getID();
+		playerID = player.getID();
 		context = c;
 	}
 
