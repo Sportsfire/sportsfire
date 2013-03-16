@@ -55,6 +55,7 @@ public class ScreeningMainPage extends Activity {
 			}
 
 		});
+		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 

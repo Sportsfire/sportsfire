@@ -14,8 +14,12 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnFocusChangeListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -88,7 +92,9 @@ public class TestInputForm extends Activity {
 		((TableLayout) findViewById(R.id.headerTable)).addView(createDummyRow());
 		((TableLayout) findViewById(R.id.mainTable)).addView(createDummyRow());
 
-		final ScreeningData screenData = new ScreeningData(this, params[0], params[1]);
+		String week = params[1].substring(5); // we need the number of the week, without "Week "
+		
+		final ScreeningData screenData = new ScreeningData(this, params[0], week);
 		for (final Player player : squad) {
 			TableRow bodyRow = new TableRow(this);
 			TextView cell = new TextView(this);
@@ -103,24 +109,19 @@ public class TestInputForm extends Activity {
 				setCellStyle(tCell);
 				tCell.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 				tCell.setText(screenData.getValue(player.getID(), test.getKey()));
-				tCell.addTextChangedListener(new TextWatcher() {
+				tCell.setOnFocusChangeListener(new OnFocusChangeListener(){
 
 					@Override
-					public void onTextChanged(CharSequence s, int start, int before, int count) {
-						// TODO Auto-generated method stub
-						screenData.setValue(player.getID(), test.getKey(), s.toString());
-						System.out.println(player.getID() + " " + test.getKey());
+					public void onFocusChange(View v, boolean hasFocus) {
+						if(!hasFocus){
+							// TODO Auto-generated method stub
+							screenData.setValue(player.getID(), test.getKey(), ((EditText)v).getText().toString());
+							System.out.println(player.getID() + " " + test.getKey());
+					    }
+						
 					}
-
-					@Override
-					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-					}
-
-					@Override
-					public void afterTextChanged(Editable s) {
-						// TODO: change colour depending on value range
-					}
-				});
+					});
+				
 				bodyRow.addView(tCell);
 				TextView aCell = new TextView(this);
 				TextView pCell = new TextView(this);

@@ -25,16 +25,23 @@ public class Provider extends ContentProvider {
 	public static final int INJURIES = 300;
 	public static final int INJURIES_ID = 310;
 	public static final int INJURIES_UPDATES = 400;
+	public static final int SCREENING_VALUES = 500;
+	public static final int SCREENING_AVERAGES = 550;
 
 	private static final String BASEPATH = "content://" + AUTHORITY + "/"; 
 	private static final String PLAYERS_BASE_PATH = "players";
 	private static final String SQUADS_BASE_PATH = "squads";
 	private static final String INJURIES_BASE_PATH = "injuries";
+	private static final String SCREENING_VALUES_BASE_PATH = "screeningvalues";
+	private static final String SCREENING_AVERAGES_BASE_PATH = "screeningaverages";
 	private static final String INJURIES_UPDATES_BASE_PATH = "injuriesupdates";
 	public static final Uri CONTENT_URI_PLAYERS = Uri.parse(BASEPATH + PLAYERS_BASE_PATH);
 	public static final Uri CONTENT_URI_SQUADS = Uri.parse(BASEPATH + SQUADS_BASE_PATH);
 	public static final Uri CONTENT_URI_INJURIES = Uri.parse(BASEPATH + INJURIES_BASE_PATH);
 	public static final Uri CONTENT_URI_INJURIES_UPDATES = Uri.parse(BASEPATH + INJURIES_UPDATES_BASE_PATH);
+	public static final Uri CONTENT_URI_SCREENING_VALUES = Uri.parse(BASEPATH + SCREENING_VALUES_BASE_PATH);
+	public static final Uri CONTENT_URI_SCREENING_AVERAGES = Uri.parse(BASEPATH + SCREENING_AVERAGES_BASE_PATH);
+
 	public static final String CONTENT_TYPE_PLAYERS = ContentResolver.CURSOR_DIR_BASE_TYPE
 	            + "/type-player";
 	public static final String CONTENT_TYPE_SQUADS = ContentResolver.CURSOR_DIR_BASE_TYPE
@@ -43,6 +50,10 @@ public class Provider extends ContentProvider {
             + "/type-injury";
 	public static final String CONTENT_TYPE_INJURIES_UPDATES = ContentResolver.CURSOR_DIR_BASE_TYPE
             + "/type-injury-updates";
+	public static final String CONTENT_TYPE_SCREENING_VALUES = ContentResolver.CURSOR_DIR_BASE_TYPE
+            + "/type-screening-values";
+	public static final String CONTENT_TYPE_SCREENING_AVERAGES = ContentResolver.CURSOR_DIR_BASE_TYPE
+            + "/type-screening-averages";
 	
 
 	private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -54,6 +65,9 @@ public class Provider extends ContentProvider {
 		sURIMatcher.addURI(AUTHORITY, INJURIES_BASE_PATH, INJURIES);
 		sURIMatcher.addURI(AUTHORITY, INJURIES_BASE_PATH + "/*", INJURIES_ID);
 		sURIMatcher.addURI(AUTHORITY, INJURIES_UPDATES_BASE_PATH, INJURIES_UPDATES);
+		sURIMatcher.addURI(AUTHORITY, SCREENING_VALUES_BASE_PATH, SCREENING_VALUES );
+		sURIMatcher.addURI(AUTHORITY, SCREENING_AVERAGES_BASE_PATH, SCREENING_AVERAGES);
+
 	}
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
@@ -98,6 +112,12 @@ public class Provider extends ContentProvider {
 		case INJURIES_UPDATES:
 			rowsAffected = sqldb.delete(InjuryUpdateTable.TABLE_NAME, selection, selectionArgs);
 			break;
+		case SCREENING_VALUES:
+			rowsAffected = sqldb.delete(ScreeningValuesTable.TABLE_NAME, selection, selectionArgs);
+			break;
+		case SCREENING_AVERAGES:
+			rowsAffected = sqldb.delete(ScreeningAverageValuesTable.TABLE_NAME, selection, selectionArgs);
+			break;
 		default:
 			throw new IllegalArgumentException("Unkown URI");
 		}
@@ -124,6 +144,10 @@ public class Provider extends ContentProvider {
 			return CONTENT_TYPE_INJURIES;
 		case INJURIES_UPDATES:
 			return CONTENT_TYPE_INJURIES_UPDATES;
+		case SCREENING_VALUES:
+			return CONTENT_TYPE_SCREENING_VALUES;
+		case SCREENING_AVERAGES:
+			return CONTENT_TYPE_SCREENING_AVERAGES;
 		default:
 			return null;
 				
@@ -133,7 +157,9 @@ public class Provider extends ContentProvider {
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		int uriType = sURIMatcher.match(uri);
-        if ((uriType != PLAYERS) && (uriType != SQUADS) && (uriType != INJURIES) && (uriType != INJURIES_UPDATES)) {
+        if ((uriType != PLAYERS) && (uriType != SQUADS) && (uriType != INJURIES) &&
+        		(uriType != INJURIES_UPDATES) && (uriType != SCREENING_VALUES) &&
+        		(uriType != SCREENING_AVERAGES)) {
             throw new IllegalArgumentException("Invalid URI for insert");
         }
         SQLiteDatabase sqldb = db.getWritableDatabase();
@@ -146,6 +172,10 @@ public class Provider extends ContentProvider {
         	newID = sqldb.insert(InjuryTable.TABLE_NAME, null, values);
         } else if(uriType == INJURIES_UPDATES){
         	newID = sqldb.insert(InjuryUpdateTable.TABLE_NAME, null, values);
+        } else if(uriType == SCREENING_VALUES){
+        	newID = sqldb.insert(ScreeningValuesTable.TABLE_NAME, null, values);
+        } else if(uriType == SCREENING_AVERAGES){
+        	newID = sqldb.insert(ScreeningAverageValuesTable.TABLE_NAME, null, values);
         }
         if (newID > 0) {
             Uri newUri = ContentUris.withAppendedId(uri, newID);
@@ -196,6 +226,14 @@ public class Provider extends ContentProvider {
 			queryBuilder.setTables(InjuryUpdateTable.TABLE_NAME);
 			// no filter
 			break;
+		case SCREENING_VALUES:
+			queryBuilder.setTables(ScreeningValuesTable.TABLE_NAME);
+			// no filter
+			break;
+		case SCREENING_AVERAGES:
+			queryBuilder.setTables(ScreeningAverageValuesTable.TABLE_NAME);
+			// no filter
+			break;
 		default:
 			throw new IllegalArgumentException("Unkown URI");
 		}
@@ -232,6 +270,15 @@ public class Provider extends ContentProvider {
         case INJURIES_UPDATES:
         	tableid = InjuryUpdateTable.KEY_ID;
         	tablename = InjuryUpdateTable.TABLE_NAME;
+        	break;
+        case SCREENING_VALUES:
+        	tableid = ScreeningValuesTable.KEY_ID;
+        	tablename = ScreeningValuesTable.TABLE_NAME;
+        	break;
+        case SCREENING_AVERAGES:
+        	tableid = ScreeningAverageValuesTable.KEY_ID;
+        	tablename = ScreeningAverageValuesTable.TABLE_NAME;
+        	break;
         default:
             throw new IllegalArgumentException("Unknown URI");
         }
@@ -255,6 +302,8 @@ public class Provider extends ContentProvider {
         case SQUADS:
         case INJURIES:
         case INJURIES_UPDATES:
+        case SCREENING_VALUES:
+        case SCREENING_AVERAGES:
             rowsAffected = sqldb.update(tablename,
                     values, selection, selectionArgs);
             break;
