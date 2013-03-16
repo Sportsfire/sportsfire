@@ -3,6 +3,7 @@ package com.sportsfire.sync;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -18,6 +19,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnManagerParams;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -31,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sportsfire.Player;
+import com.sportsfire.db.InjuryTable;
 import com.sportsfire.db.InjuryUpdateTable;
 import com.sportsfire.db.PlayerTable;
 import com.sportsfire.db.SquadTable;
@@ -56,14 +59,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	private ContentResolver mContentResolver;
 	
 	/** Base URL for the v2 Sample Sync Service */
-    public static final String BASE_URL = "http://128.16.80.141/api";
+    public static final String BASE_URL = "http://sportsfire4.cs.ucl.ac.uk";
     /** URI for authentication service */
     public static final String AUTH_URI = BASE_URL + "/auth";
     /** URI for sync service */
-    public static final String SYNC_PLAYERS_URI = BASE_URL + "/player/";
+    public static final String SYNC_PLAYERS_URI = BASE_URL + "/players/";
     public static final String SYNC_SQUADS_URI = BASE_URL + "/squads/";
     public static final String SYNC_INJURIES_URI = BASE_URL + "/injuries/";
+    public static final String SYNC_INJURYUPDATES_URI = BASE_URL + "/injuryupdates/";
     public static final int HTTP_REQUEST_TIMEOUT_MS = 70 * 1000;
+    
+    private static final String SYNC_MARKER_KEY = "com.sportsfire.sync.marker";
+
 
 
 	public SyncAdapter(Context context, boolean autoInitialize) {
@@ -91,15 +98,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		String authtoken = null;
 
 		loadSquadsAndPlayers();
-		updateInjuries();
+		updateInjuries(account);
 		
 		
 	}
 
-	private void updateInjuries() {
+	private void updateInjuries(Account account) {
 		try{
-			final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-	        
+			
 			JSONArray jsonarray = new JSONArray();
 			String[] projection = { InjuryUpdateTable.KEY_INJURY_ID, InjuryUpdateTable.KEY_UPDATE_TYPE, InjuryUpdateTable.KEY_DATA};
 			Cursor cursor = mContentResolver.query(Provider.CONTENT_URI_INJURIES_UPDATES, projection, null, null, null);
@@ -112,17 +118,45 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	            	jsonarray.put(jsonentry);
 	            } while (cursor.moveToNext());
 	        }
-			StringEntity entity = new StringEntity(jsonarray.toString(),HTTP.UTF_8);
-	        final HttpPost post = new HttpPost(SYNC_INJURIES_URI);
+			JSONObject params = new JSONObject();
+			params.accumulate("syncmarker", mAccountManager.getUserData(account, SYNC_MARKER_KEY));
+			params.accumulate("updates", jsonarray);
+	        final HttpPost post = new HttpPost(SYNC_INJURYUPDATES_URI);
 	        Log.e("post",post.toString());
 	        post.addHeader("Content-Type", "application/json");
-	        post.setEntity(entity);
+	       
+	        post.setEntity(new ByteArrayEntity(params.toString().getBytes("UTF8")));
 	        final HttpResponse resp = getHttpClient().execute(post);
 
 	        final String response = EntityUtils.toString(resp.getEntity());
 	        Log.e("response",response);
 	        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+	        	final JSONObject serverResponse = new JSONObject(response);
+	        	
+	        	
+	        	final JSONArray serverInjuries = new JSONArray(response);
+	            Log.d("Response", response);
 	            
+	            mContentResolver.delete(Provider.CONTENT_URI_INJURIES, null, null);
+	            
+	            LinkedList<ContentValues> resultsList = new LinkedList<ContentValues>();
+	            for (int i = 0; i < serverInjuries.length(); i++) {
+		            ContentValues values = new ContentValues();
+
+	            	JSONObject object = serverInjuries.getJSONObject(i);
+	           
+	            	@SuppressWarnings("unchecked")
+					Iterator<String> it = object.keys();
+	            	while(it.hasNext()){
+	            		String key = it.next();
+	            		values.put(key, object.getString(key));
+	            	}	            	
+
+	    			mContentResolver.insert(Provider.CONTENT_URI_INJURIES, values);
+	            	resultsList.add(values);
+	            }
+	            mContentResolver.delete(Provider.CONTENT_URI_INJURIES_UPDATES, null, null);
+	            mAccountManager.setUserData(account, SYNC_MARKER_KEY, (String)serverResponse.get("newsyncmarker"));
 	            
 	        }
 		}
@@ -164,10 +198,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	            throw new IllegalStateException(e);
 	        }
 	        final HttpGet get = new HttpGet(SYNC_PLAYERS_URI);
-	       // final HttpPost post = new HttpPost(SYNC_PLAYERS_URI);
-	       // Log.e("post",post.toString());
-	        //post.addHeader("Content-Type", "application/json");
-	        //post.setEntity(entity);
 	        final HttpResponse resp = getHttpClient().execute(get);
 
 	        final String response = EntityUtils.toString(resp.getEntity());
@@ -177,8 +207,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	            // that they accepted all the changes we sent up, and
 	            // that the response includes the contacts that we need
 	            // to update on our side...
-	        	final JSONObject serverJSON = new JSONObject(response);
-	            final JSONArray serverPlayers = serverJSON.getJSONArray("objects");
+	            final JSONArray serverPlayers = new JSONArray(response);
 	            Log.d("Response", response);
 	            
 	            LinkedList<ContentValues> resultsList = new LinkedList<ContentValues>();
@@ -232,8 +261,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	            // that they accepted all the changes we sent up, and
 	            // that the response includes the contacts that we need
 	            // to update on our side...
-	        	final JSONObject serverJSON = new JSONObject(response);
-	            final JSONArray serverPlayers = serverJSON.getJSONArray("objects");
+	            final JSONArray serverPlayers = new JSONArray(response);
 	            Log.d("Response", response);
 	           
 	            LinkedList<ContentValues> resultList = new LinkedList<ContentValues>();

@@ -75,6 +75,14 @@ public class InjuryReportControl {
 		
 		values.put(InjuryUpdateTable.KEY_INJURY_ID, injuryID);
 		values.put(InjuryUpdateTable.KEY_UPDATE_TYPE,InjuryUpdateTable.TYPE_NEW);
+		JSONObject jsonData = new JSONObject();
+		try {
+			jsonData.put("playerID",playerID);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		values.put("data", jsonData.toString());
 		context.getContentResolver().insert(Provider.CONTENT_URI_INJURIES_UPDATES, values);
 		
 		newReport = false;
@@ -113,6 +121,7 @@ public class InjuryReportControl {
 		
 		String jsonString = jsonChanges.toString();
 		values.put(InjuryUpdateTable.KEY_DATA, jsonString);		
+		context.getContentResolver().insert(Provider.CONTENT_URI_INJURIES_UPDATES, values);
 	}
 
 	private String getStandardValue(String field) {
