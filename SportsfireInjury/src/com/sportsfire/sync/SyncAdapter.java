@@ -49,6 +49,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncResult;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -132,13 +133,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	        Log.e("response",response);
 	        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 	        	final JSONObject serverResponse = new JSONObject(response);
+	        
+	
 	        	
-	        	
-	        	final JSONArray serverInjuries = new JSONArray(response);
+	        	final JSONArray serverInjuries = new JSONArray(serverResponse.getString("updatedinjuries"));
 	            Log.d("Response", response);
-	            
-	            mContentResolver.delete(Provider.CONTENT_URI_INJURIES, null, null);
-	            
+	            	            
 	            LinkedList<ContentValues> resultsList = new LinkedList<ContentValues>();
 	            for (int i = 0; i < serverInjuries.length(); i++) {
 		            ContentValues values = new ContentValues();
@@ -149,10 +149,21 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					Iterator<String> it = object.keys();
 	            	while(it.hasNext()){
 	            		String key = it.next();
-	            		values.put(key, object.getString(key));
+	            		if(key != "_id"){
+		            		values.put(key, object.getString(key));
+	            		}
 	            	}	            	
 
-	    			mContentResolver.insert(Provider.CONTENT_URI_INJURIES, values);
+	            	// do an upsert...
+	            	// does the value exist?
+	            	cursor = mContentResolver.query((Uri.withAppendedPath(Provider.CONTENT_URI_INJURIES, "'" + object.getString("_id") + "'")), null, null, null, null);
+	            	if(cursor.getCount() == 0){
+	            		values.put("_id", object.getString("_id"));
+	            		mContentResolver.insert(Provider.CONTENT_URI_INJURIES, values);
+	            	}
+	            	else{
+	            		mContentResolver.update((Uri.withAppendedPath(Provider.CONTENT_URI_INJURIES, "'" + object.getString("_id") + "'")), values, null, null);
+	            	}
 	            	resultsList.add(values);
 	            }
 	            mContentResolver.delete(Provider.CONTENT_URI_INJURIES_UPDATES, null, null);
