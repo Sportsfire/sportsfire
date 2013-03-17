@@ -99,7 +99,8 @@ public class ScreeningData {
 			double number = Double.parseDouble(result);
 			
 			cursor.close();
-			return String.format("%1$..2f", number);		}
+			return String.format("%1$.2f", number);
+		}
 	}
 	
 
@@ -107,7 +108,7 @@ public class ScreeningData {
 String where = getAvgWhere(playerID,measurementType);
 		
 		String[] projection = { ScreeningAverageValuesTable.KEY_AVERAGE, ScreeningAverageValuesTable.KEY_NUM_MEASUREMENTS};
-		Cursor cursor = content.query(Provider.CONTENT_URI_SCREENING_AVERAGES, null, where, null, null);
+		Cursor cursor = content.query(Provider.CONTENT_URI_SCREENING_AVERAGES, projection, where, null, null);
 		ContentValues values = new ContentValues();
 		if(cursor.moveToFirst()){
 			String currentAverage = cursor.getString(0);
@@ -163,9 +164,10 @@ String where = getAvgWhere(playerID,measurementType);
 		}
 		else{
 			cursor.moveToFirst();
-			String result = cursor.getString(0);
+			double result = Double.parseDouble(cursor.getString(0));
+			
 			cursor.close();
-			return result;
+			return String.format("%1$.2f", result);
 		}
 	}
 	
