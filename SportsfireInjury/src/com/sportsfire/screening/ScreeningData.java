@@ -5,10 +5,12 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 
 import com.sportsfire.Player;
 import com.sportsfire.db.DBHelper;
 import com.sportsfire.db.ScreeningAverageValuesTable;
+import com.sportsfire.db.ScreeningUpdatesTable;
 import com.sportsfire.db.ScreeningValuesTable;
 import com.sportsfire.sync.Provider;
 
@@ -53,7 +55,7 @@ public class ScreeningData {
 		
 		String where = getWhere(playerID,measurementType, week);
 		
-		String[] projection = { ScreeningValuesTable.KEY_VALUE };
+		String[] projection = { ScreeningValuesTable.KEY_VALUE, ScreeningValuesTable.KEY_ID };
 		Cursor cursor = content.query(Provider.CONTENT_URI_SCREENING_VALUES, projection, where, null, null);
 		
 		ContentValues values = new ContentValues();
@@ -64,7 +66,13 @@ public class ScreeningData {
 			values.put(ScreeningValuesTable.KEY_SEASON_ID, seasonID);
 			values.put(ScreeningValuesTable.KEY_VALUE, value);
 			values.put(ScreeningValuesTable.KEY_WEEK, week);
-			content.insert(Provider.CONTENT_URI_SCREENING_VALUES, values);
+			Uri uri = content.insert(Provider.CONTENT_URI_SCREENING_VALUES, values);
+			String insertID = uri.getLastPathSegment();
+			
+			values.clear();
+			values.put(ScreeningUpdatesTable.KEY_VALUE_ID, Integer.parseInt(insertID));
+			
+			content.insert(Provider.CONTENT_URI_SCREENING_UPDATES, values);
 			
 			addToAverage(playerID,measurementType,value);
 		} else {
@@ -75,8 +83,13 @@ public class ScreeningData {
 			
 			content.update(Provider.CONTENT_URI_SCREENING_VALUES, values, where, null);
 			
+			values.clear();
+			values.put(ScreeningUpdatesTable.KEY_VALUE_ID, cursor.getInt(1));
+			content.insert(Provider.CONTENT_URI_SCREENING_UPDATES, values);
 			
 		}
+		
+		cursor.close();
 		
 		return true;
 	}

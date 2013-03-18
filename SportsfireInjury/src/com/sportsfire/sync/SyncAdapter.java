@@ -3,6 +3,7 @@ package com.sportsfire.sync;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,7 +37,10 @@ import com.sportsfire.Player;
 import com.sportsfire.db.InjuryTable;
 import com.sportsfire.db.InjuryUpdateTable;
 import com.sportsfire.db.PlayerTable;
+import com.sportsfire.db.ScreeningUpdatesTable;
+import com.sportsfire.db.ScreeningValuesTable;
 import com.sportsfire.db.SquadTable;
+import com.sportsfire.screening.ScreeningData;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -58,6 +62,7 @@ import android.util.Log;
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	private AccountManager mAccountManager;
 	private ContentResolver mContentResolver;
+	private Context context;
 	
 	/** Base URL for the v2 Sample Sync Service */
     public static final String BASE_URL = "http://sportsfire4.cs.ucl.ac.uk";
@@ -68,9 +73,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String SYNC_SQUADS_URI = BASE_URL + "/squads/";
     public static final String SYNC_INJURIES_URI = BASE_URL + "/injuries/";
     public static final String SYNC_INJURYUPDATES_URI = BASE_URL + "/injuryupdates/";
+    public static final String SYNC_SCREENINGUPDATES_URI = BASE_URL + "/screeningupdates/";
     public static final int HTTP_REQUEST_TIMEOUT_MS = 70 * 1000;
     
     private static final String SYNC_MARKER_KEY = "com.sportsfire.sync.marker";
+    private static final String SYNC_SCREEN_MARKER_KEY = "com.sportsfire.sync.screen marker";
 
 
 
@@ -78,6 +85,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		super(context, autoInitialize);
 		mAccountManager = AccountManager.get(context);
 		mContentResolver = context.getContentResolver();
+		this.context = context;
 	}
 	
 	 /**
@@ -103,6 +111,83 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		
 		
 	}
+	
+	private void updateScreening(Account account) {
+		try{
+			
+			JSONArray jsonarray = new JSONArray();
+			String[] projection = { ScreeningUpdatesTable.KEY_VALUE_ID };
+			String[] innerprojection = {ScreeningValuesTable.KEY_PLAYER_ID, ScreeningValuesTable.KEY_WEEK, ScreeningValuesTable.KEY_SEASON_ID, ScreeningValuesTable.KEY_MEASUREMENT_TYPE, ScreeningValuesTable.KEY_VALUE };
+			HashMap<Integer,String> listOfIDs = new HashMap<Integer,String>();
+			Cursor cursor = mContentResolver.query(Provider.CONTENT_URI_INJURIES_UPDATES, projection, null, null, null);
+			if (cursor.moveToFirst()) {
+	            do {
+	            	if(listOfIDs.containsKey(cursor.getInt(0)))
+	            		continue;
+	            	listOfIDs.put(cursor.getInt(0), "");
+	            	
+	            	 
+	            	Cursor innercursor = mContentResolver.query(Provider.CONTENT_URI_SCREENING_VALUES, innerprojection, ScreeningValuesTable.KEY_ID + " = '" + cursor.getInt(0) + "'", null, null);
+	            	innercursor.moveToFirst();
+	            	JSONObject jsonentry = new JSONObject();
+	            	for(int i = 0;i<innercursor.getColumnCount();i++){
+	            		jsonentry.put(innercursor.getColumnName(i),innercursor.getString(i));
+	            	}
+	            	jsonarray.put(jsonentry);
+	            } while (cursor.moveToNext());
+	        }
+			JSONObject params = new JSONObject();
+			params.accumulate("syncmarker", mAccountManager.getUserData(account, SYNC_SCREEN_MARKER_KEY));
+			params.accumulate("updates", jsonarray);
+	        final HttpPost post = new HttpPost(SYNC_SCREENINGUPDATES_URI);
+	        Log.e("post",post.toString());
+	        post.addHeader("Content-Type", "application/json");
+	       
+	        post.setEntity(new ByteArrayEntity(params.toString().getBytes("UTF8")));
+	        final HttpResponse resp = getHttpClient().execute(post);
+
+	        final String response = EntityUtils.toString(resp.getEntity());
+	        Log.e("response",response);
+	        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+	        	final JSONObject serverResponse = new JSONObject(response);
+	        
+	
+	        	
+	        	final JSONArray serverUpdates = new JSONArray(serverResponse.getString("updates"));
+	            Log.d("Response", response);
+	            	            
+	            for (int i = 0; i < serverUpdates.length(); i++) {
+		            ContentValues values = new ContentValues();
+		            
+
+	            	JSONObject object = serverUpdates.getJSONObject(i);
+	            	
+	            	@SuppressWarnings("unchecked")
+					Iterator<String> it = object.keys();
+	            	while(it.hasNext()){
+	            		String key = it.next();
+	            		if(key != "_id"){
+		            		values.put(key, object.getString(key));
+	            		}
+	            	}	 
+	            	
+	            	ScreeningData screeningdata = new ScreeningData(context,values.getAsString(ScreeningValuesTable.KEY_SEASON_ID),values.getAsString(ScreeningValuesTable.KEY_WEEK));
+	            	
+	            	screeningdata.setValue(values.getAsString(ScreeningValuesTable.KEY_PLAYER_ID), values.getAsString(ScreeningValuesTable.KEY_MEASUREMENT_TYPE), values.getAsString(ScreeningValuesTable.KEY_VALUE));
+	           
+	            }
+	            mContentResolver.delete(Provider.CONTENT_URI_SCREENING_UPDATES, null, null);
+	            mAccountManager.setUserData(account, SYNC_SCREEN_MARKER_KEY, (String)serverResponse.get("newsyncmarker"));
+	            
+	        }
+		}
+		catch (Exception e){
+			Log.e("Exception", e.toString());
+		}
+		
+		
+	}
+
 
 	private void updateInjuries(Account account) {
 		try{
@@ -139,7 +224,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	        	final JSONArray serverInjuries = new JSONArray(serverResponse.getString("updatedinjuries"));
 	            Log.d("Response", response);
 	            	            
-	            LinkedList<ContentValues> resultsList = new LinkedList<ContentValues>();
 	            for (int i = 0; i < serverInjuries.length(); i++) {
 		            ContentValues values = new ContentValues();
 
@@ -164,7 +248,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	            	else{
 	            		mContentResolver.update((Uri.withAppendedPath(Provider.CONTENT_URI_INJURIES, "'" + object.getString("_id") + "'")), values, null, null);
 	            	}
-	            	resultsList.add(values);
 	            }
 	            mContentResolver.delete(Provider.CONTENT_URI_INJURIES_UPDATES, null, null);
 	            mAccountManager.setUserData(account, SYNC_MARKER_KEY, (String)serverResponse.get("newsyncmarker"));
