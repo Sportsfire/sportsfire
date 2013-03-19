@@ -1,0 +1,114 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Weekly"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/WeightSwitch"
+                style="@style/SwitchStyle"
+                android:text="Weight" />
+
+            <Spinner
+                android:id="@+id/WeightSpinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/SqueezeSwitch"
+                style="@style/SwitchStyle"
+                android:text="Adjucator Squeeze" />
+
+            <Spinner
+                android:id="@+id/SqueezeSpinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/CMJSwitch"
+                style="@style/SwitchStyle"
+                android:text="Counter movement Jumps" />
+
+            <Spinner
+                android:id="@+id/CMJSpinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Monthly"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/HeightSwitch"
+                style="@style/SwitchStyle"
+                android:text="Height" />
+
+            <Spinner
+                android:id="@+id/HeightSpinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/BodyFatSwitch"
+                style="@style/SwitchStyle"
+                android:text="Body Fat %" />
+
+            <Spinner
+                android:id="@+id/BodyFatSpinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="fill_horizontal"
+        android:onClick="sendData"
+        android:text="Next" />
+
+</LinearLayout>

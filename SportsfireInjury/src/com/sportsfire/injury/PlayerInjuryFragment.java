@@ -3,7 +3,7 @@ package com.sportsfire.injury;
 import java.util.ArrayList;
 
 import com.sportsfire.Player;
-import com.sportsfire.R;
+import com.sportsfire.injury.R;
 
 import android.content.Intent;
 import android.os.Bundle;

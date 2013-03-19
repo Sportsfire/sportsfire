@@ -19,7 +19,7 @@ import com.sportsfire.Player;
 import com.sportsfire.db.DBHelper;
 import com.sportsfire.db.InjuryTable;
 import com.sportsfire.db.InjuryUpdateTable;
-import com.sportsfire.sync.Provider;
+import com.sportsfire.injury.sync.Provider;
 
 public class InjuryReportControl {
 	private HashMap<String, String> changedData = new HashMap<String, String>();

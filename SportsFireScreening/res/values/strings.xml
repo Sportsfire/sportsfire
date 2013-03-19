@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Sports Fire Weekly Screening</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main_page">Weekly Screening</string>
+
+    <string-array name="orchardFirst">
+        <item>Head / Face</item>
+        <item>Neck / Cervicle spine</item>
+        <item>Sternum / Ribs / Upper back</item>
+        <item>Abdomen</item>
+        <item>Low back / Sacrum / Pelvis</item>
+        <item>Shoulder / Clavicula</item>
+        <item>Upper Arm</item>
+        <item>Elbow</item>
+        <item>Forearm</item>
+        <item>Wrist</item>
+        <item>Hand / Finger / Thumb</item>
+        <item>Hip / Groin</item>
+        <item>Thigh</item>
+        <item>Knee</item>
+        <item>Lower Leg / Achilles tendon</item>
+        <item>Ankle</item>
+        <item>Foot / Toe</item>
+    </string-array>
+    <string-array name="orchardFirstCodes">
+        <item>H</item>
+        <item>N</item>
+        <item>C</item>
+        <item>O</item>
+        <item>L</item>
+        <item>S</item>
+        <item>U</item>
+        <item>E</item>
+        <item>R</item>
+        <item>W</item>
+        <item>P</item>
+        <item>G</item>
+        <item>T</item>
+        <item>K</item>
+        <item>Q</item>
+        <item>A</item>
+        <item>F</item>
+    </string-array>
+    <string-array name="orchardFirstSections">
+        <item>Select General Area</item>
+        <item>Head + Neck</item>
+        <item>Trunk</item>
+        <item>Upper Limb</item>
+        <item>Lower Limb</item>
+    </string-array>
+    <string-array name="orchardFirst1">
+        <item>Head / Face</item>
+        <item>Neck / Cervicle spine</item>
+    </string-array>
+    <string-array name="orchardFirst2">
+        <item>Sternum / Ribs / Upper back</item>
+        <item>Abdomen</item>
+        <item>Low back / Sacrum / Pelvis</item>
+    </string-array>
+    <string-array name="orchardFirst3">
+        <item>Shoulder / Clavicula</item>
+        <item>Upper Arm</item>
+        <item>Elbow</item>
+        <item>Forearm</item>
+        <item>Wrist</item>
+        <item>Hand / Finger / Thumb</item>
+    </string-array>
+    <string-array name="orchardFirst4">
+        <item>Hip / Groin</item>
+        <item>Thigh</item>
+        <item>Knee</item>
+        <item>Lower Leg / Achilles tendon</item>
+        <item>Ankle</item>
+        <item>Foot / Toe</item>
+    </string-array>
+    <string-array name="orchardSecondSections">
+        <item>Select General Type of Injury</item>
+        <item>Bone</item>
+        <item>Joint</item>
+        <item>Soft Tissue</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="orchardSecond">
+    	<item>Select detail</item>
+        <item>Fracture</item>
+        <item>Concussion with or without loss of consciousness</item>
+        <item>Other bone injury</item>
+        <item>Dislocation / subluxation</item>
+        <item>Sprain / Ligament injury</item>
+        <item>Lesion of meniscus or cartilage</item>
+        <item>Muscle rupture / strain / tear / cramps</item>
+        <item>Tendon Injury / Rupture / Tendinosis / Bursitis</item>
+        <item>Haematoma / Contusion / Bruise</item>
+        <item>Abrasion</item>
+        <item>Laceration</item>
+        <item>Nerve Injury</item>
+        <item>Dental Injury</item>
+    </string-array>
+    <string-array name="orchardSecondCodes">
+     	<item></item>
+        <item>F</item>
+        <item>N</item>
+        <item>Q</item>
+        <item>D</item>
+        <item>L</item>
+        <item>C</item>
+        <item>M</item>
+        <item>T</item>
+        <item>H</item>
+        <item></item>
+        <item>K</item>
+        <item>N</item>
+        <item>G</item>
+    </string-array>
+    <string-array name="TestChoices">
+        <item>Show previous and average</item>
+        <item>Show previous</item>
+        <item>Show Average</item>
+        <item>Show Input only</item>
+    </string-array>
+	<string-array name="ComparisonChoices">
+        <item>Show Values</item>
+        <item>Show Comparison</item>
+    </string-array>
+    <string name="title_activity_test_input_form">Test Input Form</string>
+
+</resources>

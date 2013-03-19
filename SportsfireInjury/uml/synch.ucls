@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.1" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="com.sportsfire.sync.SyncAdapter" project="MainPage" 
-    file="/MainPage/src/com/sportsfire/sync/SyncAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="1" language="java" name="com.sportsfire.injury.sync.SyncAdapter" project="MainPage" 
+    file="/MainPage/src/com/sportsfire/injury/sync/SyncAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="887" y="463"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -10,8 +10,8 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="com.sportsfire.sync.AuthenticatorActivity" project="MainPage" 
-    file="/MainPage/src/com/sportsfire/sync/AuthenticatorActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="2" language="java" name="com.sportsfire.injury.sync.AuthenticatorActivity" project="MainPage" 
+    file="/MainPage/src/com/sportsfire/injury/sync/AuthenticatorActivity.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="530" width="262" x="135" y="-111"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -19,8 +19,8 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="com.sportsfire.sync.SyncService" project="MainPage" 
-    file="/MainPage/src/com/sportsfire/sync/SyncService.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="3" language="java" name="com.sportsfire.injury.sync.SyncService" project="MainPage" 
+    file="/MainPage/src/com/sportsfire/injury/sync/SyncService.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="134" width="169" x="1005" y="-111"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -28,8 +28,8 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="com.sportsfire.sync.Provider" project="MainPage" 
-    file="/MainPage/src/com/sportsfire/sync/Provider.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="4" language="java" name="com.sportsfire.injury.sync.Provider" project="MainPage" 
+    file="/MainPage/src/com/sportsfire/injury/sync/Provider.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="54" width="312" x="453" y="127"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -37,8 +37,8 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="com.sportsfire.sync.Authenticator" project="MainPage" 
-    file="/MainPage/src/com/sportsfire/sync/Authenticator.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="5" language="java" name="com.sportsfire.injury.sync.Authenticator" project="MainPage" 
+    file="/MainPage/src/com/sportsfire/injury/sync/Authenticator.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="242" width="473" x="1214" y="675"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -46,8 +46,8 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="com.sportsfire.sync.AuthenticatorActivity.UserLoginTask" project="MainPage" 
-    file="/MainPage/src/com/sportsfire/sync/AuthenticatorActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="6" language="java" name="com.sportsfire.injury.sync.AuthenticatorActivity.UserLoginTask" project="MainPage" 
+    file="/MainPage/src/com/sportsfire/injury/sync/AuthenticatorActivity.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="342" y="610"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -55,8 +55,8 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="com.sportsfire.sync.Constants" project="MainPage" 
-    file="/MainPage/src/com/sportsfire/sync/Constants.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="7" language="java" name="com.sportsfire.injury.sync.Constants" project="MainPage" 
+    file="/MainPage/src/com/sportsfire/injury/sync/Constants.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="116" width="176" x="789" y="-111"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -64,8 +64,8 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="com.sportsfire.sync.AuthenticationService" project="MainPage" 
-    file="/MainPage/src/com/sportsfire/sync/AuthenticationService.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="8" language="java" name="com.sportsfire.injury.sync.AuthenticationService" project="MainPage" 
+    file="/MainPage/src/com/sportsfire/injury/sync/AuthenticationService.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="152" width="176" x="1214" y="-111"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      

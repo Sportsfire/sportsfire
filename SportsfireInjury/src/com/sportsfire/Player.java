@@ -10,7 +10,7 @@ import android.os.Parcelable;
 import com.sportsfire.db.DBHelper;
 import com.sportsfire.db.InjuryTable;
 import com.sportsfire.injury.InjuryReportID;
-import com.sportsfire.sync.Provider;
+import com.sportsfire.injury.sync.Provider;
 
 public class Player implements Parcelable{
     private String firstName;

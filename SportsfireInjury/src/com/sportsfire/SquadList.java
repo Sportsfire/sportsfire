@@ -6,7 +6,7 @@ import android.database.Cursor;
 
 import com.sportsfire.db.DBHelper;
 import com.sportsfire.db.SquadTable;
-import com.sportsfire.sync.Provider;
+import com.sportsfire.injury.sync.Provider;
 
 public class SquadList {
     private ArrayList<Squad> squadList = new ArrayList<Squad>();

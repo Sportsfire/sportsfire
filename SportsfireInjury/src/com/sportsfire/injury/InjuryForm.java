@@ -27,8 +27,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sportsfire.injury.R;
 import com.sportsfire.Player;
-import com.sportsfire.R;
 import com.sportsfire.db.InjuryTable;
 
 public class InjuryForm extends Activity {

@@ -2,7 +2,7 @@ package com.sportsfire.injury;
 
 
 
-import com.sportsfire.R;
+import com.sportsfire.injury.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;

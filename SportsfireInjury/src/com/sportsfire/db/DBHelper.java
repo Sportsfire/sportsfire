@@ -183,8 +183,6 @@ public class DBHelper extends SQLiteOpenHelper {
 		PlayerTable.onCreate(db);
 		InjuryTable.onCreate(db);
 		InjuryUpdateTable.onCreate(db);
-		ScreeningValuesTable.onCreate(db);
-		ScreeningAverageValuesTable.onCreate(db);
     }
  
     @Override
@@ -193,8 +191,6 @@ public class DBHelper extends SQLiteOpenHelper {
 		PlayerTable.onUpgrade(db, oldVersion, newVersion);
 		InjuryTable.onUpgrade(db, oldVersion, newVersion);
 		InjuryUpdateTable.onUpgrade(db, oldVersion, newVersion);
-		ScreeningValuesTable.onUpgrade(db, oldVersion, newVersion);
-		ScreeningAverageValuesTable.onUpgrade(db, oldVersion, newVersion);
     }
     
     @Override

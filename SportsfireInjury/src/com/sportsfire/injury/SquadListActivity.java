@@ -2,7 +2,7 @@ package com.sportsfire.injury;
 
 import com.sportsfire.PlayerListFragment;
 import com.sportsfire.Squad;
-import com.sportsfire.R;
+import com.sportsfire.injury.R;
 import com.sportsfire.SquadListFragment;
 
 import android.content.Intent;
