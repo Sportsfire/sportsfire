@@ -6,14 +6,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.sportsfire.screening.R;
 import com.sportsfire.Season;
 import com.sportsfire.SeasonList;
 
@@ -55,8 +53,6 @@ public class ScreeningMainPage extends Activity {
 			}
 
 		});
-		
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -70,25 +66,16 @@ public class ScreeningMainPage extends Activity {
 		switch (v.getId()) {
 		case R.id.button1:
 			intent = new Intent(this, InputPageActivity.class);
-			// setContentView(R.layout.activity_list_page);
 			intent.putExtra(InputPageActivity.ARG_ITEM_SEASON_NAME, selected.getSeasonName());
 			intent.putExtra(InputPageActivity.ARG_ITEM_SEASON_ID, selected.getSeasonID());
 			startActivity(intent);
 			break;
 		case R.id.button2:
 			intent = new Intent(this, AnalysisPageActivity.class);
-			intent.putExtra(AnalysisPageActivity.ARG_ITEM_SEASON_NAME, selected.getSeasonName());
 			intent.putExtra(AnalysisPageActivity.ARG_ITEM_SEASON_ID, selected.getSeasonID());
 			startActivity(intent);
 			break;
 		}
 	}
 
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
 }

@@ -1,49 +1,32 @@
 package com.sportsfire.sync;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.ListIterator;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
-import org.apache.http.auth.AuthenticationException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnManagerParams;
 import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.sportsfire.Player;
-import com.sportsfire.db.PlayerTable;
-import com.sportsfire.db.ScreeningUpdatesTable;
-import com.sportsfire.db.ScreeningValuesTable;
-import com.sportsfire.db.SquadTable;
-import com.sportsfire.screening.ScreeningData;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
@@ -51,11 +34,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncResult;
 import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
+
+import com.sportsfire.db.PlayerTable;
+import com.sportsfire.db.ScreeningUpdatesTable;
+import com.sportsfire.db.ScreeningValuesTable;
+import com.sportsfire.db.SquadTable;
+import com.sportsfire.screening.ScreeningData;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	private AccountManager mAccountManager;
@@ -195,7 +181,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		while(it.hasNext()){
 			mContentResolver.insert(Provider.CONTENT_URI_SQUADS, it.next());
 		}
-		it = players.listIterator();
+		if (players != null) it = players.listIterator();
 		while(it.hasNext()){
 			mContentResolver.insert(Provider.CONTENT_URI_PLAYERS, it.next());
 		}

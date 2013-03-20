@@ -1,26 +1,7 @@
 package com.sportsfire;
 
-//import android.app.ListFragment;
-//import android.os.Bundle;
-//import android.app.Activity;
-//import android.content.Intent;
-//import android.view.Menu;
-//import android.view.View;
-//import android.widget.ArrayAdapter;
-//
-//public class PlayerListFragment extends ListFragment {
-//	 public void onCreate(Bundle savedInstanceState) {
-//	        super.onCreate(savedInstanceState);
-//	        Bundle extras = getIntent().getExtras();
-//	        String e = extras.getString("playerSelected", "bc");
-//	        setListAdapter(ArrayAdapter.createFromResource(getApplicationContext(),
-//	                R.array.tut_titles, R.layout.activity_playerlist_page));
-//	    }
-//}
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -38,6 +19,7 @@ public class PlayerListFragment extends ListFragment {
 	List<String> playersList = new ArrayList<String>();
 	Squad selectedSquad;
 	ArrayAdapter<String> listAdapter;
+
 	public interface Callbacks {
 
 		public void onPlayerSelected(Player player);
@@ -61,8 +43,7 @@ public class PlayerListFragment extends ListFragment {
 			}
 		}
 		listAdapter = new ArrayAdapter<String>(getActivity(),
-				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, playersList);
+				android.R.layout.simple_list_item_activated_1, android.R.id.text1, playersList);
 		setListAdapter(listAdapter);
 	}
 
@@ -70,10 +51,8 @@ public class PlayerListFragment extends ListFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		setActivateOnItemClick(true);
-		if (savedInstanceState != null
-				&& savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
-			setActivatedPosition(savedInstanceState
-					.getInt(STATE_ACTIVATED_POSITION));
+		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
+			setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
 		}
 	}
 
@@ -81,8 +60,7 @@ public class PlayerListFragment extends ListFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		if (!(activity instanceof Callbacks)) {
-			// throw new IllegalStateException(
-			// "Activity must implement fragment's callbacks.");
+			// throw new IllegalStateException("Activity must implement fragment's callbacks.");
 		} else {
 			mCallbacks = (Callbacks) activity;
 		}
@@ -95,11 +73,9 @@ public class PlayerListFragment extends ListFragment {
 	}
 
 	@Override
-	public void onListItemClick(ListView listView, View view, int position,
-			long id) {
+	public void onListItemClick(ListView listView, View view, int position, long id) {
 		super.onListItemClick(listView, view, position, id);
 		mCallbacks.onPlayerSelected(selectedSquad.getPlayerList().get(position));
-		// mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
 
 	}
 
@@ -113,8 +89,7 @@ public class PlayerListFragment extends ListFragment {
 
 	public void setActivateOnItemClick(boolean activateOnItemClick) {
 		getListView().setChoiceMode(
-				activateOnItemClick ? ListView.CHOICE_MODE_SINGLE
-						: ListView.CHOICE_MODE_NONE);
+				activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
 	}
 
 	public void setActivatedPosition(int position) {

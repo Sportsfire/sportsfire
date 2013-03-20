@@ -1,6 +1,5 @@
 package com.sportsfire.screening;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 import android.app.Activity;
@@ -12,9 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
-
-import com.sportsfire.Player;
-import com.sportsfire.screening.R;
 
 public class TestSelectionFragment extends Fragment {
 	private Callbacks mCallbacks = sDummyCallbacks;

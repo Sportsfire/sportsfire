@@ -3,8 +3,6 @@ package com.sportsfire.screening;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sportsfire.Player;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 

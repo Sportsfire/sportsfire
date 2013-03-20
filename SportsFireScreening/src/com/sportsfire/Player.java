@@ -1,27 +1,17 @@
 package com.sportsfire;
 
-import java.util.ArrayList;
-
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.sportsfire.db.DBHelper;	
-import com.sportsfire.sync.Provider;
 
 public class Player implements Parcelable{
     private String firstName;
     private String lastName;
     private String id;
-    private Context context;
-    
     public Player(String _firstName,String _lastName, String _id, Context context){
         firstName = _firstName;
         lastName = _lastName;
         id = _id;
-       
-       
     }
    
     public Player(Parcel in){
@@ -62,11 +52,10 @@ public class Player implements Parcelable{
 	}
 	
 	public void setContext(Context context){
-		this.context = context;
 	}
 	
-   public static final Parcelable.Creator CREATOR =
-   	new Parcelable.Creator() {
+   public static final Parcelable.Creator<Player> CREATOR =
+   	new Parcelable.Creator<Player>() {
            public Player createFromParcel(Parcel in) {
                return new Player(in);
            }

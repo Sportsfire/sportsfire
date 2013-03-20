@@ -7,19 +7,14 @@ import java.util.Map.Entry;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources.Theme;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -27,7 +22,6 @@ import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 
 import com.sportsfire.Player;
-import com.sportsfire.screening.R;
 import com.sportsfire.Squad;
 
 public class TestInputForm extends Activity {

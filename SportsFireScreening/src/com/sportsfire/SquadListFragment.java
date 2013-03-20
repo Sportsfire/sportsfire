@@ -40,93 +40,91 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-
-
-
 public class SquadListFragment extends ListFragment {
 
-    private static final String STATE_ACTIVATED_POSITION = "activated_position";
-    private Callbacks mCallbacks = sDummyCallbacks;
-    private int mActivatedPosition = ListView.INVALID_POSITION;
-    SquadList squad;
-    List<String> squadList;
-    
-    public interface Callbacks {
+	private static final String STATE_ACTIVATED_POSITION = "activated_position";
+	private Callbacks mCallbacks = sDummyCallbacks;
+	private int mActivatedPosition = ListView.INVALID_POSITION;
+	SquadList squad;
+	List<String> squadList;
 
-        public void onSquadSelected(Squad squad);
-    }
+	public interface Callbacks {
 
-    private static Callbacks sDummyCallbacks = new Callbacks() {
-        public void onSquadSelected(Squad id) {
-        }
-    };
+		public void onSquadSelected(Squad squad);
+	}
 
-    public SquadListFragment() {
-    }
+	private static Callbacks sDummyCallbacks = new Callbacks() {
+		public void onSquadSelected(Squad id) {
+		}
+	};
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    	squad = new SquadList(getActivity());
-    	squadList = squad.getSquadNameList();
-        setListAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1,android.R.id.text1, squadList));
-    }
+	public SquadListFragment() {
+	}
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (savedInstanceState != null && savedInstanceState
-                .containsKey(STATE_ACTIVATED_POSITION)) {
-            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
-        }
-    }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		squad = new SquadList(getActivity());
+		squadList = squad.getSquadNameList();
+		setListAdapter(new ArrayAdapter<String>(getActivity(),
+				android.R.layout.simple_list_item_activated_1, android.R.id.text1, squadList));
+	}
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (!(activity instanceof Callbacks)) {
-            throw new IllegalStateException("Activity must implement fragment's callbacks.");
-        }
-        mCallbacks = (Callbacks) activity;
-    }
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
+			setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
+		}
+	}
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallbacks = sDummyCallbacks;
-    }
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		if (!(activity instanceof Callbacks)) {
+			throw new IllegalStateException("Activity must implement fragment's callbacks.");
+		}
+		mCallbacks = (Callbacks) activity;
+	}
 
-    @Override
-    public void onListItemClick(ListView listView, View view, int position, long id) {
-        super.onListItemClick(listView, view, position, id);
-        mCallbacks.onSquadSelected(squad.getSquadList().get(position));
- 
-    }
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		mCallbacks = sDummyCallbacks;
+	}
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (mActivatedPosition != ListView.INVALID_POSITION) {
-            outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
-        }
-    }
-    public void setActivateOnItemClick(boolean activateOnItemClick) {
-        getListView().setChoiceMode(activateOnItemClick
-                ? ListView.CHOICE_MODE_SINGLE
-                : ListView.CHOICE_MODE_NONE);
-    }
+	@Override
+	public void onListItemClick(ListView listView, View view, int position, long id) {
+		super.onListItemClick(listView, view, position, id);
+		mCallbacks.onSquadSelected(squad.getSquadList().get(position));
 
-    public void setActivatedPosition(int position) {
-        if (position == ListView.INVALID_POSITION) {
-            getListView().setItemChecked(mActivatedPosition, false);
-        } else {
-            getListView().setItemChecked(position, true);
-        }
+	}
 
-        mActivatedPosition = position;
-    }
-    public void onResume() {
-    	super.onResume();
-    	//refresh squadlist
-    }
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		if (mActivatedPosition != ListView.INVALID_POSITION) {
+			outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
+		}
+	}
+
+	public void setActivateOnItemClick(boolean activateOnItemClick) {
+		getListView().setChoiceMode(
+				activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
+	}
+
+	public void setActivatedPosition(int position) {
+		if (position == ListView.INVALID_POSITION) {
+			getListView().setItemChecked(mActivatedPosition, false);
+		} else {
+			getListView().setItemChecked(position, true);
+		}
+
+		mActivatedPosition = position;
+	}
+
+	public void onResume() {
+		super.onResume();
+		// refresh squadlist
+	}
 }

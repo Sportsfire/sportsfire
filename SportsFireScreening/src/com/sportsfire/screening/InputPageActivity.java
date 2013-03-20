@@ -19,6 +19,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sportsfire.Player;
 import com.sportsfire.screening.R;
@@ -82,12 +83,16 @@ public class InputPageActivity extends FragmentActivity implements TestSelection
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				week = ((TextView) arg1).getText().toString();
-				screenData = new ScreeningData(arg0.getContext(), season.getSeasonName(), week);
-				SharedPreferences settings = PreferenceManager
-						.getDefaultSharedPreferences(getApplicationContext());
-				settings.edit().putInt("selected_week", arg2).apply();
+				try {
+					week = ((TextView) arg1).getText().toString();
+					screenData = new ScreeningData(arg0.getContext(), season.getSeasonName(), week);
+					SharedPreferences settings = PreferenceManager
+							.getDefaultSharedPreferences(getApplicationContext());
+					settings.edit().putInt("selected_week", arg2).apply();
 
+				} catch (Exception e) {
+					setUpWeekSpinner();
+				}
 			}
 
 			@Override
@@ -124,6 +129,9 @@ public class InputPageActivity extends FragmentActivity implements TestSelection
 	@Override
 	public void onTestsChosen(HashMap<String, Integer> map) {
 		if (map.isEmpty()){
+			Toast toast = Toast.makeText(this, "Please select tests",
+					Toast.LENGTH_LONG);
+			toast.show();
 			return;
 		}
 		String[] params = new String[2];

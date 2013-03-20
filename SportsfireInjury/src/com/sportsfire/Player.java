@@ -26,8 +26,6 @@ public class Player implements Parcelable{
         id = _id;
         this.context = context;
         String[] projection = { InjuryTable.KEY_INJURY_ID, InjuryTable.KEY_DATE_OF_INJURY };
-        
-        //InjuryReportID in = new InjuryReportID(0,"Severe Injury");
         Cursor cursor = context.getContentResolver().query(Provider.CONTENT_URI_INJURIES, projection, InjuryTable.KEY_PLAYER_ID+"= '"+id+"'", null, null);
         if (cursor.moveToFirst()) {
             do {
@@ -35,12 +33,12 @@ public class Player implements Parcelable{
             	 injuryReportList.add(in);
                  injuryReportNameList.add(in.getName());
             } while (cursor.moveToNext());
-            cursor.close();
         }
         else{
         	injuryReportList.add(new InjuryReportID("0",""));
         	injuryReportNameList.add("No Injuries!");
         }
+        cursor.close();
        
     }
     protected void refresh() throws Exception{
@@ -51,8 +49,6 @@ public class Player implements Parcelable{
     	injuryReportList.clear();
     	injuryReportNameList.clear();
     	 String[] projection = { InjuryTable.KEY_INJURY_ID, InjuryTable.KEY_DATE_OF_INJURY };
-         
-         //InjuryReportID in = new InjuryReportID(0,"Severe Injury");
          Cursor cursor = context.getContentResolver().query(Provider.CONTENT_URI_INJURIES, projection, InjuryTable.KEY_PLAYER_ID+"= '"+id+"'", null, null);
          if (cursor.moveToFirst()) {
              do {
@@ -60,12 +56,12 @@ public class Player implements Parcelable{
              	 injuryReportList.add(in);
                   injuryReportNameList.add(in.getName());
              } while (cursor.moveToNext());
-             cursor.close();
          }
          else{
          	injuryReportList.add(new InjuryReportID("0",""));
          	injuryReportNameList.add("No Injuries!");
          }
+         cursor.close();
     }
     
     public Player(Parcel in){
@@ -115,8 +111,8 @@ public class Player implements Parcelable{
 		this.context = context;
 	}
 	
-   public static final Parcelable.Creator CREATOR =
-   	new Parcelable.Creator() {
+   public static final Parcelable.Creator<Player> CREATOR =
+   	new Parcelable.Creator<Player>() {
            public Player createFromParcel(Parcel in) {
                return new Player(in);
            }

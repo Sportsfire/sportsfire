@@ -30,8 +30,6 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 import org.achartengine.util.MathHelper;
 
-import com.sportsfire.screening.R;
-
 /**
  * An abstract class for the demo charts to extend. It contains some methods for
  * building datasets and renderers.

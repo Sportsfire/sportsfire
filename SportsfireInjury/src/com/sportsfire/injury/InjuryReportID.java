@@ -34,8 +34,8 @@ public class InjuryReportID extends InjuryReportValue implements Parcelable{
 		name = in.readString();
 	}
 	
-   public static final Parcelable.Creator CREATOR =
-   	new Parcelable.Creator() {
+   public static final Parcelable.Creator<InjuryReportID> CREATOR =
+   	new Parcelable.Creator<InjuryReportID>() {
            public InjuryReportID createFromParcel(Parcel in) {
                return new InjuryReportID(in);
            }

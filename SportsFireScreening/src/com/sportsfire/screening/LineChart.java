@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
+import android.util.DisplayMetrics;
 
 public class LineChart extends AbstractDemoChart {
 	private XYMultipleSeriesRenderer renderer;
@@ -25,14 +26,14 @@ public class LineChart extends AbstractDemoChart {
 	PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE, PointStyle.DIAMOND,
 			PointStyle.TRIANGLE, PointStyle.SQUARE };
 
-	public LineChart(Context context, String playerName, String chartName, List<String> lineNames,
+	public LineChart(Context context, String playerName, String chartName, ArrayList<String> lineNames,
 			List<double[]> values) {
 		lineCount = lineNames.size();
-		this.lineNames = (String[]) lineNames.toArray();
+		this.lineNames = lineNames.toArray(new String[lineNames.size()]);
 		for (int i = 0; i < lineCount; i++) {
 			double[] week = new double[values.get(i).length];
 			for (int j = 0; j < values.get(i).length; j++) {
-				week[j] = j;
+				week[j] = j+1;
 			}
 			x.add(week);
 		}
@@ -44,9 +45,11 @@ public class LineChart extends AbstractDemoChart {
 			((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
 			((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setLineWidth(3f);
 		}
-		setChartSettings(renderer, playerName, "Week Number", chartName, 0, values.get(0).length,
-				50, 150, Color.BLACK, Color.BLACK);
-		renderer.setXLabels(x.get(0).length);
+		double yMin = y.get(0)[0]*0.8;
+		double yMax = y.get(0)[y.get(0).length-1]*1.1;
+		setChartSettings(renderer, playerName, "Week Number", chartName, 0.5, values.get(0).length+0.5,
+				yMin, yMax, Color.BLACK, Color.BLACK);
+		renderer.setXLabels(x.get(0).length+1);
 		renderer.setApplyBackgroundColor(true);
 		renderer.setBackgroundColor(context.getResources().getColor(
 				android.R.color.background_light));
@@ -57,10 +60,30 @@ public class LineChart extends AbstractDemoChart {
 		renderer.setYLabelsColor(0, Color.BLACK);
 		renderer.setXLabelsAlign(Align.RIGHT);
 		renderer.setYLabelsAlign(Align.RIGHT);
+	    switch (context.getResources().getDisplayMetrics().densityDpi) {
+	        case DisplayMetrics.DENSITY_XHIGH:
+	        	renderer.setAxisTitleTextSize(24);
+                renderer.setChartTitleTextSize(28);
+                renderer.setLabelsTextSize(24);
+                renderer.setLegendTextSize(24);
+                break;
+	        case DisplayMetrics.DENSITY_HIGH:
+                renderer.setAxisTitleTextSize(20);
+                renderer.setChartTitleTextSize(24);
+                renderer.setLabelsTextSize(20);
+                renderer.setLegendTextSize(20);
+                break;
+	       default:
+	    	   renderer.setAxisTitleTextSize(20);
+               renderer.setChartTitleTextSize(24);
+               renderer.setLabelsTextSize(20);
+               renderer.setLegendTextSize(18);
+               break;
+	    }
 		renderer.setMargins(new int[] { 30, 60, 10, 10 });
 		renderer.setZoomButtonsVisible(true);
-		renderer.setPanLimits(new double[] { -0.5, 55, 0, 300 });
-		renderer.setZoomLimits(new double[] { -0.5, 55, 0, 300 });
+		renderer.setPanLimits(new double[] { 0.5, 52, 0, yMax });
+		renderer.setZoomLimits(new double[] {0.5, 52, 0, yMax });
 	}
 
 	public GraphicalView getChart(Context context) {

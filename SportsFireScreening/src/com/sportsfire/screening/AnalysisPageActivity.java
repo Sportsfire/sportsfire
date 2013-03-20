@@ -9,11 +9,10 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.sportsfire.Player;
 import com.sportsfire.PlayerListFragment;
-import com.sportsfire.screening.R;
-import com.sportsfire.Season;
 import com.sportsfire.Squad;
 import com.sportsfire.SquadListFragment;
 
@@ -28,10 +27,9 @@ public class AnalysisPageActivity extends FragmentActivity implements SquadListF
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
 	 */
 	TestSelectionFragment testsFragment;
-	public static final String ARG_ITEM_SEASON_NAME = "argumentSeasonName";
 	public static final String ARG_ITEM_SEASON_ID = "argumentSeasonId";
 	private Player currentPlayer;
-	private Season currentSeason;
+	private String currentSeason;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +37,7 @@ public class AnalysisPageActivity extends FragmentActivity implements SquadListF
 		setContentView(R.layout.screening_analysis_page);
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		currentSeason = getIntent().getStringExtra(ARG_ITEM_SEASON_ID);
 		if (findViewById(R.id.test_selection_container) != null) {
 			// list items should be given the 'activated' state when touched.
 			((SquadListFragment) getSupportFragmentManager().findFragmentById(R.id.squad_list))
@@ -109,21 +108,23 @@ public class AnalysisPageActivity extends FragmentActivity implements SquadListF
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (currentPlayer != null)
-			onPlayerSelected(currentPlayer);
+		if (currentPlayer != null) onPlayerSelected(currentPlayer);
 	}
 
 	@Override
 	public void onTestsChosen(HashMap<String, Integer> map) {
-		// TODO Auto-generated method stub
-		// for each week in selected season
-		// for each selected test (max 2?)
-		// getValue
-		// for (String week: currentSeason.getWeeklist()){
-		// }
-		Intent intent = new Intent(this, AnalysisGraphPage.class);
-		intent.putExtra(AnalysisGraphPage.ARG_ITEM_PLAYER, currentPlayer);
-		startActivity(intent);
+		if (map.size() > 2 || map.size() < 1) {
+			Toast toast = Toast.makeText(this, "Please select tests to show (MAX 2)",
+					Toast.LENGTH_LONG);
+			toast.show();
+		} else {
+			Intent intent = new Intent(this, AnalysisGraphPage.class);
+			intent.putExtra(AnalysisGraphPage.ARG_ITEM_PLAYER, currentPlayer);
+			intent.putExtra(AnalysisGraphPage.ARG_ITEM_SEASON, currentSeason);
+			intent.putExtra(AnalysisGraphPage.ARG_ITEM_TESTS, map);
+			startActivity(intent);
+		}
+
 	}
 
 }
