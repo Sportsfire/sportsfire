@@ -182,7 +182,7 @@ public class InjuryForm extends Activity {
 
 	}
 
-	public void loadData() {
+	private void loadData() {
 		// Setup everything
 		((EditText) findViewById(R.id.OrchCodeTxt))
 				.setText(orchardCode, TextView.BufferType.NORMAL);
@@ -288,7 +288,7 @@ public class InjuryForm extends Activity {
 		}
 	}
 
-	public static <T, E> T getKey(Map<T, E> map, E value) {
+	private static <T, E> T getKey(Map<T, E> map, E value) {
 		for (Entry<T, E> entry : map.entrySet()) {
 			if (value.equals(entry.getValue())) {
 				return entry.getKey();
