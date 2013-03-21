@@ -22,16 +22,19 @@ public class Provider extends ContentProvider {
 	public static final int PLAYERS_ID = 110;
 	public static final int SQUADS = 200;
 	public static final int SQUADS_ID = 210;
+	public static final int SEASONS = 220;
 	public static final int SCREENING_VALUES = 500;
 	public static final int SCREENING_UPDATES = 560;
 
 	private static final String BASEPATH = "content://" + AUTHORITY + "/"; 
 	private static final String PLAYERS_BASE_PATH = "players";
 	private static final String SQUADS_BASE_PATH = "squads";
+	private static final String SEASONS_BASE_PATH = "seasons";
 	private static final String SCREENING_VALUES_BASE_PATH = "screeningvalues";
 	private static final String SCREENING_UPDATES_BASE_PATH = "screeningupdates";
 	public static final Uri CONTENT_URI_PLAYERS = Uri.parse(BASEPATH + PLAYERS_BASE_PATH);
 	public static final Uri CONTENT_URI_SQUADS = Uri.parse(BASEPATH + SQUADS_BASE_PATH);
+	public static final Uri CONTENT_URI_SEASONS = Uri.parse(BASEPATH + SEASONS_BASE_PATH);
 	public static final Uri CONTENT_URI_SCREENING_VALUES = Uri.parse(BASEPATH + SCREENING_VALUES_BASE_PATH);
 	public static final Uri CONTENT_URI_SCREENING_UPDATES = Uri.parse(BASEPATH + SCREENING_UPDATES_BASE_PATH);
 
@@ -40,6 +43,8 @@ public class Provider extends ContentProvider {
 	            + "/type-player";
 	public static final String CONTENT_TYPE_SQUADS = ContentResolver.CURSOR_DIR_BASE_TYPE
             + "/type-squad";
+	public static final String CONTENT_TYPE_SEASONS = ContentResolver.CURSOR_DIR_BASE_TYPE
+            + "/type-seasons";
 	public static final String CONTENT_TYPE_SCREENING_VALUES = ContentResolver.CURSOR_DIR_BASE_TYPE
             + "/type-screening-values";
 	public static final String CONTENT_TYPE_SCREENING_UPDATES = ContentResolver.CURSOR_DIR_BASE_TYPE
@@ -51,6 +56,7 @@ public class Provider extends ContentProvider {
 		sURIMatcher.addURI(AUTHORITY, PLAYERS_BASE_PATH + "/#", PLAYERS_ID);
 		sURIMatcher.addURI(AUTHORITY, SQUADS_BASE_PATH, SQUADS);
 		sURIMatcher.addURI(AUTHORITY, SQUADS_BASE_PATH + "/#", SQUADS_ID);
+		sURIMatcher.addURI(AUTHORITY, SEASONS_BASE_PATH, SEASONS);
 		sURIMatcher.addURI(AUTHORITY, SCREENING_VALUES_BASE_PATH, SCREENING_VALUES );
 		sURIMatcher.addURI(AUTHORITY, SCREENING_UPDATES_BASE_PATH, SCREENING_UPDATES);
 
@@ -84,6 +90,9 @@ public class Provider extends ContentProvider {
 		case SQUADS:
 			rowsAffected = sqldb.delete(SquadTable.TABLE_NAME, selection, selectionArgs);
 			break;
+		case SEASONS:
+			rowsAffected = sqldb.delete(SeasonTable.TABLE_NAME, selection, selectionArgs);
+			break;
 		case SCREENING_VALUES:
 			rowsAffected = sqldb.delete(ScreeningValuesTable.TABLE_NAME, selection, selectionArgs);
 			break;
@@ -108,6 +117,8 @@ public class Provider extends ContentProvider {
 			return CONTENT_TYPE_PLAYERS;
 		case SQUADS:
 			return CONTENT_TYPE_SQUADS;
+		case SEASONS:
+			return CONTENT_TYPE_SEASONS;
 		case SQUADS_ID:
 			return CONTENT_TYPE_SQUADS;
 		case SCREENING_VALUES:
@@ -123,7 +134,7 @@ public class Provider extends ContentProvider {
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		int uriType = sURIMatcher.match(uri);
-        if ((uriType != PLAYERS) && (uriType != SQUADS) &&
+        if ((uriType != PLAYERS) && (uriType != SQUADS) && (uriType != SEASONS) &&
         		(uriType != SCREENING_VALUES) &&
         		(uriType != SCREENING_UPDATES)) {
             throw new IllegalArgumentException("Invalid URI for insert");
@@ -134,6 +145,8 @@ public class Provider extends ContentProvider {
         	newID = sqldb.insert(PlayerTable.TABLE_NAME, null, values);
         } else if(uriType == SQUADS){
         	newID = sqldb.insert(SquadTable.TABLE_NAME, null, values);
+        } else if(uriType == SEASONS){
+        	newID = sqldb.insert(SeasonTable.TABLE_NAME, null, values);
         } else if(uriType == SCREENING_VALUES){
         	newID = sqldb.insert(ScreeningValuesTable.TABLE_NAME, null, values);
         } else if(uriType == SCREENING_UPDATES){
@@ -176,6 +189,10 @@ public class Provider extends ContentProvider {
 			queryBuilder.setTables(SquadTable.TABLE_NAME);
 			// no filter
 			break;
+		case SEASONS:
+			queryBuilder.setTables(SeasonTable.TABLE_NAME);
+			// no filter
+			break;
 		case SCREENING_VALUES:
 			queryBuilder.setTables(ScreeningValuesTable.TABLE_NAME);
 			// no filter
@@ -212,6 +229,10 @@ public class Provider extends ContentProvider {
         	tableid = SquadTable.KEY_SQUAD_ID;
         	tablename = SquadTable.TABLE_NAME;
         	break;
+        case SEASONS:
+        	tableid = SeasonTable.KEY_SEASON_ID;
+        	tablename = SeasonTable.TABLE_NAME;
+        	break;
         case SCREENING_VALUES:
         	tableid = ScreeningValuesTable.KEY_ID;
         	tablename = ScreeningValuesTable.TABLE_NAME;
@@ -229,6 +250,7 @@ public class Provider extends ContentProvider {
         case SQUADS_ID:
         case PLAYERS:
         case SQUADS:
+        case SEASONS:
         case SCREENING_VALUES:
         case SCREENING_UPDATES:
             rowsAffected = sqldb.update(tablename,

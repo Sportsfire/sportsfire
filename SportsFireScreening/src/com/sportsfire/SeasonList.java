@@ -2,8 +2,12 @@ package com.sportsfire;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.database.Cursor;
 
 import com.sportsfire.db.DBHelper;
+import com.sportsfire.db.SeasonTable;
+import com.sportsfire.db.SquadTable;
+import com.sportsfire.sync.Provider;
 
 public class SeasonList {
     private ArrayList<Season> seasonList = new ArrayList<Season>();
@@ -11,22 +15,17 @@ public class SeasonList {
     // loads the current SquadList from DB
     public SeasonList(Context context){
     	
-    	seasonList.add(new Season("First Season","1",context));
-    	seasonList.add(new Season("Second Season","2",context));
-    	seasonNameList.add("First Season");
-    	seasonNameList.add("Second Season");
-    	/*DBHelper dbHelp = new DBHelper(context);
-    	dbHelp.openToRead();
-        String selectSquadData = "SELECT  * FROM " + SquadTable.TABLE_NAME + ";";
-        Cursor cursor = dbHelp.readQuery(selectSquadData, null);
-        if (cursor.moveToFirst()) {
-            do {
-            	Squad sq = new Squad(cursor.getString(1),cursor.getString(0),dbHelp);
-                squadList.add(sq);
-                squadNameList.add(sq.getSquadName());
-            } while (cursor.moveToNext());
-        }*/
-        //dbHelp.close();
+    	String[] projection = { SeasonTable.KEY_SEASON_NAME, SeasonTable.KEY_SEASON_ID };
+		Cursor cursor = context.getContentResolver().query(Provider.CONTENT_URI_SEASONS, projection,
+				null, null, null);
+		if (cursor.moveToFirst()) {
+			do {
+				seasonList.add(new Season(cursor.getString(0), cursor.getString(1), context));
+				seasonNameList.add(cursor.getString(0));
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+    
     }
     
     public ArrayList<Season> getSeasonList(){

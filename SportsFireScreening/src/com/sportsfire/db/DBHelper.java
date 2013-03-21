@@ -61,6 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		SquadTable.onCreate(db);
+		SeasonTable.onCreate(db);
 		PlayerTable.onCreate(db);
 		ScreeningValuesTable.onCreate(db);
 		ScreeningUpdatesTable.onCreate(db);
@@ -69,6 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		SquadTable.onUpgrade(db, oldVersion, newVersion);
+		SeasonTable.onUpgrade(db, oldVersion, newVersion);
 		PlayerTable.onUpgrade(db, oldVersion, newVersion);
 		ScreeningValuesTable.onUpgrade(db, oldVersion, newVersion);
 		ScreeningUpdatesTable.onUpgrade(db, oldVersion, newVersion);

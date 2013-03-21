@@ -40,6 +40,7 @@ import android.util.Log;
 import com.sportsfire.db.PlayerTable;
 import com.sportsfire.db.ScreeningUpdatesTable;
 import com.sportsfire.db.ScreeningValuesTable;
+import com.sportsfire.db.SeasonTable;
 import com.sportsfire.db.SquadTable;
 import com.sportsfire.screening.ScreeningData;
 
@@ -55,6 +56,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     /** URI for sync service */
     public static final String SYNC_PLAYERS_URI = BASE_URL + "/players/";
     public static final String SYNC_SQUADS_URI = BASE_URL + "/squads/";
+    public static final String SYNC_SEASONS_URI = BASE_URL + "/seasons/";
+
     public static final String SYNC_SCREENINGUPDATES_URI = BASE_URL + "/screeningupdates/";
     public static final int HTTP_REQUEST_TIMEOUT_MS = 70 * 1000;
     
@@ -174,17 +177,34 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	private void loadSquadsAndPlayers() {
 
 		LinkedList<ContentValues> squads = loadSquads();
+		LinkedList<ContentValues> seasons = loadSeasons();
 		LinkedList<ContentValues> players = loadPlayers();
 		mContentResolver.delete(Provider.CONTENT_URI_PLAYERS, null, null);
 		mContentResolver.delete(Provider.CONTENT_URI_SQUADS, null, null);
-		ListIterator<ContentValues> it = squads.listIterator();
-		while(it.hasNext()){
-			mContentResolver.insert(Provider.CONTENT_URI_SQUADS, it.next());
+		mContentResolver.delete(Provider.CONTENT_URI_SEASONS, null, null);
+
+		ListIterator<ContentValues> it = null;
+		if(squads != null){
+			it = squads.listIterator();
+		
+			while(it.hasNext()){
+				mContentResolver.insert(Provider.CONTENT_URI_SQUADS, it.next());
+			}
 		}
-		if (players != null) it = players.listIterator();
-		while(it.hasNext()){
-			mContentResolver.insert(Provider.CONTENT_URI_PLAYERS, it.next());
+		if(seasons != null){
+			it = seasons.listIterator();
+			while(it.hasNext()){
+				mContentResolver.insert(Provider.CONTENT_URI_SEASONS, it.next());
+			}
 		}
+		
+		if (players != null){
+			it = players.listIterator();
+			while(it.hasNext()){
+				mContentResolver.insert(Provider.CONTENT_URI_PLAYERS, it.next());
+			}
+		}
+		
 		
 		
 		
@@ -193,14 +213,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	private LinkedList<ContentValues> loadPlayers() {
 
 		try{
-			final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-	        final HttpEntity entity;
-	        try {
-	            entity = new UrlEncodedFormEntity(params);
-	        } catch (final UnsupportedEncodingException e) {
-	            // this should never happen.
-	            throw new IllegalStateException(e);
-	        }
+			
 	        final HttpGet get = new HttpGet(SYNC_PLAYERS_URI);
 	        final HttpResponse resp = getHttpClient().execute(get);
 
@@ -240,17 +253,48 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		
 	}
 	
+	private LinkedList<ContentValues> loadSeasons() {
+
+		try{
+			
+	        final HttpGet get = new HttpGet(SYNC_SEASONS_URI);
+	        final HttpResponse resp = getHttpClient().execute(get);
+
+	        final String response = EntityUtils.toString(resp.getEntity());
+	        Log.e("response",response);
+	        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+	            // Our request to the server was successful - so we assume
+	            // that they accepted all the changes we sent up, and
+	            // that the response includes the contacts that we need
+	            // to update on our side...
+	            final JSONArray serverSeasons = new JSONArray(response);
+	            Log.d("Response", response);
+	            
+	            LinkedList<ContentValues> resultsList = new LinkedList<ContentValues>();
+	            for (int i = 0; i < serverSeasons.length(); i++) {
+		            ContentValues values = new ContentValues();
+
+	            	JSONObject object = serverSeasons.getJSONObject(i);
+	            	values.put(SeasonTable.KEY_SEASON_ID,object.getString("_id"));
+	            	values.put(SeasonTable.KEY_SEASON_NAME,object.getString("name"));
+	            	
+	            	resultsList.add(values);
+	            }
+	            return resultsList;
+	        }
+		}
+		catch (Exception e){
+			Log.e("Exception", e.toString());
+		}
+		
+		return null;
+		
+	}
+	
 	private LinkedList<ContentValues> loadSquads() {
 
 		try{
-			final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-	        final HttpEntity entity;
-	        try {
-	            entity = new UrlEncodedFormEntity(params);
-	        } catch (final UnsupportedEncodingException e) {
-	            // this should never happen.
-	            throw new IllegalStateException(e);
-	        }
+			
 	        final HttpGet get = new HttpGet(SYNC_SQUADS_URI);
 	       // final HttpPost post = new HttpPost(SYNC_PLAYERS_URI);
 	       // Log.e("post",post.toString());

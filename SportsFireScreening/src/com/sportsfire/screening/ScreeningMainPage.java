@@ -1,6 +1,9 @@
 package com.sportsfire.screening;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,8 +24,17 @@ public class ScreeningMainPage extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		seasons = new SeasonList(this);
+		super.onCreate(savedInstanceState);		seasons = new SeasonList(this);
+		if(seasons.getSeasonNameList().size() == 0){
+			new AlertDialog.Builder(this)
+			.setTitle("Error")
+			.setMessage("Please set up sync first to provide intial app data")
+			.setPositiveButton("OK", new OnClickListener() {
+			    public void onClick(DialogInterface arg0, int arg1) {
+			    	finish();
+			    }
+			}).show();
+		}
 
 		setContentView(R.layout.screening_main_page);
 		Spinner spinner = (Spinner) findViewById(R.id.seasonSpin);
