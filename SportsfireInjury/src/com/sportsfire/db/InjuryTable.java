@@ -26,7 +26,13 @@ public class InjuryTable {
     public static final String KEY_REFEREE = "referee";
     public static final String KEY_SANCTION_PLAYER = "sanctionPlayer";
     public static final String KEY_SANCTION_OPPONENT = "sanctionOpponent";
-	public static final String KEY_PLAYER_ID = "playerID"; // Foreign key
+    public static final String KEY_MECHANISM = "mechanism";
+    public static final String KEY_FOOTWEAR = "footwear";
+    public static final String KEY_SURFACECONDITION = "surfaceCondition";
+    public static final String KEY_STRAPPING = "strapping";
+    public static final String KEY_SEVERITY = "severity";
+    public static final String KEY_INJURYTYPE = "injuryType";
+    public static final String KEY_PLAYER_ID = "playerID"; // Foreign key
 	
     public static void onCreate(SQLiteDatabase db) {
 		String createInjuryTable = "CREATE TABLE " + TABLE_NAME + "("
@@ -47,6 +53,12 @@ public class InjuryTable {
 				+ KEY_REFEREE + " TEXT DEFAULT '',"
 				+ KEY_SANCTION_PLAYER + " TEXT DEFAULT '0',"
 				+ KEY_SANCTION_OPPONENT + " TEXT DEFAULT '0',"
+				+ KEY_MECHANISM + " TEXT DEFAULT '0',"
+				+ KEY_FOOTWEAR + " TEXT DEFAULT '0',"
+				+ KEY_SURFACECONDITION + " TEXT DEFAULT '0',"
+				+ KEY_STRAPPING + " TEXT DEFAULT '0',"
+				+ KEY_SEVERITY + " TEXT DEFAULT '0',"
+				+ KEY_INJURYTYPE + " TEXT DEFAULT '0',"
 				+ KEY_PLAYER_ID + " INTEGER NOT NULL)";
         db.execSQL(createInjuryTable);
    }
