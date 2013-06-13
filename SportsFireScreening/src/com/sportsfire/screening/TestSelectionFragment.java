@@ -1,6 +1,6 @@
 package com.sportsfire.screening;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,15 +14,15 @@ import android.widget.Spinner;
 
 public class TestSelectionFragment extends Fragment {
 	private Callbacks mCallbacks = sDummyCallbacks;
-	HashMap<CompoundButton, Spinner> testSelectionMap = new HashMap<CompoundButton, Spinner>();
+	LinkedHashMap<CompoundButton, Spinner> testSelectionMap = new LinkedHashMap<CompoundButton, Spinner>();
 
 	public interface Callbacks {
 
-		public void onTestsChosen(HashMap<String, Integer> testsMap);
+		public void onTestsChosen(LinkedHashMap<String, Integer> testsMap);
 	}
 
 	private static Callbacks sDummyCallbacks = new Callbacks() {
-		public void onTestsChosen(HashMap<String, Integer> testsMap) {
+		public void onTestsChosen(LinkedHashMap<String, Integer> testsMap) {
 		}
 	};
 
@@ -91,7 +91,7 @@ public class TestSelectionFragment extends Fragment {
 	}
 
 	public void sendData(View view) {
-		HashMap<String, Integer> selectedTests = new HashMap<String, Integer>();
+		LinkedHashMap<String, Integer> selectedTests = new LinkedHashMap<String, Integer>();
 		for (CompoundButton k : testSelectionMap.keySet()) {
 			if (k.isChecked()) {
 				selectedTests.put(k.getText().toString(),

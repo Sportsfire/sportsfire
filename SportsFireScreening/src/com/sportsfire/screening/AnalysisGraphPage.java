@@ -1,4 +1,3 @@
-
 package com.sportsfire.screening;
 
 import java.util.ArrayList;
@@ -53,8 +52,7 @@ public class AnalysisGraphPage extends Activity {
 		season = getIntent().getStringExtra(ARG_ITEM_SEASON);
 		try {
 			@SuppressWarnings("unchecked")
-			HashMap<String, Integer> map = (HashMap<String, Integer>) getIntent()
-					.getSerializableExtra(ARG_ITEM_TESTS);
+			HashMap<String, Integer> map = (HashMap<String, Integer>) getIntent().getSerializableExtra(ARG_ITEM_TESTS);
 			for (Entry<String, Integer> set : map.entrySet()) {
 				testNames.add(set.getKey());
 				testParams.add(set.getValue());
@@ -77,17 +75,23 @@ public class AnalysisGraphPage extends Activity {
 			array[j] = list.get(j);
 		}
 		values.add(array);
+		titles.add(testNames.get(pos) + " - Player Average");
+		array = new double[list.size()];
+		for (int j = 0; j < list.size(); j++) {
+			array[j] = Double.parseDouble(screen.getAverageValue(player.getID(), testNames.get(pos)));
+		}
+		values.add(array);
 		if (testParams.get(pos) == 1) {
-			titles.add(testNames.get(pos) + "- Squad Average");
+			titles.add(testNames.get(pos) + " - Squad Average");
 			array = new double[list.size()];
 			for (int j = 0; j < list.size(); j++) {
-				array[j] = screen.getPlayerSquadAverageSeasonData(player.getID(),
-						testNames.get(pos), Integer.toString(j));
+				array[j] = screen.getPlayerSquadAverageSeasonData(player.getID(), testNames.get(pos),
+						Integer.toString(j));
 			}
 			values.add(array);
 		}
-		return new LineChart(this, player.getName() + " - " + testNames.get(pos),
-				testNames.get(pos), titles, values).getChart(this);
+		return new LineChart(this, player.getName() + " - " + testNames.get(pos), testNames.get(pos), titles, values)
+				.getChart(this);
 	}
 
 	protected void onResume() {

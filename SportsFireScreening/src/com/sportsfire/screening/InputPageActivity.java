@@ -2,6 +2,7 @@ package com.sportsfire.screening;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -127,7 +128,7 @@ public class InputPageActivity extends FragmentActivity implements TestSelection
 	}
 
 	@Override
-	public void onTestsChosen(HashMap<String, Integer> map) {
+	public void onTestsChosen(LinkedHashMap<String, Integer> map) {
 		if (map.isEmpty()){
 			Toast toast = Toast.makeText(this, "Please select tests",
 					Toast.LENGTH_LONG);
@@ -152,17 +153,18 @@ public class InputPageActivity extends FragmentActivity implements TestSelection
 				headerRow.add(test.getKey() + " Avg");
 				headerRow.add(test.getKey() + " Pre");
 			} else if (test.getValue() == 1) {
-				headerRow.add(test.getKey() + " Avg");
-			} else if (test.getValue() == 2) {
 				headerRow.add(test.getKey() + " Pre");
+			} else if (test.getValue() == 2) {
+				headerRow.add(test.getKey() + " Avg");
 			}
 		}
 		column.add(headerRow);
+		/*
 		for (Player player : selected.getPlayerList()) {
 			List<String> row = new ArrayList<String>();
 			row.add(player.getName());
 			column.add(row);
-		}
+		}*/
 		FormValues values = new FormValues(column);
 		intent.putExtra(TestInputForm.ARG_ITEM_DATA, values);
 		startActivity(intent);
