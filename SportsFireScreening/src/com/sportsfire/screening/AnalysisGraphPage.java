@@ -1,3 +1,4 @@
+
 package com.sportsfire.screening;
 
 import java.util.ArrayList;

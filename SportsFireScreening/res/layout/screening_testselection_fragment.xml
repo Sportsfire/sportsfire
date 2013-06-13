@@ -5,10 +5,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+<ScrollView 
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"
+    android:scrollbars="vertical">
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
+        
+        
+        
+        
 
         <TextView
             android:id="@+id/TextView01"
@@ -45,6 +54,8 @@
                 android:id="@+id/SqueezeSpinner"
                 style="@style/TestSpinnerOptionStyle" />
         </LinearLayout>
+        
+       
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,13 +64,14 @@
             <Switch
                 android:id="@+id/CMJSwitch"
                 style="@style/SwitchStyle"
-                android:text="Counter movement Jumps" />
+                android:text="Countermovement Jump(With Arms)"/>
 
             <Spinner
                 android:id="@+id/CMJSpinner"
                 style="@style/TestSpinnerOptionStyle" />
         </LinearLayout>
-    </LinearLayout>
+    
+    
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -102,13 +114,197 @@
                 style="@style/TestSpinnerOptionStyle" />
         </LinearLayout>
     </LinearLayout>
+    
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Quarterly"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/CountermovementJumpSwitch"
+                style="@style/SwitchStyle"
+                android:text="Countermovement Jump(Without Arms)" />
+
+            <Spinner
+                android:id="@+id/CountermovementJumpSpinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/DepthJumpSwitch"
+                style="@style/SwitchStyle"
+                android:text="Depth Jump" />
+
+            <Spinner
+                android:id="@+id/DepthJumpSpinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/SquatJumpSwitch"
+                style="@style/SwitchStyle"
+                android:text="Squat Jump" />
+
+            <Spinner
+                android:id="@+id/SquatJumpSpinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/TripleHopLSwitch"
+                style="@style/SwitchStyle"
+                android:text="Triple Hop(left)" />
+
+            <Spinner
+                android:id="@+id/TripleHopLSpinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/TripleHopRSwitch"
+                style="@style/SwitchStyle"
+                android:text="Triple Hop(right)" />
+
+            <Spinner
+                android:id="@+id/TripleHopRSpinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/AgilityLSwitch"
+                style="@style/SwitchStyle"
+                android:text="Agility(left)" />
+
+            <Spinner
+                android:id="@+id/AgilityLSpinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/AgilityRSwitch"
+                style="@style/SwitchStyle"
+                android:text="Agility(RIGHT)" />
+
+            <Spinner
+                android:id="@+id/AgilityRSpinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/Sprints5Switch"
+                style="@style/SwitchStyle"
+                android:text="Sprints(5m)" />
+
+            <Spinner
+                android:id="@+id/Sprints5Spinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/Sprints10Switch"
+                style="@style/SwitchStyle"
+                android:text="Sprints(10m)" />
+
+            <Spinner
+                android:id="@+id/Sprints10Spinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/Sprints20Switch"
+                style="@style/SwitchStyle"
+                android:text="Sprints(20m)" />
+
+            <Spinner
+                android:id="@+id/Sprints20Spinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Switch
+                android:id="@+id/YoYoTestSwitch"
+                style="@style/SwitchStyle"
+                android:text="Yo-Yo Test" />
+
+            <Spinner
+                android:id="@+id/YoYoTestSpinner"
+                style="@style/TestSpinnerOptionStyle" />
+        </LinearLayout>
+        
+       </LinearLayout>
+       
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_weight="0.0"
         android:gravity="fill_horizontal"
         android:onClick="sendData"
         android:text="Next" />
+    
+    
 
 </LinearLayout>
+</ScrollView>
+    </LinearLayout>
+
+
+       
+
+
+
+ 
+  

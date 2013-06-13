@@ -45,6 +45,30 @@ public class TestSelectionFragment extends Fragment {
 				(Spinner) rootView.findViewById(R.id.HeightSpinner));
 		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.BodyFatSwitch),
 				(Spinner) rootView.findViewById(R.id.BodyFatSpinner));
+		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.CountermovementJumpSwitch),
+				(Spinner) rootView.findViewById(R.id.CountermovementJumpSpinner));
+		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.DepthJumpSwitch),
+				(Spinner) rootView.findViewById(R.id.DepthJumpSpinner));
+		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.SquatJumpSwitch),
+				(Spinner) rootView.findViewById(R.id.SquatJumpSpinner));
+		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.TripleHopLSwitch),
+				(Spinner) rootView.findViewById(R.id.TripleHopLSpinner));
+		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.TripleHopRSwitch),
+				(Spinner) rootView.findViewById(R.id.TripleHopRSpinner));
+		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.AgilityLSwitch),
+				(Spinner) rootView.findViewById(R.id.AgilityLSpinner));
+		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.AgilityRSwitch),
+				(Spinner) rootView.findViewById(R.id.AgilityRSpinner));
+		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.Sprints5Switch),
+				(Spinner) rootView.findViewById(R.id.Sprints5Spinner));
+		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.Sprints10Switch),
+				(Spinner) rootView.findViewById(R.id.Sprints10Spinner));
+		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.Sprints20Switch),
+				(Spinner) rootView.findViewById(R.id.Sprints20Spinner));
+		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.YoYoTestSwitch),
+				(Spinner) rootView.findViewById(R.id.YoYoTestSpinner));
+		
+	
 		String[] choices;
 		if (getActivity().getClass().equals(AnalysisPageActivity.class)) {
 			choices = getResources().getStringArray(R.array.ComparisonChoices);
