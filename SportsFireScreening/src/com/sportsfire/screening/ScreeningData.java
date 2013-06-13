@@ -21,7 +21,8 @@ public class ScreeningData {
 	private String seasonID;
 	private String week;
 	private ContentResolver content;
-
+	private Cursor cursor;
+	
 	public ScreeningData(Context context, String seasonID, String week) {
 		content = context.getContentResolver();
 		this.seasonID = seasonID;
@@ -32,14 +33,18 @@ public class ScreeningData {
 		content = context.getContentResolver();
 		this.seasonID = seasonID;
 	}
-
+	
+	public void closeCursor(){
+		cursor.close();
+	}
+	
 	public ArrayList<Double> getPlayerSeasonData(String playerID, String measurementType) {
 		ArrayList<Double> data = new ArrayList<Double>();
 		String where = ScreeningValuesTable.KEY_PLAYER_ID + " = '" + playerID + "' and "
 				+ ScreeningValuesTable.KEY_SEASON_ID + " = '" + seasonID + "' and "
 				+ ScreeningValuesTable.KEY_MEASUREMENT_TYPE + " = '" + measurementType + "'";
 		String[] projection = { ScreeningValuesTable.KEY_VALUE };
-		Cursor cursor = content.query(Provider.CONTENT_URI_SCREENING_VALUES, projection, where,
+		cursor = content.query(Provider.CONTENT_URI_SCREENING_VALUES, projection, where,
 				null, null);
 
 		if (cursor.getCount() == 0) {
@@ -70,7 +75,7 @@ public class ScreeningData {
 				+ ScreeningValuesTable.KEY_WEEK + " = '" + week + "' and "
 				+ ScreeningValuesTable.KEY_MEASUREMENT_TYPE + " = '" + measurementType + "'";
 		String[] projection = { "AVG(" + ScreeningValuesTable.KEY_VALUE + ")" };
-		Cursor cursor = content.query(Provider.CONTENT_URI_SCREENING_VALUES, projection, where,
+		cursor = content.query(Provider.CONTENT_URI_SCREENING_VALUES, projection, where,
 				null, null);
 
 		if (cursor.getCount() == 0) {
@@ -117,7 +122,7 @@ public class ScreeningData {
 		String where = getWhere(playerID, measurementType, week);
 
 		String[] projection = { ScreeningValuesTable.KEY_VALUE, ScreeningValuesTable.KEY_ID };
-		Cursor cursor = content.query(Provider.CONTENT_URI_SCREENING_VALUES, projection, where,
+		cursor = content.query(Provider.CONTENT_URI_SCREENING_VALUES, projection, where,
 				null, null);
 
 		ContentValues values = new ContentValues();
@@ -157,7 +162,7 @@ public class ScreeningData {
 	public String getValue(String playerID, String measurementType) {
 		String where = getWhere(playerID, measurementType, week);
 		String[] projection = { ScreeningValuesTable.KEY_VALUE };
-		Cursor cursor = content.query(Provider.CONTENT_URI_SCREENING_VALUES, projection, where,
+		cursor = content.query(Provider.CONTENT_URI_SCREENING_VALUES, projection, where,
 				null, null);
 
 		if (cursor.getCount() == 0) {
@@ -177,7 +182,7 @@ public class ScreeningData {
 		String where = getAvgWhere(playerID, measurementType);
 
 		String[] projection = { ScreeningValuesTable.KEY_VALUE };
-		Cursor cursor = content.query(Provider.CONTENT_URI_SCREENING_VALUES, projection, where,
+		cursor = content.query(Provider.CONTENT_URI_SCREENING_VALUES, projection, where,
 				null, null);
 
 		if (cursor.getCount() == 0) {
@@ -209,7 +214,7 @@ public class ScreeningData {
 			String where = getWhere(playerID, measurementType, Integer.toString(lastweek));
 
 			String[] projection = { ScreeningValuesTable.KEY_VALUE };
-			Cursor cursor = content.query(Provider.CONTENT_URI_SCREENING_VALUES, projection, where,
+			cursor = content.query(Provider.CONTENT_URI_SCREENING_VALUES, projection, where,
 					null, null);
 
 			if (cursor.getCount() == 0) {

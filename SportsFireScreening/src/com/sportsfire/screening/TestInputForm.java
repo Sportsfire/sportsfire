@@ -11,10 +11,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
+import android.view.View.OnKeyListener;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -29,17 +31,20 @@ public class TestInputForm extends Activity {
 	public static final String ARG_ITEM_PARAM = "argumentParam";
 	public static final String ARG_ITEM_SQUAD = "argumentSquad";
 	public static final String ARG_ITEM_DATA = "argumentScreen";
-	FormValues values;
-	HashMap<String, Integer> TestsMap;
-	Squad Asquad;
-	ArrayList<Player> squad;
-	String[] params;
+	private FormValues values;
+	private HashMap<String, Integer> TestsMap;
+	private Squad Asquad;
+	private ArrayList<Player> squad;
+	private String[] params;
+	private ScreeningData screen;
 
 	private void setCellStyle(TextView cell) {
-		LayoutParams layout = new LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f);
+		LayoutParams layout = new LayoutParams(0, LayoutParams.MATCH_PARENT,
+				1.0f);
 		layout.setMargins(1, 1, 1, 1);
 		cell.setLayoutParams(layout);
-		cell.setTextAppearance(this, android.R.style.TextAppearance_DeviceDefault_Medium);
+		cell.setTextAppearance(this,
+				android.R.style.TextAppearance_DeviceDefault_Medium);
 		cell.setBackgroundColor(Color.WHITE);
 		cell.setGravity(Gravity.CENTER_HORIZONTAL);
 		cell.requestLayout();
@@ -49,11 +54,13 @@ public class TestInputForm extends Activity {
 		TableRow dummyRow = new TableRow(this);
 		for (String heading : values.getDummy()) {
 			TextView cell = new EditText(this);
-			LayoutParams layout = new LayoutParams(LayoutParams.WRAP_CONTENT, 0, 1.0f);
+			LayoutParams layout = new LayoutParams(LayoutParams.WRAP_CONTENT,
+					0, 1.0f);
 			layout.setMargins(1, 1, 1, 1);
 			cell.setLayoutParams(layout);
 			cell.setText(heading);
-			cell.setTextAppearance(this, android.R.style.TextAppearance_Holo_Large);
+			cell.setTextAppearance(this,
+					android.R.style.TextAppearance_Holo_Large);
 			cell.setFocusable(false);
 			dummyRow.addView(cell);
 		}
@@ -67,9 +74,11 @@ public class TestInputForm extends Activity {
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		values = getIntent().getParcelableExtra(ARG_ITEM_DATA);
-		TestsMap = (HashMap<String, Integer>) getIntent().getSerializableExtra(ARG_ITEM_TESTS);
+		TestsMap = (HashMap<String, Integer>) getIntent().getSerializableExtra(
+				ARG_ITEM_TESTS);
 		params = getIntent().getStringArrayExtra(ARG_ITEM_PARAM);
-		squad = (ArrayList<Player>) getIntent().getSerializableExtra(ARG_ITEM_SQUAD);
+		squad = (ArrayList<Player>) getIntent().getSerializableExtra(
+				ARG_ITEM_SQUAD);
 
 		TableRow headRow = new TableRow(this);
 		for (String heading : values.getHeader()) {
@@ -78,17 +87,22 @@ public class TestInputForm extends Activity {
 			if (heading.compareTo("Full Name") == 0) {
 				cell.setBackgroundColor(Color.parseColor("#ffcccccc"));
 			}
-			cell.setTextAppearance(this, android.R.style.TextAppearance_Holo_Large);
+			cell.setTextAppearance(this,
+					android.R.style.TextAppearance_Holo_Large);
 			cell.setText(heading);
 			headRow.addView(cell);
 		}
 		((TableLayout) findViewById(R.id.headerTable)).addView(headRow);
-		((TableLayout) findViewById(R.id.headerTable)).addView(createDummyRow());
+		((TableLayout) findViewById(R.id.headerTable))
+				.addView(createDummyRow());
 		((TableLayout) findViewById(R.id.mainTable)).addView(createDummyRow());
 
-		String week = params[1].substring(5); // we need the number of the week, without "Week "
-		
-		final ScreeningData screenData = new ScreeningData(this, params[0], week);
+		String week = params[1].substring(5); // we need the number of the week,
+												// without "Week "
+
+		final ScreeningData screenData = new ScreeningData(this, params[0],
+				week);
+		screen = screenData;
 		for (final Player player : squad) {
 			TableRow bodyRow = new TableRow(this);
 			TextView cell = new TextView(this);
@@ -101,21 +115,40 @@ public class TestInputForm extends Activity {
 				EditText tCell = new EditText(this);
 
 				setCellStyle(tCell);
-				tCell.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+				tCell.setInputType(InputType.TYPE_CLASS_NUMBER
+						| InputType.TYPE_NUMBER_FLAG_DECIMAL);
 				tCell.setText(screenData.getValue(player.getID(), test.getKey()));
-				tCell.setOnFocusChangeListener(new OnFocusChangeListener(){
+				tCell.setOnFocusChangeListener(new OnFocusChangeListener() {
 
 					@Override
 					public void onFocusChange(View v, boolean hasFocus) {
-						if(!hasFocus){
+						if (!hasFocus) {
 							// TODO Auto-generated method stub
-							screenData.setValue(player.getID(), test.getKey(), ((EditText)v).getText().toString());
-							System.out.println(player.getID() + " " + test.getKey());
-					    }
-						
+							screenData.setValue(player.getID(), test.getKey(),
+									((EditText) v).getText().toString());
+							System.out.println(player.getID() + " "
+									+ test.getKey());
+						}
+
 					}
-					});
-				
+				});
+				tCell.setOnKeyListener(new OnKeyListener() {
+
+					@Override
+					public boolean onKey(View v, int keyCode, KeyEvent event) {
+						if ((event.getAction() == KeyEvent.ACTION_DOWN)
+								&& (keyCode == KeyEvent.KEYCODE_ENTER)) {
+							screenData.setValue(player.getID(), test.getKey(),
+									((EditText) v).getText().toString());
+							System.out.println(player.getID() + " "
+									+ test.getKey());
+							return true;
+						}
+						return false;
+					}
+
+				});
+
 				bodyRow.addView(tCell);
 				TextView aCell = new TextView(this);
 				TextView pCell = new TextView(this);
@@ -124,15 +157,19 @@ public class TestInputForm extends Activity {
 				aCell.setBackgroundColor(Color.YELLOW);
 				pCell.setBackgroundColor(Color.CYAN);
 				if (test.getValue() == 0) {
-					aCell.setText(screenData.getAverageValue(player.getID(), test.getKey()));
-					pCell.setText(screenData.getPreviousValue(player.getID(), test.getKey()));
+					aCell.setText(screenData.getAverageValue(player.getID(),
+							test.getKey()));
+					pCell.setText(screenData.getPreviousValue(player.getID(),
+							test.getKey()));
 					bodyRow.addView(aCell);
 					bodyRow.addView(pCell);
 				} else if (test.getValue() == 1) {
-					pCell.setText(screenData.getPreviousValue(player.getID(), test.getKey()));
+					pCell.setText(screenData.getPreviousValue(player.getID(),
+							test.getKey()));
 					bodyRow.addView(pCell);
 				} else if (test.getValue() == 2) {
-					aCell.setText(screenData.getAverageValue(player.getID(), test.getKey()));
+					aCell.setText(screenData.getAverageValue(player.getID(),
+							test.getKey()));
 					bodyRow.addView(aCell);
 				}
 			}
@@ -146,6 +183,11 @@ public class TestInputForm extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_test_input_form, menu);
 		return true;
+	}
+
+	public void onPause() {
+		super.onPause();
+		screen.closeCursor();
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
