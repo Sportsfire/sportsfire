@@ -32,7 +32,9 @@ public class Squad implements Parcelable{
 		cursor.close();
         
     }
-    
+    public Squad(Parcel in){
+    	readFromParcel(in);
+    }
     public ArrayList<Player> getPlayerList(){
         return playerList;
     }
@@ -51,7 +53,31 @@ public class Squad implements Parcelable{
 	}
 
 	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-		
+		dest.writeList(playerList);
+		dest.writeStringList(playerNameList);
+		dest.writeString(name);
+		dest.writeString(id);	
 	}
+	
+	private void readFromParcel(Parcel in){
+		in.readList(playerList,Player.class.getClassLoader());
+		in.readStringList(playerNameList);
+		name = in.readString();
+		id = in.readString();
+	}
+	public static final Parcelable.Creator<Squad> CREATOR = new Parcelable.Creator<Squad>(){
+
+		@Override
+		public Squad createFromParcel(Parcel source) {
+			// TODO Auto-generated method stub
+			return new Squad(source);
+		}
+
+		@Override
+		public Squad[] newArray(int size) {
+			// TODO Auto-generated method stub
+			return new Squad[size];
+		}
+		
+	};
 }

@@ -10,11 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Spinner;
 
 public class TestSelectionFragment extends Fragment {
 	private Callbacks mCallbacks = sDummyCallbacks;
-	LinkedHashMap<CompoundButton, Spinner> testSelectionMap = new LinkedHashMap<CompoundButton, Spinner>();
+	LinkedHashMap<Switch, Spinner> testSelectionMap = new LinkedHashMap<Switch, Spinner>();
 
 	public interface Callbacks {
 
@@ -35,39 +36,47 @@ public class TestSelectionFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.screening_testselection_fragment, container,
 				false);
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.WeightSwitch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.WeightSwitch),
 				(Spinner) rootView.findViewById(R.id.WeightSpinner));
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.SqueezeSwitch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.SqueezeSwitch),
 				(Spinner) rootView.findViewById(R.id.SqueezeSpinner));
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.CMJSwitch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.CMJSwitch),
 				(Spinner) rootView.findViewById(R.id.CMJSpinner));
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.HeightSwitch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.HeightSwitch),
 				(Spinner) rootView.findViewById(R.id.HeightSpinner));
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.BodyFatSwitch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.BodyFatSwitch),
 				(Spinner) rootView.findViewById(R.id.BodyFatSpinner));
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.CountermovementJumpSwitch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.CountermovementJumpSwitch),
 				(Spinner) rootView.findViewById(R.id.CountermovementJumpSpinner));
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.DepthJumpSwitch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.DepthJumpSwitch),
 				(Spinner) rootView.findViewById(R.id.DepthJumpSpinner));
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.SquatJumpSwitch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.SquatJumpSwitch),
 				(Spinner) rootView.findViewById(R.id.SquatJumpSpinner));
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.TripleHopLSwitch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.TripleHopLSwitch),
 				(Spinner) rootView.findViewById(R.id.TripleHopLSpinner));
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.TripleHopRSwitch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.TripleHopRSwitch),
 				(Spinner) rootView.findViewById(R.id.TripleHopRSpinner));
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.AgilityLSwitch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.AgilityLSwitch),
 				(Spinner) rootView.findViewById(R.id.AgilityLSpinner));
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.AgilityRSwitch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.AgilityRSwitch),
 				(Spinner) rootView.findViewById(R.id.AgilityRSpinner));
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.Sprints5Switch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.Sprints5Switch),
 				(Spinner) rootView.findViewById(R.id.Sprints5Spinner));
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.Sprints10Switch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.Sprints10Switch),
 				(Spinner) rootView.findViewById(R.id.Sprints10Spinner));
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.Sprints20Switch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.Sprints20Switch),
 				(Spinner) rootView.findViewById(R.id.Sprints20Spinner));
-		testSelectionMap.put((CompoundButton) rootView.findViewById(R.id.YoYoTestSwitch),
+		testSelectionMap.put((Switch) rootView.findViewById(R.id.YoYoTestSwitch),
 				(Spinner) rootView.findViewById(R.id.YoYoTestSpinner));
 		
+		for (Switch click:testSelectionMap.keySet()){
+			click.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					onSwitchClicked(buttonView);
+				}
+			});
+		}
 	
 		String[] choices;
 		if (getActivity().getClass().equals(AnalysisPageActivity.class)) {
@@ -83,7 +92,7 @@ public class TestSelectionFragment extends Fragment {
 	}
 
 	public void onSwitchClicked(View view) {
-		if (((CompoundButton) view).isChecked()) {
+		if (((Switch) view).isChecked()) {
 			(testSelectionMap.get(view)).setVisibility(View.VISIBLE);
 		} else {
 			(testSelectionMap.get(view)).setVisibility(View.INVISIBLE);
@@ -92,7 +101,7 @@ public class TestSelectionFragment extends Fragment {
 
 	public void sendData(View view) {
 		LinkedHashMap<String, Integer> selectedTests = new LinkedHashMap<String, Integer>();
-		for (CompoundButton k : testSelectionMap.keySet()) {
+		for (Switch k : testSelectionMap.keySet()) {
 			if (k.isChecked()) {
 				selectedTests.put(k.getText().toString(),
 						(testSelectionMap.get(k)).getSelectedItemPosition());

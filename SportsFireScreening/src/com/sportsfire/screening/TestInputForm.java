@@ -34,8 +34,8 @@ public class TestInputForm extends Activity {
 	public static final String ARG_ITEM_DATA = "argumentScreen";
 	private FormValues values;
 	private HashMap<String, Integer> TestsMap;
-	private Squad Asquad;
-	private ArrayList<Player> squad;
+	private Squad squad;
+	//private ArrayList<Player> squad;
 	private String[] params;
 	private ScreeningData screen;
 
@@ -73,7 +73,7 @@ public class TestInputForm extends Activity {
 		values = getIntent().getParcelableExtra(ARG_ITEM_DATA);
 		TestsMap = (HashMap<String, Integer>) getIntent().getSerializableExtra(ARG_ITEM_TESTS);
 		params = getIntent().getStringArrayExtra(ARG_ITEM_PARAM);
-		squad = (ArrayList<Player>) getIntent().getSerializableExtra(ARG_ITEM_SQUAD);
+		squad = getIntent().getParcelableExtra(ARG_ITEM_SQUAD);
 
 		TableRow headRow = new TableRow(this);
 		for (String heading : values.getHeader()) {
@@ -95,7 +95,7 @@ public class TestInputForm extends Activity {
 
 		final ScreeningData screenData = new ScreeningData(this, params[0], week);
 		screen = screenData;
-		for (final Player player : squad) {
+		for (final Player player : squad.getPlayerList()) {
 			TableRow bodyRow = new TableRow(this);
 			TextView cell = new TextView(this);
 			setCellStyle(cell);
@@ -183,6 +183,7 @@ public class TestInputForm extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_test_input_form, menu);
+		getActionBar().setTitle("Test Input Form - " + squad.getSquadName() + ": Season "+ params[0] + " " + params[1]);
 		return true;
 	}
 

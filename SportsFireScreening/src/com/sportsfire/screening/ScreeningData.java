@@ -35,7 +35,10 @@ public class ScreeningData {
 	}
 	
 	public void closeCursor(){
-		cursor.close();
+		try {
+			cursor.close();
+		} catch (Exception e) {
+		}
 	}
 	
 	public ArrayList<Double> getPlayerSeasonData(String playerID, String measurementType) {

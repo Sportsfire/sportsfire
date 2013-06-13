@@ -1,23 +1,23 @@
 package com.sportsfire.sync;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnManagerParams;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
+import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -50,7 +50,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	private Context context;
 	
 	/** Base URL for the v2 Sample Sync Service */
-    public static final String BASE_URL = "http://sportsfire4.cs.ucl.ac.uk";
+    public static final String BASE_URL = "http://pga.sportsfire4.cs.ucl.ac.uk";
     /** URI for authentication service */
     public static final String AUTH_URI = BASE_URL + "/auth";
     /** URI for sync service */
@@ -127,8 +127,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	        final HttpPost post = new HttpPost(SYNC_SCREENINGUPDATES_URI);
 	        Log.e("post",post.toString());
 	        post.addHeader("Content-Type", "application/json");
-	       
+	        /* https
 	        post.setEntity(new ByteArrayEntity(params.toString().getBytes("UTF8")));
+	        SchemeRegistry schemeRegistry = new SchemeRegistry();
+	        schemeRegistry.register(new Scheme("https", 
+	                    SSLSocketFactory.getSocketFactory(), 443));
+	        HttpParams params1 = new BasicHttpParams();
+	        SingleClientConnManager mgr = new SingleClientConnManager(params1, schemeRegistry);
+	        HttpClient client = new DefaultHttpClient(mgr, params1);
+	        final HttpResponse resp = client.execute(post);
+	        */
 	        final HttpResponse resp = getHttpClient().execute(post);
 
 	        final String response = EntityUtils.toString(resp.getEntity());

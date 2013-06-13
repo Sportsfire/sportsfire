@@ -140,7 +140,7 @@ public class InputPageActivity extends FragmentActivity implements TestSelection
 		params[1] = week;
 		Intent intent = new Intent(this, TestInputForm.class);
 		intent.putExtra(TestInputForm.ARG_ITEM_PARAM, params);
-		intent.putExtra(TestInputForm.ARG_ITEM_SQUAD, selected.getPlayerList());
+		intent.putExtra(TestInputForm.ARG_ITEM_SQUAD, selected);
 		intent.putExtra(TestInputForm.ARG_ITEM_TESTS, map);
 
 		List<List<String>> column = new ArrayList<List<String>>();
