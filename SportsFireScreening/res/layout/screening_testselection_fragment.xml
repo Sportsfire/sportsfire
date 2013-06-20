@@ -140,7 +140,7 @@
 
             <Spinner
                 android:id="@+id/CountermovementJumpSpinner"
-                style="@style/TestSpinnerOptionStyle" />
+                style="@style/TestSpinnerOptionStyle2" />
         </LinearLayout>
         
         <LinearLayout
@@ -154,7 +154,7 @@
 
             <Spinner
                 android:id="@+id/DepthJumpSpinner"
-                style="@style/TestSpinnerOptionStyle" />
+                style="@style/TestSpinnerOptionStyle2" />
         </LinearLayout>
         
         <LinearLayout
@@ -168,7 +168,7 @@
 
             <Spinner
                 android:id="@+id/SquatJumpSpinner"
-                style="@style/TestSpinnerOptionStyle" />
+                style="@style/TestSpinnerOptionStyle2" />
         </LinearLayout>
         
         <LinearLayout
@@ -182,7 +182,7 @@
 
             <Spinner
                 android:id="@+id/TripleHopLSpinner"
-                style="@style/TestSpinnerOptionStyle" />
+                style="@style/TestSpinnerOptionStyle2" />
         </LinearLayout>
         
         <LinearLayout
@@ -196,7 +196,7 @@
 
             <Spinner
                 android:id="@+id/TripleHopRSpinner"
-                style="@style/TestSpinnerOptionStyle" />
+                style="@style/TestSpinnerOptionStyle2" />
         </LinearLayout>
         
         <LinearLayout
@@ -210,7 +210,7 @@
 
             <Spinner
                 android:id="@+id/AgilityLSpinner"
-                style="@style/TestSpinnerOptionStyle" />
+                style="@style/TestSpinnerOptionStyle2" />
         </LinearLayout>
         
         <LinearLayout
@@ -224,7 +224,7 @@
 
             <Spinner
                 android:id="@+id/AgilityRSpinner"
-                style="@style/TestSpinnerOptionStyle" />
+                style="@style/TestSpinnerOptionStyle2" />
         </LinearLayout>
         
         <LinearLayout
@@ -238,7 +238,7 @@
 
             <Spinner
                 android:id="@+id/Sprints5Spinner"
-                style="@style/TestSpinnerOptionStyle" />
+                style="@style/TestSpinnerOptionStyle2" />
         </LinearLayout>
         
         <LinearLayout
@@ -252,7 +252,7 @@
 
             <Spinner
                 android:id="@+id/Sprints10Spinner"
-                style="@style/TestSpinnerOptionStyle" />
+                style="@style/TestSpinnerOptionStyle2" />
         </LinearLayout>
         
         <LinearLayout
@@ -266,7 +266,7 @@
 
             <Spinner
                 android:id="@+id/Sprints20Spinner"
-                style="@style/TestSpinnerOptionStyle" />
+                style="@style/TestSpinnerOptionStyle2" />
         </LinearLayout>
         
         <LinearLayout
@@ -280,7 +280,7 @@
 
             <Spinner
                 android:id="@+id/YoYoTestSpinner"
-                style="@style/TestSpinnerOptionStyle" />
+                style="@style/TestSpinnerOptionStyle2" />
         </LinearLayout>
         
        </LinearLayout>

@@ -121,6 +121,15 @@
         <item>Show Average</item>
         <item>Show Input only</item>
     </string-array>
+    
+    <string-array name="TestChoices2">
+        
+        <item>Show previous</item>
+        
+        <item>Show Input only</item>
+    </string-array>
+    
+    
 	<string-array name="ComparisonChoices">
         <item>Show Values</item>
         <item>Show Comparison</item>
