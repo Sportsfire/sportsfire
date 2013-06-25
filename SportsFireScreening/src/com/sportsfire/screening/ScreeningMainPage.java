@@ -1,5 +1,8 @@
 package com.sportsfire.screening;
 
+import java.io.File;
+
+import net.sqlcipher.database.SQLiteDatabase;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -35,7 +38,9 @@ public class ScreeningMainPage extends Activity {
 			    }
 			}).show();
 		}
-
+		
+		InitializeSQLCipher();
+		
 		setContentView(R.layout.screening_main_page);
 		Spinner spinner = (Spinner) findViewById(R.id.seasonSpin);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -89,5 +94,12 @@ public class ScreeningMainPage extends Activity {
 			break;
 		}
 	}
-
+	private void InitializeSQLCipher() {
+		
+	        SQLiteDatabase.loadLibs(this);
+	        File databaseFile = getDatabasePath("com.sportsfire.db");
+	        databaseFile.mkdirs();
+	        databaseFile.delete();
+	       
+	} 
 }
