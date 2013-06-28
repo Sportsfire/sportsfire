@@ -16,6 +16,7 @@
 
 package com.sportsfire.sync;
 
+import static com.sportsfire.sync.Constants.server;
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
@@ -97,18 +98,30 @@ class Authenticator extends AbstractAccountAuthenticator {
         // Extract the username and password from the Account Manager, and ask
         // the server for an appropriate AuthToken.
         final AccountManager am = AccountManager.get(mContext);
-        final String password = am.getPassword(account);
-        if (password != null) {
-            final String authToken = "authToken";
-            if (!TextUtils.isEmpty(authToken)) {
-                final Bundle result = new Bundle();
-                result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
-                result.putString(AccountManager.KEY_ACCOUNT_TYPE, Constants.ACCOUNT_TYPE);
-                result.putString(AccountManager.KEY_AUTHTOKEN, authToken);
-                return result;
+        String authToken = am.peekAuthToken(account, authTokenType);
+        String authLabel = am.getUserData(account, AccountManager.KEY_USERDATA);
+        Log.d("Sportsfire", TAG + "> peekAuthToken returned - " + authToken);
+        
+        if (TextUtils.isEmpty(authToken)) {
+            final String password = am.getPassword(account);
+            if (password != null) {
+                try {
+                	String[] loginResult = server.userSignIn(account.name, password, authTokenType);
+					authToken = loginResult[0];
+					authLabel = loginResult[1];
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
             }
+        }else {
+            final Bundle result = new Bundle();
+            result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
+            result.putString(AccountManager.KEY_ACCOUNT_TYPE, authTokenType);
+            result.putString(AccountManager.KEY_AUTHTOKEN, authToken);
+            result.putString(AccountManager.KEY_USERDATA, authLabel);
+            return result;
         }
-
+        
         // If we get here, then we couldn't access the user's password - so we
         // need to re-prompt them for their credentials. We do that by creating
         // an intent to display our AuthenticatorActivity panel.

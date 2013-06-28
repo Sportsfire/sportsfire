@@ -26,4 +26,6 @@ public class Constants {
      * Authtoken type string.
      */
     public static final String AUTHTOKEN_TYPE = "com.sportsfire.screening";
+    
+    public static final ServerAuth server = new ServerAuth();
 }

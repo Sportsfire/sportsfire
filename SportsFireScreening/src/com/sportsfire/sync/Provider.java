@@ -17,7 +17,7 @@ import android.text.TextUtils;
 public class Provider extends ContentProvider {
 	private DBHelper db;
 	
-	private static String AUTHORITY = "com.sportsfire.sync.Provider";
+	public static String AUTHORITY = "com.sportsfire.sync.Provider";
 	public static final int PLAYERS = 100;
 	public static final int PLAYERS_ID = 110;
 	public static final int SQUADS = 200;
