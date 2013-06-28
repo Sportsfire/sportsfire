@@ -56,7 +56,7 @@ public class ScreeningMainPage extends Activity {
 		InitializeSQLCipher();
 		setContentView(R.layout.screening_main_page);
 		if (!DbSetUp()) {
-			showSyncLoginDialog();
+			//showSyncLoginDialog();
 		} else {
 			setUpSpinners();
 		}
@@ -97,9 +97,7 @@ public class ScreeningMainPage extends Activity {
 				selected = seasons.getSeasonList().get(arg2);
 				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 				settings.edit().putInt("selected_season", arg2).apply();
-
 			}
-
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
@@ -112,6 +110,7 @@ public class ScreeningMainPage extends Activity {
 		if (!DbSetUp()) {
 			showSyncLoginDialog();
 		} else {
+			DbSetUp();
 			setUpSpinners();
 			switch (v.getId()) {
 			case R.id.button1:

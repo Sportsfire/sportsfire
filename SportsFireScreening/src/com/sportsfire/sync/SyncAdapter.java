@@ -23,9 +23,7 @@ import org.apache.http.conn.params.ConnManagerParams;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
@@ -74,7 +72,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	public static final String SYNC_SEASONS_URI = BASE_URL + "/seasons/";
 
 	public static final String SYNC_SCREENINGUPDATES_URI = BASE_URL + "/screeningupdates/";
-	public static final int HTTP_REQUEST_TIMEOUT_MS = 70 * 1000;
+	public static final int HTTP_REQUEST_TIMEOUT_MS = 30 * 1000;
 
 	private static final String SYNC_MARKER_KEY = "com.sportsfire.sync.marker";
 	private static final String SYNC_SCREEN_MARKER_KEY = "com.sportsfire.sync.screen marker";
@@ -240,29 +238,30 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		LinkedList<ContentValues> squads = loadSquads();
 		LinkedList<ContentValues> seasons = loadSeasons();
 		LinkedList<ContentValues> players = loadPlayers();
-		mContentResolver.delete(Provider.CONTENT_URI_PLAYERS, null, null);
-		mContentResolver.delete(Provider.CONTENT_URI_SQUADS, null, null);
-		mContentResolver.delete(Provider.CONTENT_URI_SEASONS, null, null);
+		if (squads != null && seasons != null && players != null){
+			mContentResolver.delete(Provider.CONTENT_URI_PLAYERS, null, null);
+			mContentResolver.delete(Provider.CONTENT_URI_SQUADS, null, null);
+			mContentResolver.delete(Provider.CONTENT_URI_SEASONS, null, null);	
+			ListIterator<ContentValues> it = null;
+			if (squads != null) {
+				it = squads.listIterator();
 
-		ListIterator<ContentValues> it = null;
-		if (squads != null) {
-			it = squads.listIterator();
-
-			while (it.hasNext()) {
-				mContentResolver.insert(Provider.CONTENT_URI_SQUADS, it.next());
+				while (it.hasNext()) {
+					mContentResolver.insert(Provider.CONTENT_URI_SQUADS, it.next());
+				}
 			}
-		}
-		if (seasons != null) {
-			it = seasons.listIterator();
-			while (it.hasNext()) {
-				mContentResolver.insert(Provider.CONTENT_URI_SEASONS, it.next());
+			if (seasons != null) {
+				it = seasons.listIterator();
+				while (it.hasNext()) {
+					mContentResolver.insert(Provider.CONTENT_URI_SEASONS, it.next());
+				}
 			}
-		}
 
-		if (players != null) {
-			it = players.listIterator();
-			while (it.hasNext()) {
-				mContentResolver.insert(Provider.CONTENT_URI_PLAYERS, it.next());
+			if (players != null) {
+				it = players.listIterator();
+				while (it.hasNext()) {
+					mContentResolver.insert(Provider.CONTENT_URI_PLAYERS, it.next());
+				}
 			}
 		}
 
@@ -277,10 +276,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			final String response = EntityUtils.toString(resp.getEntity());
 			Log.e("response", response);
 			if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				// Our request to the server was successful - so we assume
-				// that they accepted all the changes we sent up, and
-				// that the response includes the contacts that we need
-				// to update on our side...
+				// Our request to the server was successful
 				final JSONArray serverPlayers = new JSONArray(response);
 				Log.d("Response", response);
 
@@ -321,10 +317,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			final String response = EntityUtils.toString(resp.getEntity());
 			Log.e("response", response);
 			if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				// Our request to the server was successful - so we assume that
-				// they accepted all the changes we sent up, and
-				// that the response includes the contacts that we need
-				// to update on our side...
+				// Our request to the server was successful
 				final JSONArray serverSeasons = new JSONArray(response);
 				Log.d("Response", response);
 
@@ -362,10 +355,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			final String response = EntityUtils.toString(resp.getEntity());
 			Log.e("response", response);
 			if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				// Our request to the server was successful - so we assume
-				// that they accepted all the changes we sent up, and
-				// that the response includes the contacts that we need
-				// to update on our side...
+				// Our request to the server was successful
 				final JSONArray serverPlayers = new JSONArray(response);
 				Log.d("Response", response);
 
