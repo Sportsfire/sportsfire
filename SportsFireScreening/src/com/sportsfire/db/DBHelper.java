@@ -1,5 +1,7 @@
 package com.sportsfire.db;
 
+import java.io.File;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -19,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public DBHelper(Context context) {
 		super(context, getDbName(), null, DB_VERSION);
 	}
-
+	
 	public void openToRead() {
 		close();
 		db = this.getReadableDatabase();

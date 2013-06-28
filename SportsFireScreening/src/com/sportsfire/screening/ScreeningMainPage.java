@@ -2,6 +2,9 @@ package com.sportsfire.screening;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import java.io.File;
+
+import net.sqlcipher.database.SQLiteDatabase;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -50,6 +53,7 @@ public class ScreeningMainPage extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		InitializeSQLCipher();
 		setContentView(R.layout.screening_main_page);
 		if (!DbSetUp()) {
 			showSyncLoginDialog();
@@ -124,5 +128,11 @@ public class ScreeningMainPage extends Activity {
 			}
 		}
 	}
-
+	private void InitializeSQLCipher() {
+	        SQLiteDatabase.loadLibs(this);
+	        File databaseFile = getDatabasePath("com.sportsfire.db");
+	        databaseFile.mkdirs();
+	        databaseFile.delete();
+	       
+	} 
 }
