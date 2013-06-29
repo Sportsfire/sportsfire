@@ -1,21 +1,22 @@
 package com.sportsfire.screening;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import java.io.File;
 
 import net.sqlcipher.database.SQLiteDatabase;
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.DialogInterface.OnDismissListener;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -27,6 +28,8 @@ import com.sportsfire.SeasonList;
 import com.sportsfire.sync.AuthenticatorActivity;
 import com.sportsfire.sync.Constants;
 import com.sportsfire.sync.Provider;
+
+import static com.sportsfire.sync.Constants.*;
 
 public class ScreeningMainPage extends Activity {
 	SeasonList seasons;
@@ -60,7 +63,6 @@ public class ScreeningMainPage extends Activity {
 		} else {
 			setUpSpinners();
 		}
-
 	}
 
 	@Override
@@ -68,9 +70,21 @@ public class ScreeningMainPage extends Activity {
 		getMenuInflater().inflate(R.menu.activity_main_page, menu);
 		return true;
 	}
-
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		 switch (item.getItemId()) {
+	        case R.id.menu_update:
+	            server.update(this);
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+		
+	}
+	
 	private Boolean DbSetUp() {
 		this.seasons = new SeasonList(this);
+		Log.e("Seasons", this.seasons.getSeasonNameList().toString());
 		if (seasons.getSeasonNameList().size() == 0) {
 			return false;
 		}
