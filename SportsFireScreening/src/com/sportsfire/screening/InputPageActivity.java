@@ -128,7 +128,7 @@ public class InputPageActivity extends FragmentActivity implements TestSelection
 	}
 
 	@Override
-	public void onTestsChosen(LinkedHashMap<String, Integer> map) {
+	public void onTestsChosen(LinkedHashMap<String, String> map) {
 		if (map.isEmpty()){
 			Toast toast = Toast.makeText(this, "Please select tests",
 					Toast.LENGTH_LONG);
@@ -141,30 +141,27 @@ public class InputPageActivity extends FragmentActivity implements TestSelection
 		Intent intent = new Intent(this, TestInputForm.class);
 		intent.putExtra(TestInputForm.ARG_ITEM_PARAM, params);
 		intent.putExtra(TestInputForm.ARG_ITEM_SQUAD, selected);
-		intent.putExtra(TestInputForm.ARG_ITEM_TESTS, map);
-
+		final Bundle bundle = new Bundle();
 		List<List<String>> column = new ArrayList<List<String>>();
 		// add column headings
 		List<String> headerRow = new ArrayList<String>();
 		headerRow.add("Full Name");
-		for (Entry<String, Integer> test : map.entrySet()) {
+		for (Entry<String, String> test : map.entrySet()) {
+			bundle.putString(test.getKey(), test.getValue());
 			headerRow.add(test.getKey());
-			if (test.getValue() == 0) {
+			if (test.getValue().compareTo("Show previous and average") == 0) {
 				headerRow.add(test.getKey() + " Avg");
 				headerRow.add(test.getKey() + " Pre");
-			} else if (test.getValue() == 1) {
+			} else if (test.getValue().compareTo("Show previous") == 0) {
 				headerRow.add(test.getKey() + " Pre");
-			} else if (test.getValue() == 2) {
+			} else if (test.getValue().compareTo("Show average") == 0) {
 				headerRow.add(test.getKey() + " Avg");
 			}
 		}
+		ArrayList<String> a = new ArrayList<String>(map.keySet());
+		bundle.putStringArrayList(TestInputForm.ARG_ITEM_DATA, a);
 		column.add(headerRow);
-		/*
-		for (Player player : selected.getPlayerList()) {
-			List<String> row = new ArrayList<String>();
-			row.add(player.getName());
-			column.add(row);
-		}*/
+		intent.putExtra(TestInputForm.ARG_ITEM_TESTS, bundle);
 		FormValues values = new FormValues(column);
 		intent.putExtra(TestInputForm.ARG_ITEM_DATA, values);
 		startActivity(intent);

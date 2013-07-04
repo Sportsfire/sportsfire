@@ -112,7 +112,7 @@ public class AnalysisPageActivity extends FragmentActivity implements SquadListF
 	}
 
 	@Override
-	public void onTestsChosen(LinkedHashMap<String, Integer> map) {
+	public void onTestsChosen(LinkedHashMap<String, String> map) {
 		if (map.size() > 2 || map.size() < 1) {
 			Toast toast = Toast.makeText(this, "Please select tests to show (MAX 2)",
 					Toast.LENGTH_LONG);

@@ -23,7 +23,7 @@ public class AnalysisGraphPage extends Activity {
 	private Player player;
 	private String season;
 	private ArrayList<String> testNames = new ArrayList<String>();
-	private ArrayList<Integer> testParams = new ArrayList<Integer>();
+	private ArrayList<String> testParams = new ArrayList<String>();
 	private ScreeningData screen;
 
 	@Override
@@ -52,8 +52,8 @@ public class AnalysisGraphPage extends Activity {
 		season = getIntent().getStringExtra(ARG_ITEM_SEASON);
 		try {
 			@SuppressWarnings("unchecked")
-			HashMap<String, Integer> map = (HashMap<String, Integer>) getIntent().getSerializableExtra(ARG_ITEM_TESTS);
-			for (Entry<String, Integer> set : map.entrySet()) {
+			HashMap<String, String> map = (HashMap<String, String>) getIntent().getSerializableExtra(ARG_ITEM_TESTS);
+			for (Entry<String, String> set : map.entrySet()) {
 				testNames.add(set.getKey());
 				testParams.add(set.getValue());
 			}
@@ -81,7 +81,7 @@ public class AnalysisGraphPage extends Activity {
 			array[j] = Double.parseDouble(screen.getAverageValue(player.getID(), testNames.get(pos)));
 		}
 		values.add(array);
-		if (testParams.get(pos) == 1) {
+		if (testParams.get(pos).compareTo(getResources().getStringArray(R.array.ComparisonChoices)[1])==0) {
 			titles.add(testNames.get(pos) + " - Squad Average");
 			array = new double[list.size()];
 			for (int j = 0; j < list.size(); j++) {

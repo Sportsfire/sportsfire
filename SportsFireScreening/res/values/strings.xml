@@ -84,7 +84,7 @@
         <item>Other</item>
     </string-array>
     <string-array name="orchardSecond">
-    	<item>Select detail</item>
+        <item>Select detail</item>
         <item>Fracture</item>
         <item>Concussion with or without loss of consciousness</item>
         <item>Other bone injury</item>
@@ -100,7 +100,7 @@
         <item>Dental Injury</item>
     </string-array>
     <string-array name="orchardSecondCodes">
-     	<item></item>
+        <item></item>
         <item>F</item>
         <item>N</item>
         <item>Q</item>
@@ -118,22 +118,18 @@
     <string-array name="TestChoices">
         <item>Show previous and average</item>
         <item>Show previous</item>
-        <item>Show Average</item>
-        <item>Show Input only</item>
+        <item>Show average</item>
+        <item>Show input only</item>
     </string-array>
-    
     <string-array name="TestChoices2">
-        
         <item>Show previous</item>
-        
-        <item>Show Input only</item>
+        <item>Show input only</item>
     </string-array>
-    
-    
-	<string-array name="ComparisonChoices">
+    <string-array name="ComparisonChoices">
         <item>Show Values</item>
         <item>Show Comparison</item>
     </string-array>
+
     <string name="title_activity_test_input_form">Test Input Form</string>
 
 </resources>

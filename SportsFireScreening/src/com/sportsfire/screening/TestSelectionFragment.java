@@ -16,14 +16,13 @@ import android.widget.Spinner;
 public class TestSelectionFragment extends Fragment {
 	private Callbacks mCallbacks = sDummyCallbacks;
 	LinkedHashMap<Switch, Spinner> testSelectionMap = new LinkedHashMap<Switch, Spinner>();
-
 	public interface Callbacks {
 
-		public void onTestsChosen(LinkedHashMap<String, Integer> testsMap);
+		public void onTestsChosen(LinkedHashMap<String, String> selectedTests);
 	}
 
 	private static Callbacks sDummyCallbacks = new Callbacks() {
-		public void onTestsChosen(LinkedHashMap<String, Integer> testsMap) {
+		public void onTestsChosen(LinkedHashMap<String, String> testsMap) {
 		}
 	};
 
@@ -100,11 +99,11 @@ public class TestSelectionFragment extends Fragment {
 	}
 
 	public void sendData(View view) {
-		LinkedHashMap<String, Integer> selectedTests = new LinkedHashMap<String, Integer>();
+		LinkedHashMap<String, String> selectedTests = new LinkedHashMap<String, String>();
 		for (Switch k : testSelectionMap.keySet()) {
 			if (k.isChecked()) {
 				selectedTests.put(k.getText().toString(),
-						(testSelectionMap.get(k)).getSelectedItemPosition());
+						(testSelectionMap.get(k)).getSelectedItem().toString());
 			}
 		}
 		mCallbacks.onTestsChosen(selectedTests);
