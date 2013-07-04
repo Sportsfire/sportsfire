@@ -1,12 +1,10 @@
 package com.sportsfire.db;
 
-import java.io.File;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -24,12 +22,12 @@ public class DBHelper extends SQLiteOpenHelper {
 	
 	public void openToRead() {
 		close();
-		db = this.getReadableDatabase();
+		db = this.getReadableDatabase("");
 	}
 
 	public void openToWrite() {
 		close();
-		db = this.getWritableDatabase();
+		db = this.getWritableDatabase("");
 	}
 
 	public void close() {

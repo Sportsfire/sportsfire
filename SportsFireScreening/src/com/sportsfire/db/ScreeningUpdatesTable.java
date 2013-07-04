@@ -1,6 +1,6 @@
 package com.sportsfire.db;
 
-import android.database.sqlite.*;
+import net.sqlcipher.database.SQLiteDatabase;
 import android.util.Log;
 
 public class ScreeningUpdatesTable {
