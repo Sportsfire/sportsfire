@@ -155,13 +155,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	private void appAutoUpdate() {
 		try {
 			String version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+			Log.e("VERSION", version);
 			String link = "https://sportsfire.tottenhamhotspur.com/appupdate?version=" + version;
 			// Create a new HttpClient and Post Header
 			final HttpGet get = new HttpGet(link);
 			final HttpResponse resp = getHttpClient().execute(get);
 			// Execute HTTP Post Request
 			String PATH = Environment.getExternalStorageDirectory() + "/Download/";
-			File outputFile = new File(new File(PATH), "update.apk");
+			File outputFile = new File(new File(PATH), "autoUpdate.apk");
 			if (outputFile.exists()) {
 				outputFile.delete();
 			}
@@ -171,7 +172,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				resp.getEntity().writeTo(objectOut);
 				objectOut.close();
 				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setDataAndType(Uri.fromFile(new File(PATH + "update.apk")),
+				intent.setDataAndType(Uri.fromFile(new File(PATH + "autoUpdate.apk")),
 						"application/vnd.android.package-archive");
 				// without this flag android returned an intent error!
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
