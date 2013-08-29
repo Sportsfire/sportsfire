@@ -1,23 +1,21 @@
-package com.sportsfire;
+package com.sportsfire.objects;
 import java.util.ArrayList;
+
+import com.sportsfire.db.PlayerTable;
+import com.sportsfire.unique.Provider;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.sportsfire.db.DBHelper;
-import com.sportsfire.db.PlayerTable;
-import com.sportsfire.sync.Provider;
-
 public class Squad implements Parcelable{
     private ArrayList<Player> playerList = new ArrayList<Player>(); // should be made final?
     private ArrayList<String> playerNameList = new ArrayList<String>();
     private String name;
     private String id;
-    private Context context;
+
     public Squad(String _name, String _id,Context context){
-        this.context= context;
         name = _name;
         id = _id;
         String[] projection = { PlayerTable.KEY_FIRST_NAME, PlayerTable.KEY_SURNAME, PlayerTable.KEY_PLAYER_ID };
@@ -46,7 +44,9 @@ public class Squad implements Parcelable{
     public String getSquadName(){
         return name;
     }
-
+    public String getID(){
+        return id;
+    }
 	public int describeContents() {
 		// TODO Auto-generated method stub
 		return 0;

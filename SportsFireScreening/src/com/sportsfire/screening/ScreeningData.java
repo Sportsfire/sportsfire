@@ -12,9 +12,9 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.sportsfire.db.PlayerTable;
-import com.sportsfire.db.ScreeningUpdatesTable;
-import com.sportsfire.db.ScreeningValuesTable;
-import com.sportsfire.sync.Provider;
+import com.sportsfire.screening.db.ScreeningUpdatesTable;
+import com.sportsfire.screening.db.ScreeningValuesTable;
+import com.sportsfire.unique.Provider;
 
 public class ScreeningData {
 

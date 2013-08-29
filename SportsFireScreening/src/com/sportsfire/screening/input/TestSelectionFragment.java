@@ -1,6 +1,12 @@
-package com.sportsfire.screening;
+package com.sportsfire.screening.input;
 
 import java.util.LinkedHashMap;
+
+import com.sportsfire.screening.R;
+import com.sportsfire.screening.R.array;
+import com.sportsfire.screening.R.id;
+import com.sportsfire.screening.R.layout;
+import com.sportsfire.screening.analysis.AnalysisPageActivity;
 
 import android.app.Activity;
 import android.os.Bundle;

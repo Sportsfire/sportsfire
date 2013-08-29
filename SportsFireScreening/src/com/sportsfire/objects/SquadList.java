@@ -1,13 +1,12 @@
-package com.sportsfire;
+package com.sportsfire.objects;
 
 import java.util.ArrayList;
 
+import com.sportsfire.db.SquadTable;
+import com.sportsfire.unique.Provider;
+
 import android.content.Context;
 import android.database.Cursor;
-
-import com.sportsfire.db.DBHelper;
-import com.sportsfire.db.SquadTable;
-import com.sportsfire.sync.Provider;
 
 public class SquadList {
 	private ArrayList<Squad> squadList = new ArrayList<Squad>();
@@ -31,7 +30,9 @@ public class SquadList {
 	}
 
 	public ArrayList<String> getSquadNameList() {
+		if (squadNameList.size() == 0){
+        	squadNameList.add("Error: Didn't load");
+        }
 		return squadNameList;
-
 	}
 }

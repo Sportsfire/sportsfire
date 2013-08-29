@@ -15,6 +15,8 @@
  */
 package com.sportsfire.sync;
 
+import com.sportsfire.unique.SyncAdapter;
+
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;

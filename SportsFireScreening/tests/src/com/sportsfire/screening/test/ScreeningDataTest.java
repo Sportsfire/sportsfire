@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import com.sportsfire.db.PlayerTable;
 import com.sportsfire.db.SquadTable;
-import com.sportsfire.screening.ScreeningData;
-import com.sportsfire.sync.Provider;
+import com.sportsfire.screening.objects.ScreeningData;
+import com.sportsfire.unique.Provider;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -22,7 +22,7 @@ public class ScreeningDataTest extends ProviderTestCase2<Provider> {
 	private String seasonID;
 
 	public ScreeningDataTest() {
-		super(Provider.class, "com.sportsfire.sync.Provider");
+		super(Provider.class, "com.sportsfire.unique.Provider");
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class ScreeningDataTest extends ProviderTestCase2<Provider> {
 		super.setUp();
 		final String filenamePrefix = "test.";
 		MockContentResolver resolver = new MockContentResolver();
-		resolver.addProvider("com.sportsfire.sync.Provider", getProvider());
+		resolver.addProvider("com.sportsfire.unique.Provider", getProvider());
 		RenamingDelegatingContext targetContextWrapper = new RenamingDelegatingContext(
 				new MockContext(), // The context that most methods are delegated to
 				getContext(), // The context that file methods are delegated to

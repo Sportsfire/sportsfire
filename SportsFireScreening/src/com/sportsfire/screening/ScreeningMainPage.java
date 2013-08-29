@@ -23,11 +23,13 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.sportsfire.Season;
-import com.sportsfire.SeasonList;
+import com.sportsfire.objects.Season;
+import com.sportsfire.objects.SeasonList;
+import com.sportsfire.screening.analysis.AnalysisPageActivity;
+import com.sportsfire.screening.input.InputPageActivity;
 import com.sportsfire.sync.AuthenticatorActivity;
 import com.sportsfire.sync.Constants;
-import com.sportsfire.sync.Provider;
+import com.sportsfire.unique.Provider;
 
 import static com.sportsfire.sync.Constants.*;
 
@@ -59,7 +61,7 @@ public class ScreeningMainPage extends Activity {
 		InitializeSQLCipher();
 		setContentView(R.layout.screening_main_page);
 		if (!DbSetUp()) {
-			//showSyncLoginDialog();
+			// showSyncLoginDialog();
 		} else {
 			setUpSpinners();
 		}
@@ -70,18 +72,19 @@ public class ScreeningMainPage extends Activity {
 		getMenuInflater().inflate(R.menu.activity_main_page, menu);
 		return true;
 	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		 switch (item.getItemId()) {
-	        case R.id.menu_update:
-	            server.update(this);
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-		
+		switch (item.getItemId()) {
+		case R.id.menu_update:
+			server.update(this);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+
 	}
-	
+
 	private Boolean DbSetUp() {
 		this.seasons = new SeasonList(this);
 		Log.e("Seasons", this.seasons.getSeasonNameList().toString());
@@ -101,22 +104,23 @@ public class ScreeningMainPage extends Activity {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		try {
 			spinner.setSelection(settings.getInt("selected_season", 0));
+
+			spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+				@Override
+				public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+					selected = seasons.getSeasonList().get(arg2);
+					SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+					settings.edit().putInt("selected_season", arg2).apply();
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+				}
+
+			});
 		} catch (Exception e) {
 		}
-
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				selected = seasons.getSeasonList().get(arg2);
-				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-				settings.edit().putInt("selected_season", arg2).apply();
-			}
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-
-		});
 	}
 
 	public void ButtonOnClick(View v) {
@@ -141,11 +145,12 @@ public class ScreeningMainPage extends Activity {
 			}
 		}
 	}
+
 	private void InitializeSQLCipher() {
-	        SQLiteDatabase.loadLibs(this);
-	        File databaseFile = getDatabasePath("com.sportsfire.db");
-	        databaseFile.mkdirs();
-	        databaseFile.delete();
-	       
-	} 
+		SQLiteDatabase.loadLibs(this);
+		File databaseFile = getDatabasePath("com.sportsfire.db");
+		databaseFile.mkdirs();
+		databaseFile.delete();
+
+	}
 }

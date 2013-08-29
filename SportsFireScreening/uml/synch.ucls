@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.1" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="com.sportsfire.sync.SyncAdapter" project="MainPage" 
+  <class id="1" language="java" name="com.sportsfire.unique.SyncAdapter" project="MainPage" 
     file="/MainPage/src/com/sportsfire/sync/SyncAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="887" y="463"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -28,7 +28,7 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="com.sportsfire.sync.Provider" project="MainPage" 
+  <class id="4" language="java" name="com.sportsfire.unique.Provider" project="MainPage" 
     file="/MainPage/src/com/sportsfire/sync/Provider.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="54" width="312" x="453" y="127"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 

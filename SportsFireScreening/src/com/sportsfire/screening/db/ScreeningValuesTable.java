@@ -1,21 +1,31 @@
-package com.sportsfire.db;
+package com.sportsfire.screening.db;
+
+import com.sportsfire.db.PlayerTable;
 
 import android.database.sqlite.*;
 import android.util.Log;
 
-public class ScreeningUpdatesTable {
+public class ScreeningValuesTable {
 	
 	// Table name
-	public static final String TABLE_NAME = "screeningupdates";
+	public static final String TABLE_NAME = "screeningvalues";
  
 	// Players Table Keys
     public static final String KEY_ID = "_id"; // Primary key
-    public static final String KEY_VALUE_ID = "valueid"; 
-
+    public static final String KEY_MEASUREMENT_TYPE = "measurementtype"; // weight, etc...
+    public static final String KEY_VALUE = "value";
+    public static final String KEY_WEEK = "week";
+    public static final String KEY_SEASON_ID = "seasonid"; 
+    public static final String KEY_PLAYER_ID = "playerid";
+	
     public static void onCreate(SQLiteDatabase db) {
 		String createValuesTable = "CREATE TABLE " + TABLE_NAME + "("
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," 
-				+ KEY_VALUE_ID + " INTEGER"
+				+ KEY_MEASUREMENT_TYPE + " TEXT,"
+                + KEY_VALUE + " TEXT," 
+				+ KEY_WEEK + " INTEGER NOT NULL," 
+                + KEY_SEASON_ID + " INTEGER NOT NULL,"
+                + KEY_PLAYER_ID + " INTEGER NOT NULL"
 				+ ")";
         
 		db.execSQL(createValuesTable);

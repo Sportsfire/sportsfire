@@ -1,4 +1,4 @@
-package com.sportsfire.screening;
+package com.sportsfire.screening.analysis;
 
 import java.util.ArrayList;
 import java.util.List;

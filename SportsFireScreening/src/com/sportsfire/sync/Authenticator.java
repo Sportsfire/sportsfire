@@ -102,7 +102,7 @@ class Authenticator extends AbstractAccountAuthenticator {
         String authLabel = am.getUserData(account, AccountManager.KEY_USERDATA);
         Log.d("Sportsfire", TAG + "> peekAuthToken returned - " + authToken);
         
-        if (TextUtils.isEmpty(authToken)) {
+        if (TextUtils.isEmpty(authToken) || server.checkExpired(authLabel, authToken)) {
             final String password = am.getPassword(account);
             if (password != null) {
                 try {
@@ -113,7 +113,8 @@ class Authenticator extends AbstractAccountAuthenticator {
 					e.printStackTrace();
 				}
             }
-        }else {
+        }
+        else {
             final Bundle result = new Bundle();
             result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
             result.putString(AccountManager.KEY_ACCOUNT_TYPE, authTokenType);

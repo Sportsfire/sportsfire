@@ -1,4 +1,4 @@
-package com.sportsfire.screening;
+package com.sportsfire.screening.analysis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
-import com.sportsfire.Player;
+import com.sportsfire.objects.Player;
+import com.sportsfire.screening.R;
+import com.sportsfire.screening.ScreeningData;
+import com.sportsfire.screening.ScreeningMainPage;
 
 public class AnalysisGraphPage extends Activity {
 	private GraphicalView mChart;

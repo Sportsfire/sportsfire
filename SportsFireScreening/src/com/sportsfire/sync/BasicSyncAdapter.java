@@ -7,11 +7,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -21,16 +18,9 @@ import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnManagerParams;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -43,31 +33,21 @@ import android.accounts.AccountManager;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.content.AbstractThreadedSyncAdapter;
-import android.content.ContentProviderClient;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SyncResult;
-import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
 import com.sportsfire.db.PlayerTable;
-import com.sportsfire.db.ScreeningUpdatesTable;
-import com.sportsfire.db.ScreeningValuesTable;
 import com.sportsfire.db.SeasonTable;
 import com.sportsfire.db.SquadTable;
-import com.sportsfire.screening.ScreeningData;
 
-public class SyncAdapter extends AbstractThreadedSyncAdapter {
-	private AccountManager mAccountManager;
-	private ContentResolver mContentResolver;
-	private Context context;
-	private Account account;
+public abstract class BasicSyncAdapter extends AbstractThreadedSyncAdapter {
+	protected Context context;
+	protected Account account;
 	/** Base URL for the v2 Sample Sync Service */
 	public static final String BASE_URL = "https://sportsfire.tottenhamhotspur.com";
 	/** URI for authentication service */
@@ -76,13 +56,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	public static final String SYNC_PLAYERS_URI = BASE_URL + "/players/";
 	public static final String SYNC_SQUADS_URI = BASE_URL + "/squads/";
 	public static final String SYNC_SEASONS_URI = BASE_URL + "/seasons/";
-
-	public static final String SYNC_SCREENINGUPDATES_URI = BASE_URL + "/screeningupdates/";
 	public static final int HTTP_REQUEST_TIMEOUT_MS = 30 * 1000;
 
 	private static final String SYNC_MARKER_KEY = "com.sportsfire.sync.marker";
-	private static final String SYNC_SCREEN_MARKER_KEY = "com.sportsfire.sync.screen marker";
-
+	protected int updateCount = 0;
+	
 	private HttpEntity getParamsEntity() {
 		final AccountManager am = AccountManager.get(context);
 		String authToken;
@@ -103,7 +81,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		return null;
 	}
 
-	private String getTokenParamsString() {
+	protected String getTokenParamsString() {
 		try {
 			return "?" + EntityUtils.toString(getParamsEntity());
 		} catch (ParseException e) {
@@ -123,10 +101,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		return "Basic " + Base64.encodeToString(s.getBytes(), Base64.URL_SAFE);
 	}
 
-	public SyncAdapter(Context context, boolean autoInitialize) {
+	public BasicSyncAdapter(Context context, boolean autoInitialize) {
 		super(context, autoInitialize);
-		mAccountManager = AccountManager.get(context);
-		mContentResolver = context.getContentResolver();
 		this.context = context;
 	}
 
@@ -143,36 +119,29 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		return httpClient;
 	}
 
-	@Override
-	public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider,
-			SyncResult syncResult) {
-		this.account = account;
-		loadSquadsAndPlayers();
-		updateScreening(account);
-
-	}
-
-	private void appAutoUpdate() {
+	protected void appAutoUpdate() {
 		try {
 			String version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+			String appName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).packageName;
+			String fileName = "AUTO"+appName+".apk";
 			Log.e("VERSION", version);
-			String link = "https://sportsfire.tottenhamhotspur.com/appupdate?version=" + version;
+			String link = "https://sportsfire.tottenhamhotspur.com/appupdate?app="+appName+"version=" + version;
 			// Create a new HttpClient and Post Header
 			final HttpGet get = new HttpGet(link);
 			final HttpResponse resp = getHttpClient().execute(get);
 			// Execute HTTP Post Request
 			String PATH = Environment.getExternalStorageDirectory() + "/Download/";
-			File outputFile = new File(new File(PATH), "autoUpdate.apk");
-			if (outputFile.exists()) {
-				outputFile.delete();
-			}
-			outputFile.createNewFile();
+			File outputFile = new File(new File(PATH), fileName);
 			if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				if (outputFile.exists()) {
+					outputFile.delete();
+				}
+				outputFile.createNewFile();
 				BufferedOutputStream objectOut = new BufferedOutputStream(new FileOutputStream(outputFile));
 				resp.getEntity().writeTo(objectOut);
 				objectOut.close();
 				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setDataAndType(Uri.fromFile(new File(PATH + "autoUpdate.apk")),
+				intent.setDataAndType(Uri.fromFile(new File(PATH + fileName)),
 						"application/vnd.android.package-archive");
 				// without this flag android returned an intent error!
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -184,126 +153,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		}
 	}
 
-	private void updateScreening(Account account) {
-		try {
+	protected abstract void loadSquadsAndPlayers();
 
-			JSONArray jsonarray = new JSONArray();
-			String[] projection = { ScreeningUpdatesTable.KEY_VALUE_ID };
-			String[] innerprojection = { ScreeningValuesTable.KEY_PLAYER_ID, ScreeningValuesTable.KEY_WEEK,
-					ScreeningValuesTable.KEY_SEASON_ID, ScreeningValuesTable.KEY_MEASUREMENT_TYPE,
-					ScreeningValuesTable.KEY_VALUE };
-			HashMap<Integer, String> listOfIDs = new HashMap<Integer, String>();
-			Cursor cursor = mContentResolver
-					.query(Provider.CONTENT_URI_SCREENING_UPDATES, projection, null, null, null);
-			if (cursor.moveToFirst()) {
-				do {
-					if (listOfIDs.containsKey(cursor.getInt(0)))
-						continue;
-					listOfIDs.put(cursor.getInt(0), "");
-
-					Cursor innercursor = mContentResolver.query(Provider.CONTENT_URI_SCREENING_VALUES, innerprojection,
-							ScreeningValuesTable.KEY_ID + " = '" + cursor.getInt(0) + "'", null, null);
-					innercursor.moveToFirst();
-					JSONObject jsonentry = new JSONObject();
-					for (int i = 0; i < innercursor.getColumnCount(); i++) {
-						jsonentry.put(innercursor.getColumnName(i), innercursor.getString(i));
-					}
-					jsonarray.put(jsonentry);
-				} while (cursor.moveToNext());
-			}
-			JSONObject params = new JSONObject();
-			params.accumulate("syncmarker", mAccountManager.getUserData(account, SYNC_SCREEN_MARKER_KEY));
-			params.accumulate("updates", jsonarray);
-			final HttpPost post = new HttpPost(SYNC_SCREENINGUPDATES_URI + getTokenParamsString());
-			Log.e("post", params.toString());
-			// post.addHeader("Content-Type", "application/json");
-			// post.addHeader("Authorization", getBasicAuthString());
-			post.setEntity(new ByteArrayEntity(params.toString().getBytes("UTF8")));
-
-			SchemeRegistry schemeRegistry = new SchemeRegistry();
-			schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
-			HttpParams params1 = new BasicHttpParams();
-			SingleClientConnManager mgr = new SingleClientConnManager(params1, schemeRegistry);
-			HttpClient client = new DefaultHttpClient(mgr, params1);
-			final HttpResponse resp = client.execute(post);
-			// final HttpResponse resp = getHttpClient().execute(post);
-			final String response = EntityUtils.toString(resp.getEntity());
-			Log.e("response", response);
-			if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				final JSONObject serverResponse = new JSONObject(response);
-
-				final JSONArray serverUpdates = new JSONArray(serverResponse.getString("updates"));
-
-				for (int i = 0; i < serverUpdates.length(); i++) {
-					ContentValues values = new ContentValues();
-
-					JSONObject object = new JSONObject(serverUpdates.getString(i));
-
-					@SuppressWarnings("unchecked")
-					Iterator<String> it = object.keys();
-					while (it.hasNext()) {
-						String key = it.next();
-						if (key != "_id") {
-							values.put(key, object.getString(key));
-						}
-					}
-
-					ScreeningData screeningdata = new ScreeningData(context,
-							values.getAsString(ScreeningValuesTable.KEY_SEASON_ID),
-							values.getAsString(ScreeningValuesTable.KEY_WEEK));
-
-					screeningdata.setValue(values.getAsString(ScreeningValuesTable.KEY_PLAYER_ID),
-							values.getAsString(ScreeningValuesTable.KEY_MEASUREMENT_TYPE),
-							values.getAsString(ScreeningValuesTable.KEY_VALUE));
-
-				}
-				mContentResolver.delete(Provider.CONTENT_URI_SCREENING_UPDATES, null, null);
-				mAccountManager.setUserData(account, SYNC_SCREEN_MARKER_KEY,
-						(String) serverResponse.get("newsyncmarker"));
-				appAutoUpdate();
-
-			}
-		} catch (Exception e) {
-			Log.e("Exception", e.toString());
-		}
-
-	}
-
-	private void loadSquadsAndPlayers() {
-
-		LinkedList<ContentValues> squads = loadSquads();
-		LinkedList<ContentValues> seasons = loadSeasons();
-		LinkedList<ContentValues> players = loadPlayers();
-		if (squads != null && seasons != null && players != null) {
-			mContentResolver.delete(Provider.CONTENT_URI_PLAYERS, null, null);
-			mContentResolver.delete(Provider.CONTENT_URI_SQUADS, null, null);
-			mContentResolver.delete(Provider.CONTENT_URI_SEASONS, null, null);
-			ListIterator<ContentValues> it = null;
-			if (squads != null) {
-				it = squads.listIterator();
-
-				while (it.hasNext()) {
-					mContentResolver.insert(Provider.CONTENT_URI_SQUADS, it.next());
-				}
-			}
-			if (seasons != null) {
-				it = seasons.listIterator();
-				while (it.hasNext()) {
-					mContentResolver.insert(Provider.CONTENT_URI_SEASONS, it.next());
-				}
-			}
-
-			if (players != null) {
-				it = players.listIterator();
-				while (it.hasNext()) {
-					mContentResolver.insert(Provider.CONTENT_URI_PLAYERS, it.next());
-				}
-			}
-		}
-
-	}
-
-	private LinkedList<ContentValues> loadPlayers() {
+	protected LinkedList<ContentValues> loadPlayers() {
 
 		try {
 			final HttpGet get = new HttpGet(SYNC_PLAYERS_URI + getTokenParamsString());
@@ -336,7 +188,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
 	}
 
-	private LinkedList<ContentValues> loadSeasons() {
+	protected LinkedList<ContentValues> loadSeasons() {
 
 		try {
 
@@ -356,7 +208,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					JSONObject object = serverSeasons.getJSONObject(i);
 					values.put(SeasonTable.KEY_SEASON_ID, object.getString("_id"));
 					values.put(SeasonTable.KEY_SEASON_NAME, object.getString("name"));
-
+					values.put(SeasonTable.KEY_START_DATE, object.getString("startdate"));
 					resultsList.add(values);
 				}
 				return resultsList;
@@ -369,7 +221,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
 	}
 
-	private LinkedList<ContentValues> loadSquads() {
+	protected LinkedList<ContentValues> loadSquads() {
 
 		try {
 
@@ -391,7 +243,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					resultList.add(values);
 				}
 				return resultList;
-			}
+			} 
 		} catch (Exception e) {
 			Log.e("Exception", e.toString());
 		}

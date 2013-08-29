@@ -40,13 +40,16 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.sportsfire.objects.Squad;
+import com.sportsfire.objects.SquadList;
+
 public class SquadListFragment extends ListFragment {
 
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
 	private Callbacks mCallbacks = sDummyCallbacks;
 	private int mActivatedPosition = ListView.INVALID_POSITION;
-	SquadList squad;
-	List<String> squadList;
+	SquadList squadList;
+	List<String> squadNameList;
 
 	public interface Callbacks {
 
@@ -64,10 +67,10 @@ public class SquadListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		squad = new SquadList(getActivity());
-		squadList = squad.getSquadNameList();
+		squadList = new SquadList(getActivity());
+		squadNameList = squadList.getSquadNameList();
 		setListAdapter(new ArrayAdapter<String>(getActivity(),
-				android.R.layout.simple_list_item_activated_1, android.R.id.text1, squadList));
+				android.R.layout.simple_list_item_activated_1, android.R.id.text1, squadNameList));
 	}
 
 	@Override
@@ -96,7 +99,7 @@ public class SquadListFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
 		super.onListItemClick(listView, view, position, id);
-		mCallbacks.onSquadSelected(squad.getSquadList().get(position));
+		mCallbacks.onSquadSelected(squadList.getSquadList().get(position));
 
 	}
 

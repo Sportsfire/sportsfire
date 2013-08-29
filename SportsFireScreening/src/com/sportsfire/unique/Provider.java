@@ -1,6 +1,8 @@
-package com.sportsfire.sync;
+package com.sportsfire.unique;
 
 import com.sportsfire.db.*;
+import com.sportsfire.screening.db.ScreeningUpdatesTable;
+import com.sportsfire.screening.db.ScreeningValuesTable;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -17,7 +19,7 @@ import android.text.TextUtils;
 public class Provider extends ContentProvider {
 	private DBHelper db;
 	
-	public static String AUTHORITY = "com.sportsfire.sync.Provider";
+	public static String AUTHORITY = "com.sportsfire.unique.screening.Provider";
 	public static final int PLAYERS = 100;
 	public static final int PLAYERS_ID = 110;
 	public static final int SQUADS = 200;

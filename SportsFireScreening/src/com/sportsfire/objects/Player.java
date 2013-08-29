@@ -1,4 +1,4 @@
-package com.sportsfire;
+package com.sportsfire.objects;
 
 import android.content.Context;
 import android.os.Parcel;

@@ -1,12 +1,16 @@
-package com.sportsfire.db;
-
-import java.io.File;
+package com.sportsfire.unique;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.sportsfire.db.PlayerTable;
+import com.sportsfire.db.SeasonTable;
+import com.sportsfire.db.SquadTable;
+import com.sportsfire.screening.db.ScreeningUpdatesTable;
+import com.sportsfire.screening.db.ScreeningValuesTable;
 
 public class DBHelper extends SQLiteOpenHelper {
 

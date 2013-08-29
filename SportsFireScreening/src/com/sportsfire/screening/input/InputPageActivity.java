@@ -1,7 +1,6 @@
-package com.sportsfire.screening;
+package com.sportsfire.screening.input;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -22,11 +21,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sportsfire.Player;
+import com.sportsfire.objects.Season;
+import com.sportsfire.objects.Squad;
+import com.sportsfire.objects.SquadList;
 import com.sportsfire.screening.R;
-import com.sportsfire.Season;
-import com.sportsfire.Squad;
-import com.sportsfire.SquadList;
+import com.sportsfire.screening.ScreeningData;
+import com.sportsfire.screening.ScreeningMainPage;
+import com.sportsfire.screening.analysis.FormValues;
 
 public class InputPageActivity extends FragmentActivity implements TestSelectionFragment.Callbacks {
 	SquadList squads;
@@ -42,7 +43,7 @@ public class InputPageActivity extends FragmentActivity implements TestSelection
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.screening_input_page);
 		season = new Season(getIntent().getStringExtra(ARG_ITEM_SEASON_NAME), getIntent()
-				.getStringExtra(ARG_ITEM_SEASON_ID), this);
+				.getStringExtra(ARG_ITEM_SEASON_ID), "1");
 		squads = new SquadList(this);
 		setUpSquadSpinner();
 		setUpWeekSpinner();

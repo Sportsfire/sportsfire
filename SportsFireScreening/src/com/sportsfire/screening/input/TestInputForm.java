@@ -1,4 +1,4 @@
-package com.sportsfire.screening;
+package com.sportsfire.screening.input;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -25,8 +25,15 @@ import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 
-import com.sportsfire.Player;
-import com.sportsfire.Squad;
+import com.sportsfire.objects.Player;
+import com.sportsfire.objects.Squad;
+import com.sportsfire.screening.R;
+import com.sportsfire.screening.ScreeningData;
+import com.sportsfire.screening.ScreeningMainPage;
+import com.sportsfire.screening.R.id;
+import com.sportsfire.screening.R.layout;
+import com.sportsfire.screening.R.menu;
+import com.sportsfire.screening.analysis.FormValues;
 
 public class TestInputForm extends Activity {
 	public static final String ARG_ITEM_TESTS = "argumentTest";

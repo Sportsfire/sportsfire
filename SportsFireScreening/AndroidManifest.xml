@@ -35,25 +35,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.sportsfire.screening.InputPageActivity"
+            android:name="com.sportsfire.screening.input.InputPageActivity"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name="com.sportsfire.screening.AnalysisPageActivity"
+            android:name="com.sportsfire.screening.analysis.AnalysisPageActivity"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name="com.sportsfire.screening.AnalysisGraphPage"
+            android:name="com.sportsfire.screening.analysis.AnalysisGraphPage"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.sportsfire.screening.TestInputForm"
+            android:name="com.sportsfire.screening.input.TestInputForm"
             android:label="@string/title_activity_test_input_form"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name="com.sportsfire.SettingsActivity"
+            android:name="com.sportsfire.screening.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="landscape" >
         </activity>
@@ -68,7 +68,6 @@
             android:excludeFromRecents="true"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Dialog" >
-
             <!--
                 No intent-filter here! This activity is only ever launched by
                 someone who explicitly knows the class name
@@ -99,8 +98,9 @@
         </service>
 
         <provider
-            android:name="com.sportsfire.sync.Provider"
-            android:authorities="com.sportsfire.sync.Provider"
+            android:name="com.sportsfire.unique.Provider"
+            android:authorities="com.sportsfire.unique.screening.Provider"
+            android:exported="true"
             android:multiprocess="true" >
         </provider>
     </application>

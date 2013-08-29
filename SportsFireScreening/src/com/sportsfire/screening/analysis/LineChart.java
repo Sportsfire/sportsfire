@@ -1,4 +1,4 @@
-package com.sportsfire.screening;
+package com.sportsfire.screening.analysis;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +9,7 @@ import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+
 
 import android.content.Context;
 import android.content.Intent;

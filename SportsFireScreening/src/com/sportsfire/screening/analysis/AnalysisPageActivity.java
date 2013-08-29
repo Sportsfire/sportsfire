@@ -1,4 +1,4 @@
-package com.sportsfire.screening;
+package com.sportsfire.screening.analysis;
 
 import java.util.LinkedHashMap;
 
@@ -11,10 +11,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.sportsfire.Player;
 import com.sportsfire.PlayerListFragment;
-import com.sportsfire.Squad;
 import com.sportsfire.SquadListFragment;
+import com.sportsfire.objects.Player;
+import com.sportsfire.objects.Squad;
+import com.sportsfire.screening.R;
+import com.sportsfire.screening.ScreeningMainPage;
+import com.sportsfire.screening.R.id;
+import com.sportsfire.screening.R.layout;
+import com.sportsfire.screening.R.menu;
+import com.sportsfire.screening.input.TestSelectionFragment;
+import com.sportsfire.screening.input.TestSelectionFragment.Callbacks;
 
 /**
  * The activity makes heavy use of fragments. The list of items is a {@link SquadListFragment} This activity also
