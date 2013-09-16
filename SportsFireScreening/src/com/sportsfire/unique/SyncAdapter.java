@@ -41,6 +41,8 @@ public class SyncAdapter extends BasicSyncAdapter {
 	private AccountManager mAccountManager;
 	private ContentResolver mContentResolver;
 	private Context context;
+	private int updateCount = 0;
+	
 	public static final String SYNC_SCREENINGUPDATES_URI = BASE_URL + "/screeningupdates/";
 	
 	private static final String SYNC_SCREEN_MARKER_KEY = "com.sportsfire.sync.screen marker";
@@ -58,11 +60,11 @@ public class SyncAdapter extends BasicSyncAdapter {
 			SyncResult syncResult) {
 		this.account = account;
 		loadSquadsAndPlayers();
-		updateScreening();
 		if (updateCount == 100){
 			appAutoUpdate();
 			updateCount = 0;
 		}
+		updateCount +=1;
 
 	}
 
@@ -144,11 +146,9 @@ public class SyncAdapter extends BasicSyncAdapter {
 				mContentResolver.delete(Provider.CONTENT_URI_SCREENING_UPDATES, null, null);
 				mAccountManager.setUserData(account, SYNC_SCREEN_MARKER_KEY,
 						(String) serverResponse.get("newsyncmarker"));
-				appAutoUpdate();
-
 			}
 		} catch (Exception e) {
-			Log.e("Exception", e.toString());
+			Log.e("ScreeningException", e.toString());
 		}
 
 	}
@@ -183,6 +183,7 @@ public class SyncAdapter extends BasicSyncAdapter {
 					mContentResolver.insert(Provider.CONTENT_URI_PLAYERS, it.next());
 				}
 			}
+			updateScreening();
 		}
 
 	}

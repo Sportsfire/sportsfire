@@ -1,6 +1,7 @@
 package com.sportsfire.sync;
 
 import static com.sportsfire.sync.Constants.AUTHTOKEN_TYPE;
+import static com.sportsfire.sync.Constants.server;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -57,15 +58,19 @@ public abstract class BasicSyncAdapter extends AbstractThreadedSyncAdapter {
 	public static final String SYNC_SQUADS_URI = BASE_URL + "/squads/";
 	public static final String SYNC_SEASONS_URI = BASE_URL + "/seasons/";
 	public static final int HTTP_REQUEST_TIMEOUT_MS = 30 * 1000;
-
+	protected String tokenParams;
 	private static final String SYNC_MARKER_KEY = "com.sportsfire.sync.marker";
-	protected int updateCount = 0;
-	
+
 	private HttpEntity getParamsEntity() {
 		final AccountManager am = AccountManager.get(context);
 		String authToken;
 		try {
 			authToken = am.blockingGetAuthToken(account, AUTHTOKEN_TYPE, true);
+			String authUser = am.getUserData(account, AccountManager.KEY_USERDATA);
+			if (server.checkExpired(authUser, authToken)) {
+				am.invalidateAuthToken(account.type, authToken);
+				return getParamsEntity();
+			}
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 			nameValuePairs.add(new BasicNameValuePair("user", am.getUserData(account, AccountManager.KEY_USERDATA)));
 			nameValuePairs.add(new BasicNameValuePair("token", authToken));
@@ -82,16 +87,21 @@ public abstract class BasicSyncAdapter extends AbstractThreadedSyncAdapter {
 	}
 
 	protected String getTokenParamsString() {
-		try {
-			return "?" + EntityUtils.toString(getParamsEntity());
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (tokenParams == null) {
+			try {
+				tokenParams = "?" + EntityUtils.toString(getParamsEntity());
+				return tokenParams;
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		} else {
+			return tokenParams;
 		}
-		return null;
 	}
 
 	private String getBasicAuthString() throws Exception {
@@ -123,16 +133,16 @@ public abstract class BasicSyncAdapter extends AbstractThreadedSyncAdapter {
 		try {
 			String version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
 			String appName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).packageName;
-			String fileName = "AUTO"+appName+".apk";
+			String fileName = "AUTO" + appName + ".apk";
 			Log.e("VERSION", version);
-			String link = "https://sportsfire.tottenhamhotspur.com/appupdate?app="+appName+"version=" + version;
+			String link = "https://sportsfire.tottenhamhotspur.com/appupdate?app=" + appName + "version=" + version;
 			// Create a new HttpClient and Post Header
 			final HttpGet get = new HttpGet(link);
-			final HttpResponse resp = getHttpClient().execute(get);
 			// Execute HTTP Post Request
-			String PATH = Environment.getExternalStorageDirectory() + "/Download/";
-			File outputFile = new File(new File(PATH), fileName);
+			final HttpResponse resp = new DefaultHttpClient().execute(get);
 			if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				String PATH = Environment.getExternalStorageDirectory() + "/Download/";
+				File outputFile = new File(new File(PATH), fileName);
 				if (outputFile.exists()) {
 					outputFile.delete();
 				}
@@ -159,10 +169,10 @@ public abstract class BasicSyncAdapter extends AbstractThreadedSyncAdapter {
 
 		try {
 			final HttpGet get = new HttpGet(SYNC_PLAYERS_URI + getTokenParamsString());
-			final HttpResponse resp = getHttpClient().execute(get);
+			final HttpResponse resp = new DefaultHttpClient().execute(get);
 
 			final String response = EntityUtils.toString(resp.getEntity());
-			Log.e("response", response);
+			Log.e("player_response", response);
 			if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				// Our request to the server was successful
 				final JSONArray serverPlayers = new JSONArray(response);
@@ -181,7 +191,7 @@ public abstract class BasicSyncAdapter extends AbstractThreadedSyncAdapter {
 				return resultsList;
 			}
 		} catch (Exception e) {
-			Log.e("Exception", e.toString());
+			Log.e("PlayersException", e.toString());
 		}
 
 		return null;
@@ -193,10 +203,10 @@ public abstract class BasicSyncAdapter extends AbstractThreadedSyncAdapter {
 		try {
 
 			final HttpGet get = new HttpGet(SYNC_SEASONS_URI + getTokenParamsString());
-			final HttpResponse resp = getHttpClient().execute(get);
+			final HttpResponse resp = new DefaultHttpClient().execute(get);
 
 			final String response = EntityUtils.toString(resp.getEntity());
-			Log.e("response", response);
+			Log.e("season_response", response);
 			if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				// Our request to the server was successful
 				final JSONArray serverSeasons = new JSONArray(response);
@@ -214,7 +224,7 @@ public abstract class BasicSyncAdapter extends AbstractThreadedSyncAdapter {
 				return resultsList;
 			}
 		} catch (Exception e) {
-			Log.e("Exception", e.toString());
+			Log.e("SeasonsException", e.toString());
 		}
 
 		return null;
@@ -226,10 +236,10 @@ public abstract class BasicSyncAdapter extends AbstractThreadedSyncAdapter {
 		try {
 
 			final HttpGet get = new HttpGet(SYNC_SQUADS_URI + getTokenParamsString());
-			final HttpResponse resp = getHttpClient().execute(get);
+			final HttpResponse resp = new DefaultHttpClient().execute(get);
 
 			final String response = EntityUtils.toString(resp.getEntity());
-			Log.e("response", response);
+			Log.e("squad_response", response);
 			if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				// Our request to the server was successful
 				final JSONArray serverPlayers = new JSONArray(response);
@@ -243,9 +253,9 @@ public abstract class BasicSyncAdapter extends AbstractThreadedSyncAdapter {
 					resultList.add(values);
 				}
 				return resultList;
-			} 
+			}
 		} catch (Exception e) {
-			Log.e("Exception", e.toString());
+			Log.e("SquadsException", e.toString());
 		}
 		return null;
 

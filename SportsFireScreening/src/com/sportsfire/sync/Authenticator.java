@@ -109,6 +109,12 @@ class Authenticator extends AbstractAccountAuthenticator {
                 	String[] loginResult = server.userSignIn(account.name, password, authTokenType);
 					authToken = loginResult[0];
 					authLabel = loginResult[1];
+					final Bundle result = new Bundle();
+			        result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
+			        result.putString(AccountManager.KEY_ACCOUNT_TYPE, authTokenType);
+			        result.putString(AccountManager.KEY_AUTHTOKEN, authToken);
+			        result.putString(AccountManager.KEY_USERDATA, authLabel);
+			        return result;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
