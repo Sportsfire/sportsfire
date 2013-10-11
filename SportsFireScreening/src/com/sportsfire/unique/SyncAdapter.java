@@ -27,9 +27,11 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.sportsfire.screening.ScreeningData;
@@ -98,7 +100,11 @@ public class SyncAdapter extends BasicSyncAdapter {
 			}
 			cursor.close();
 			JSONObject params = new JSONObject();
-			params.accumulate("syncmarker", mAccountManager.getUserData(account, SYNC_SCREEN_MARKER_KEY));
+			String lastSynced = "";
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+			lastSynced = settings.getString(SYNC_SCREEN_MARKER_KEY, "");
+			Log.e("SYNC", lastSynced);
+			params.accumulate("syncmarker", lastSynced);
 			params.accumulate("updates", jsonarray);
 			final HttpPost post = new HttpPost(SYNC_SCREENINGUPDATES_URI + getTokenParamsString());
 			Log.e("post", params.toString());
@@ -144,8 +150,9 @@ public class SyncAdapter extends BasicSyncAdapter {
 
 				}
 				mContentResolver.delete(Provider.CONTENT_URI_SCREENING_UPDATES, null, null);
-				mAccountManager.setUserData(account, SYNC_SCREEN_MARKER_KEY,
-						(String) serverResponse.get("newsyncmarker"));
+				settings.edit().putString(SYNC_SCREEN_MARKER_KEY, (String) serverResponse.get("newsyncmarker")).apply();
+				//mAccountManager.setUserData(account, SYNC_SCREEN_MARKER_KEY,
+						//(String) serverResponse.get("newsyncmarker"));
 			}
 		} catch (Exception e) {
 			Log.e("ScreeningException", e.toString());
